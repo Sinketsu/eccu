@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Eccu</string>
+    <string name="back_img_descr">Background image for Log in activity</string>
 </resources>
