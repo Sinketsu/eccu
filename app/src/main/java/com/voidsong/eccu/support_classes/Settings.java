@@ -10,5 +10,5 @@ public class Settings {
         Settings.ip = ip;
     }
 
-    public static String ip = "192.168.0.105";
+    public static String ip = "192.168.0.106";
 }

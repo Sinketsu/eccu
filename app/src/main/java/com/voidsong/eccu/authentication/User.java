@@ -60,9 +60,9 @@ public class User {
     public static void Test_request() {
         MediaType MEDIA_TYPE_MARKDOWN
                 = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-        String body = "data={\"value\":1}";
+        String body = "username=sollos&password=pass";
         Request request = new Request.Builder()
-                .url("https://" + Settings.getIp() + "/api/set/light")
+                .url("https://" + Settings.getIp() + "/auth")
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
                 .build();
 
