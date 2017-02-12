@@ -1,23 +1,12 @@
-package com.voidsong.eccu.authentication;
+package com.voidsong.eccu.network;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.CertificatePinner;
-import okhttp3.Dns;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.Buffer;
+import com.voidsong.eccu.exceptions.SecurityErrorException;
+import com.voidsong.eccu.support_classes.Settings;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
@@ -32,13 +21,11 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-import com.voidsong.eccu.support_classes.Settings;
-import com.voidsong.eccu.support_classes.StringWorker;
-import com.voidsong.eccu.exceptions.SecurityErrorException;
-import com.voidsong.eccu.authentication.CustomHostNameVerifier;
+import okhttp3.CertificatePinner;
+import okhttp3.OkHttpClient;
+import okio.Buffer;
 
-public class User {
-
+public class Internet {
     public static void Init() throws SecurityErrorException, GeneralSecurityException {
 
         X509TrustManager trustManager;
@@ -56,35 +43,6 @@ public class User {
     public static OkHttpClient getClient() {
         return client;
     }
-
-    public static void Test_request() {
-        MediaType MEDIA_TYPE_MARKDOWN
-                = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-        String body = "username=sollos&password=pass";
-        Request request = new Request.Builder()
-                .url("https://" + Settings.getIp() + "/auth")
-                .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
-                .build();
-
-        try {
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Log.d("Eccu", "Response is ready..."); // TODO change
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace(); // TODO change
-        }
-    }
-
-    private static char[] cipher_key;
 
     private static OkHttpClient client;
 

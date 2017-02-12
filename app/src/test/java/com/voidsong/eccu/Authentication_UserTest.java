@@ -7,17 +7,18 @@ import static org.junit.Assert.assertFalse;
 
 import java.security.GeneralSecurityException;
 
-import com.voidsong.eccu.authentication.User;
+import com.voidsong.eccu.network.User;
+import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
-import com.voidsong.eccu.authentication.CustomHostNameVerifier;
+import com.voidsong.eccu.network.CustomHostNameVerifier;
 import com.voidsong.eccu.support_classes.Settings;
 
 public class Authentication_UserTest {
 
     @Test
     public void authentication_User_Init() throws SecurityErrorException, GeneralSecurityException {
-        User.Init();
-        assertNotNull(User.getClient());
+        Internet.Init();
+        assertNotNull(Internet.getClient());
         // TODO add tests
     }
 

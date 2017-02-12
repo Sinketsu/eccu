@@ -1,4 +1,4 @@
-package com.voidsong.eccu.authentication;
+package com.voidsong.eccu.network;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
