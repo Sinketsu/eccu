@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Eccu</string>
-    <string name="back_img_descr">Background image for Log in activity</string>
+    <string name="logo_description">Logo of Eccu</string>
+    <string name="login_hint">Login</string>
+    <string name="passwd_hint">Password</string>
+    <string name="log_in_button_text">Log in</string>
 </resources>
