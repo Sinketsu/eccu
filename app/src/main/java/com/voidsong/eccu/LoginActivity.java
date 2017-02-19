@@ -2,20 +2,31 @@ package com.voidsong.eccu;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
+import com.voidsong.eccu.support_classes.Settings;
 
 import java.security.GeneralSecurityException;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private EditText login;
+    private EditText password;
+    private AppCompatButton button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        login = (EditText)findViewById(R.id.input_login);
+        password = (EditText)findViewById(R.id.input_password);
+        button = (AppCompatButton)findViewById(R.id.btn_login);
 
         try {
             Internet.Init();
@@ -23,5 +34,9 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace(); // TODO change
         }
 
+        int result = Settings.load();
+        if (result != 0) {
+            // TODO change
+        }
     }
 }

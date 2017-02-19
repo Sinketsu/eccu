@@ -30,7 +30,7 @@
             <EditText android:id="@+id/input_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:hint="@string/login_hint"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorLightGray" />

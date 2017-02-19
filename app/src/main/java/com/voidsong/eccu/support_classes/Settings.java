@@ -2,6 +2,15 @@ package com.voidsong.eccu.support_classes;
 
 
 public class Settings {
+
+    public static int save() {
+        return 0;
+    }
+
+    public static int load() {
+        return 0;
+    }
+
     public static String getIp() {
         return ip;
     }
@@ -10,5 +19,5 @@ public class Settings {
         Settings.ip = ip;
     }
 
-    public static String ip = "192.168.0.106";
+    private static String ip = "192.168.0.106";
 }
