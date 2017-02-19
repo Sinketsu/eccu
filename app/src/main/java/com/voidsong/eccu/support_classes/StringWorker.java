@@ -1,14 +1,15 @@
 package com.voidsong.eccu.support_classes;
 
 /**
- * Вспомогательный класс для работы со строками.
- * Обеспечивает безопасные операции сравнения строк, устойчивые к атакам по времени.
+ * Support class for working with Strings.
+ * Ensures safe operations String comparisons that are resistant to the side-channel attacks by time.
  */
 public class StringWorker {
 
     /**
-     * Сравнивает две строки.
-     * Возвращает true, если строки равны и false в противном случае.
+     * Compares two Strings.
+     *
+     * @return true when first String equals to second String, otherwise false.
      */
     public static boolean equals(CharSequence first, CharSequence second) {
         int flag = first.length() ^ second.length();
