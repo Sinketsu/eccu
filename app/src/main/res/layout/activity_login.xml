@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
@@ -11,7 +12,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="56dp"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingRight="24dp"
+        android:weightSum="1">
 
         <ImageView android:src="@drawable/logo"
             android:id="@+id/img_logo"
@@ -62,6 +64,24 @@
             android:background="@color/colorPrimaryDark"
             android:textColor="@color/colorWhite" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:layout_width="79dp"
+                app:srcCompat="@drawable/set"
+                android:id="@+id/imageButton"
+                android:background="@null"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_weight="0.14"
+                android:layout_height="60dp" />
+        </RelativeLayout>
+
+        
     </LinearLayout>
 
 </ScrollView>

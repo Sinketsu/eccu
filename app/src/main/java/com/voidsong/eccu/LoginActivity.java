@@ -1,10 +1,16 @@
 package com.voidsong.eccu;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.ShareActionProvider;
+import android.text.InputFilter;
 import android.util.Log;
 import android.widget.EditText;
+import android.support.v4.app.DialogFragment;
+import android.preference.DialogPreference;
 
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
@@ -14,13 +20,17 @@ import com.voidsong.eccu.support_classes.Checker;
 
 import java.security.GeneralSecurityException;
 
+
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = "ECCU/LoginActivity";
 
     private EditText login;
     private EditText password;
+    private EditText ipset;
     private AppCompatButton button;
+    private SharedPreferences ipsettings;
+    final String IP_SETTINGS="IpSettings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,5 +63,24 @@ public class LoginActivity extends AppCompatActivity {
         if (result != 0) {
             // TODO change
         }
+
+        ipsettings=getSharedPreferences(IP_SETTINGS, Context.MODE_PRIVATE);
+
+
+        public class IpEnter extends DialogPreference {
+
+            ipset=(EditText)findViewById(R.id.ipaddress);
+
+
+        }
+
+
+
+
+
+
+
     }
+
+
 }
