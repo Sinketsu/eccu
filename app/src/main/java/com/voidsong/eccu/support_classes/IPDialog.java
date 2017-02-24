@@ -1,44 +1,57 @@
 package com.voidsong.eccu.support_classes;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.support.v4.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.support.v4.app.Fragment;
 
+import com.voidsong.eccu.LoginActivity;
 import com.voidsong.eccu.R;
 
 /**
  * Created by CoolHawk on 2/24/2017.
  */
 
-public class IPDialog extends DialogPreference{
-
-    EditText edit;
-    public IPDialog(Context context, AttributeSet atts) {
-        super(context, atts);
-        setDialogLayoutResource(R.layout.dialog_login);
-    }
+public class IPDialog extends DialogFragment{
+    private EditText editText;
 
     @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-        super.onPrepareDialogBuilder(builder);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.dialog_login, null))
+                .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setIP();
+                        IPDialog.this.getDialog().dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        IPDialog.this.getDialog().cancel();
+                    }
+                });
+
+        return builder.create();
     }
 
-    @Override
-    protected View onCreateDialogView() {
-        this.edit = new EditText(this.getContext());
-        return this.edit;
+    public void setIP(){
+        editText=(EditText) getView().findViewById(R.id.ipaddress);
+        Settings.setIp(editText.getText().toString());
     }
 
-    @Override
-    protected void onDialogClosed(boolean positiveResult) {
-        if(positiveResult){
-            Settings.setIp(this.edit.getText().toString());
-        }
-        super.onDialogClosed(positiveResult);
-    }
 
 }
 

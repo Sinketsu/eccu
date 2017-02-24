@@ -10,6 +10,7 @@
         android:id="@+id/ipaddress"
         android:fontFamily="sans-serif"
         android:inputType="numberDecimal"
-        android:maxLength="15"/>
+        android:maxLength="15"
+        android:hint="@string/DefaultIP"/>
 
 </LinearLayout>

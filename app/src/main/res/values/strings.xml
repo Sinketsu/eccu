@@ -4,4 +4,7 @@
     <string name="login_hint">Login</string>
     <string name="passwd_hint">Password</string>
     <string name="log_in_button_text">Log in</string>
+    <string name="OK">OK</string>
+    <string name="Cancel">Cancel</string>
+    <string name="DefaultIP">192.168.1.1</string>
 </resources>

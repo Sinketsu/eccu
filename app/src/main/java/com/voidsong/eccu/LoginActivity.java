@@ -3,6 +3,8 @@ package com.voidsong.eccu;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.support.v4.app.DialogFragment;
 import android.preference.DialogPreference;
 import android.widget.ImageButton;
+import android.support.v4.app.Fragment;
 
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
@@ -84,9 +87,11 @@ public class LoginActivity extends AppCompatActivity {
         ipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IPDialog
+                DialogFragment newFragment = new IPDialog();
+                newFragment.show(getSupportFragmentManager(), "IPSettings");
             }
         });
 
     }
+
 }
