@@ -1,12 +1,12 @@
 package com.voidsong.eccu;
 
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
+
+import java.security.GeneralSecurityException;
 
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
@@ -14,14 +14,6 @@ import com.voidsong.eccu.exceptions.SecurityErrorException;
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.support_classes.Checker;
 import com.voidsong.eccu.support_classes.StringWorker;
-
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Set;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.SecretKeySpec;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -70,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             // TODO show dialog for input ap address
         }
 
-        //login.setText(Settings.getLogin());
+        login.setText(Settings.getLogin());
 
         if (Checker.has_saved_password(getApplicationContext())) {
 

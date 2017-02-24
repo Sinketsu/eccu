@@ -1,12 +1,13 @@
 package com.voidsong.eccu.support_classes;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.AlgorithmParameterSpec;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,8 +17,12 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Base64;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.Mac;
-import javax.crypto.SecretKeyFactory;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Settings {
@@ -69,13 +74,24 @@ public class Settings {
 
             // TODO decrypt a string
             try {
-                Mac hmac = Mac.getInstance("HmacSHA384");
-                SecretKeySpec secret = new SecretKeySpec("SECRET_PHRASE".getBytes("UTF-8"),
-                        "HmacSHA384");
+                Mac hmac = Mac.getInstance("HmacSHA256");
+                SecretKeySpec secret = new SecretKeySpec("SECRET_PHRASE".getBytes("UTF-8"), // TODO different pass phrases for different users
+                        "HmacSHA256");
                 hmac.init(secret);
-                byte[] hash = hmac.doFinal(Build.FINGERPRINT.getBytes("UTF-8"));
-                char[] key = Base64.encodeToString(hash, Base64.DEFAULT).toCharArray();
+                byte[] key = hmac.doFinal(Build.FINGERPRINT.getBytes("UTF-8"));
 
+                AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
+                SecretKeySpec newKey = new SecretKeySpec(key, "AES");
+                byte[] result;
+                try {
+                    Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
+                    cipher.init(Cipher.DECRYPT_MODE, newKey, ivSpec);
+                    result = cipher.doFinal(json_string.getBytes());
+                    json_string = result.toString();
+                } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
+                        BadPaddingException | IllegalBlockSizeException e) {
+                    // TODO change - try to hacking us
+                }
 
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
                 // it can't happen because the HmacSHA384 is exist and
