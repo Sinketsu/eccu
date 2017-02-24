@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <EditTextPreference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/IPedit"
+        android:key="IPedit"
+        android:summary="Server's IP address"
+        android:fontFamily="sans-serif"
+        android:inputType="numberDecimal"
+        android:maxLength="15"/>
+
 </PreferenceScreen>

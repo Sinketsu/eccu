@@ -66,19 +66,20 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="150dp">
 
             <ImageButton
-                android:layout_width="79dp"
                 app:srcCompat="@drawable/set"
-                android:id="@+id/imageButton"
+                android:id="@+id/IPImageButton"
                 android:background="@null"
                 android:padding="6dp"
                 android:scaleType="fitCenter"
+                android:layout_weight="0.14"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_weight="0.14"
-                android:layout_height="60dp" />
+                android:layout_alignParentBottom="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
         </RelativeLayout>
 
         
