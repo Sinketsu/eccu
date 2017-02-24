@@ -1,8 +1,10 @@
 package com.voidsong.eccu;
 
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -14,7 +16,12 @@ import com.voidsong.eccu.support_classes.Checker;
 import com.voidsong.eccu.support_classes.StringWorker;
 
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Set;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.SecretKeySpec;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,31 +61,19 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Settings.setContext(getApplicationContext());
-        Settings.loadInfo();
+
+        if (!Checker.is_first_run(getApplicationContext())) {
+            Settings.loadInfo();
+        }
 
         if (StringWorker.equals(Settings.getIp(), "")) {
             // TODO show dialog for input ap address
         }
 
-        login.setText(Settings.getLogin());
+        //login.setText(Settings.getLogin());
 
         if (Checker.has_saved_password(getApplicationContext())) {
 
         }
-
-
-
-
-
-
-        if (Checker.is_first_run(getApplicationContext())) {
-            // TODO change
-        } else if (Checker.has_saved_password(getApplicationContext())) {
-            Settings.load(true);
-            // TODO
-        } else {
-
-        }
-
     }
 }

@@ -1,6 +1,7 @@
 package com.voidsong.eccu.network;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.voidsong.eccu.exceptions.SecurityErrorException;
 import com.voidsong.eccu.support_classes.Settings;
@@ -35,9 +36,7 @@ public class Internet {
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(null, new TrustManager[] { trustManager }, null);
         sslSocketFactory = sslContext.getSocketFactory();
-
         CertificatePinning(sslSocketFactory, trustManager);
-
     }
 
     public static OkHttpClient getClient() {

@@ -4,12 +4,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.util.Base64;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Settings {
 
@@ -59,6 +68,21 @@ public class Settings {
             }
 
             // TODO decrypt a string
+            try {
+                Mac hmac = Mac.getInstance("HmacSHA384");
+                SecretKeySpec secret = new SecretKeySpec("SECRET_PHRASE".getBytes("UTF-8"),
+                        "HmacSHA384");
+                hmac.init(secret);
+                byte[] hash = hmac.doFinal(Build.FINGERPRINT.getBytes("UTF-8"));
+                char[] key = Base64.encodeToString(hash, Base64.DEFAULT).toCharArray();
+
+
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+                // it can't happen because the HmacSHA384 is exist and
+                // UTF-8 is supported by default.
+            } catch (InvalidKeyException e) {
+                e.printStackTrace(); // TODO change
+            }
 
             try {
                 JSONObject jsonObject = new JSONObject(json_string);
@@ -76,6 +100,9 @@ public class Settings {
     }
 
     public static String getIp() {
+        if (ip == null) {
+            return "192.168.0.106"; // TODO delete
+        }
         return ip;
     }
 
