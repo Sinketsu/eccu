@@ -17,10 +17,7 @@ public class Settings {
         return 0;
     }
 
-    public static int load(boolean has_saved_keys) {
-        if (context == null) {
-            return 1;
-        }
+    public static void loadInfo() {
 
         // Read all info from file
         String json_string = "";
@@ -32,7 +29,9 @@ public class Settings {
         }
 
         if (json_string.isEmpty()) {
-            return 2;
+            login = "";
+            ip = "";
+            return;
         }
 
         // Fill our fields from JSON string
@@ -45,7 +44,12 @@ public class Settings {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    public static int load(boolean has_saved_keys) {
+
+        // Read all info from file
+        String json_string = "";
         if (has_saved_keys) {
             try {
                 FileInputStream saved_keys = new FileInputStream("saved_keys");
@@ -53,6 +57,8 @@ public class Settings {
             } catch (FileNotFoundException e) {
                 // it can't happen because the previous existence check.
             }
+
+            // TODO decrypt a string
 
             try {
                 JSONObject jsonObject = new JSONObject(json_string);

@@ -11,8 +11,10 @@ import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.support_classes.Checker;
+import com.voidsong.eccu.support_classes.StringWorker;
 
 import java.security.GeneralSecurityException;
+import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -52,6 +54,23 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Settings.setContext(getApplicationContext());
+        Settings.loadInfo();
+
+        if (StringWorker.equals(Settings.getIp(), "")) {
+            // TODO show dialog for input ap address
+        }
+
+        login.setText(Settings.getLogin());
+
+        if (Checker.has_saved_password(getApplicationContext())) {
+
+        }
+
+
+
+
+
+
         if (Checker.is_first_run(getApplicationContext())) {
             // TODO change
         } else if (Checker.has_saved_password(getApplicationContext())) {
