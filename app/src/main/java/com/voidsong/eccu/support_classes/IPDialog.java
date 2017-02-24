@@ -13,6 +13,7 @@ import com.voidsong.eccu.R;
  * Created by CoolHawk on 2/24/2017.
  */
 
+public class IPDialog extends DialogPreference{
 
     EditText edit;
     public IPDialog(Context context, AttributeSet atts) {
