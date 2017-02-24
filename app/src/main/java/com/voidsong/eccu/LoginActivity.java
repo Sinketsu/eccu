@@ -51,9 +51,15 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace(); // TODO change
         }
 
-        int result = Settings.load();
-        if (result != 0) {
+        Settings.setContext(getApplicationContext());
+        if (Checker.is_first_run(getApplicationContext())) {
             // TODO change
+        } else if (Checker.has_saved_password(getApplicationContext())) {
+            Settings.load(true);
+            // TODO
+        } else {
+
         }
+
     }
 }

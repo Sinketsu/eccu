@@ -24,6 +24,24 @@ public class Checker {
         return IS_IN_EMULATOR;
     }
 
+    public static boolean has_saved_password(Context context) {
+        File file = new File(context.getFilesDir(), "saved_keys");
+        if (file.exists()) {
+            return true;
+        } else {                // so we have a "keys" file
+            return false;
+        }
+    }
+
+    public static boolean is_first_run(Context context) {
+        File info = new File(context.getFilesDir(), "info");
+        if (info.exists()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Performs a full test and sets the flags.
      */
