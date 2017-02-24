@@ -27,15 +27,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if (Checker.isDebuggable(getApplicationContext())) {
+        Checker.check(getApplicationContext());
+
+        if (Checker.detectDebug()) {
             Log.d(TAG, "detecting debug"); // TODO change
         }
 
-        if (Checker.isRunningEmulator()) {
+        if (Checker.detectEmulator()) {
             Log.d(TAG, "detecting emulator"); // TODO change
         }
 
-        if (Checker.isRooted()) {
+        if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root"); // TODO change
         }
 

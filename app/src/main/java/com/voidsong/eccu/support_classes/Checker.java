@@ -8,6 +8,33 @@ import java.io.File;
 
 public class Checker {
 
+    public static boolean isCHECKED() {
+        return CHECKED;
+    }
+
+    public static boolean detectRoot() {
+        return HAS_ROOT;
+    }
+
+    public static boolean detectDebug() {
+        return IS_UNDER_DEBUG;
+    }
+
+    public static boolean detectEmulator() {
+        return IS_IN_EMULATOR;
+    }
+
+    /**
+     * Performs a full test and sets the flags.
+     */
+    public static void check(Context context) {
+        HAS_ROOT = isRooted();
+        IS_UNDER_DEBUG = isDebuggable(context);
+        IS_IN_EMULATOR = isRunningEmulator();
+
+        CHECKED = true;
+    }
+
     /**
      * Try to determine whether running on a debugger or DEBUG mode.
      *
@@ -51,6 +78,12 @@ public class Checker {
         return false;
     }
 
+    private static boolean CHECKED = false;
+
+    private static boolean HAS_ROOT;
+    private static boolean IS_UNDER_DEBUG;
+    private static boolean IS_IN_EMULATOR;
+
     private static boolean isRootedSigningKeys() {
         final String buildTags = Build.TAGS;
         if (buildTags != null && buildTags.contains("test-keys")) {
@@ -88,7 +121,7 @@ public class Checker {
                 return true;
             }
         } catch (NullPointerException npe) {
-            // return false
+            return false;
         }
         return false;
     }
