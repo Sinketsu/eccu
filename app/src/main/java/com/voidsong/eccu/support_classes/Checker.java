@@ -24,7 +24,7 @@ public class Checker {
         return IS_IN_EMULATOR;
     }
 
-    public static boolean has_saved_password(Context context) {
+    public static boolean user_has_saved_password(Context context) {
         File file = new File(context.getFilesDir(), "saved_keys");
         if (file.exists()) {
             return true;

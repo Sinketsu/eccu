@@ -39,7 +39,7 @@ public class Settings {
             FileInputStream info = context.openFileInput("info");
             json_string = get_all_from_file(info);
         } catch (FileNotFoundException e) {
-            // it can't happen because the previous existence check.
+            // unhandled exception
         }
 
         if (json_string.isEmpty()) {
@@ -60,59 +60,94 @@ public class Settings {
         }
     }
 
-    public static int load(boolean has_saved_keys) {
+    public static int load(String password) {
+        String json_string = "";
+        try {
+            FileInputStream saved_keys = new FileInputStream("saved_keys");
+            json_string = get_all_from_file(saved_keys);
+        } catch (FileNotFoundException e) {
+            // it can't happen because the previous existence check.
+        }
+
+        AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
+        SecretKeySpec newKey = new SecretKeySpec(password.getBytes(), "AES");
+        byte[] result;
+        try {
+            Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, newKey, ivSpec);
+            result = cipher.doFinal(json_string.getBytes());
+            json_string = result.toString();
+        } catch (NoSuchAlgorithmException e) {
+            // it can't happen because the HmacSHA256 is exist and
+            // UTF-8 is supported by default.
+        } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
+                BadPaddingException | IllegalBlockSizeException e) {
+            return 2;
+            // TODO change - try to hacking us
+        } catch(InvalidKeyException e) {
+            return 1; // TODO change
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(json_string);
+            hash_salt = jsonObject.getString("salt");
+
+            json_string = "";                // change this string for GC.
+        } catch (JSONException e) {
+            return 3;
+        }
+
+        return 0;
+    }
+
+    public static int load_saved_passwords() {
 
         // Read all info from file
         String json_string = "";
-        if (has_saved_keys) {
-            try {
-                FileInputStream saved_keys = new FileInputStream("saved_keys");
-                json_string = get_all_from_file(saved_keys);
-            } catch (FileNotFoundException e) {
-                // it can't happen because the previous existence check.
-            }
-
-            // TODO decrypt a string
-            try {
-                Mac hmac = Mac.getInstance("HmacSHA256");
-                SecretKeySpec secret = new SecretKeySpec("SECRET_PHRASE".getBytes("UTF-8"), // TODO different pass phrases for different users
-                        "HmacSHA256");
-                hmac.init(secret);
-                byte[] key = hmac.doFinal(Build.FINGERPRINT.getBytes("UTF-8"));
-
-                AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
-                SecretKeySpec newKey = new SecretKeySpec(key, "AES");
-                byte[] result;
-                try {
-                    Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-                    cipher.init(Cipher.DECRYPT_MODE, newKey, ivSpec);
-                    result = cipher.doFinal(json_string.getBytes());
-                    json_string = result.toString();
-                } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
-                        BadPaddingException | IllegalBlockSizeException e) {
-                    // TODO change - try to hacking us
-                }
-
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-                // it can't happen because the HmacSHA384 is exist and
-                // UTF-8 is supported by default.
-            } catch (InvalidKeyException e) {
-                e.printStackTrace(); // TODO change
-            }
-
-            try {
-                JSONObject jsonObject = new JSONObject(json_string);
-                saved_passwd = jsonObject.getString("passwd");
-                hash_salt = jsonObject.getString("salt");
-
-                json_string = "";                // change this string for GC.
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return 0;
-        } else {
-            return 0; // TODO change!!!!
+        try {
+            FileInputStream saved_keys = new FileInputStream("saved_keys");
+            json_string = get_all_from_file(saved_keys);
+        } catch (FileNotFoundException e) {
+            // it can't happen because the previous existence check.
         }
+
+        try {
+            Mac hmac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret = new SecretKeySpec("SECRET_PHRASE".getBytes("UTF-8"), // TODO different pass phrases for different users
+                    "HmacSHA256");
+            hmac.init(secret);
+            byte[] key = hmac.doFinal(Build.FINGERPRINT.getBytes("UTF-8"));
+
+            AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
+            SecretKeySpec newKey = new SecretKeySpec(key, "AES");
+            byte[] result;
+            try {
+                Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
+                cipher.init(Cipher.DECRYPT_MODE, newKey, ivSpec);
+                result = cipher.doFinal(json_string.getBytes());
+                json_string = result.toString();
+            } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
+                    BadPaddingException | IllegalBlockSizeException e) {
+                // TODO change - try to hacking us
+            }
+
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            // it can't happen because the HmacSHA256 is exist and
+            // UTF-8 is supported by default.
+        } catch (InvalidKeyException e) {
+            e.printStackTrace(); // TODO change
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(json_string);
+            saved_passwd = jsonObject.getString("passwd");
+            hash_salt = jsonObject.getString("salt");
+
+            json_string = "";                // change this string for GC.
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public static String getIp() {
@@ -128,6 +163,10 @@ public class Settings {
 
     public static String getLogin() {
         return login;
+    }
+
+    public static String getSaved_passwd() {
+        return saved_passwd;
     }
 
     private static Context context;

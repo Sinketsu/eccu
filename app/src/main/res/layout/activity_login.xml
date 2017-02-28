@@ -60,7 +60,7 @@
             android:padding="12dp"
             android:text="@string/log_in_button_text"
             android:background="@color/colorPrimaryDark"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
 

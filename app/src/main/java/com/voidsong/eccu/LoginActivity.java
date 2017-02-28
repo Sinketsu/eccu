@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 import java.security.GeneralSecurityException;
@@ -15,12 +16,15 @@ import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.support_classes.Checker;
 import com.voidsong.eccu.support_classes.StringWorker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = "ECCU/LoginActivity";
 
-    private EditText login;
-    private EditText password;
+    private EditText loginText;
+    private EditText passwordText;
     private AppCompatButton button;
 
     @Override
@@ -40,11 +44,34 @@ public class LoginActivity extends AppCompatActivity {
 
         if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root"); // TODO change
+            // TODO Show notification about the lack of security
         }
 
-        login = (EditText)findViewById(R.id.input_login);
-        password = (EditText)findViewById(R.id.input_password);
+        Log.d(TAG, "It is changed");
+
+        loginText = (EditText)findViewById(R.id.input_login);
+        passwordText = (EditText)findViewById(R.id.input_password);
         button = (AppCompatButton)findViewById(R.id.btn_login);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String login = loginText.getText().toString();
+                String password = passwordText.getText().toString();
+
+                User.authenticate(login, password);
+                while(StringWorker.equals(User.getStatus(), "")) {
+                    // TODO showing loading circle
+                }
+                if (StringWorker.equals(User.getStatus(), "OK")) {
+                    Settings.load(password);
+                } else {
+                    // TODO show alert - invalid login/password
+                }
+
+                // TODO try to authenticate
+            }
+        });
 
         try {
             Internet.Init();
@@ -54,18 +81,19 @@ public class LoginActivity extends AppCompatActivity {
 
         Settings.setContext(getApplicationContext());
 
-        if (!Checker.is_first_run(getApplicationContext())) {
-            Settings.loadInfo();
-        }
+        Settings.loadInfo();
 
         if (StringWorker.equals(Settings.getIp(), "")) {
             // TODO show dialog for input ap address
         }
 
-        login.setText(Settings.getLogin());
+        loginText.setText(Settings.getLogin());
 
-        if (Checker.has_saved_password(getApplicationContext())) {
-
+        if (Checker.user_has_saved_password(getApplicationContext())) {
+            Settings.load_saved_passwords();
+            // TODO show notification about weak security.
         }
     }
+
+
 }
