@@ -1,5 +1,6 @@
 package com.voidsong.eccu;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private EditText ipset;
     private AppCompatButton button;
-    private ImageButton ipButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,25 +73,15 @@ public class LoginActivity extends AppCompatActivity {
             // TODO change
         }
 
-        ipButton =(ImageButton)findViewById(R.id.IPImageButton);
-
 
 
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        ipButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment newFragment = new IPDialog();
-                newFragment.show(getSupportFragmentManager(), "IPSettings");
-            }
-        });
-
+    public void IPImageButton(View view){
+        DialogFragment newFragment = new IPDialog();
+        newFragment.show(getSupportFragmentManager(), "IPSettings");
     }
+
+
 
 }

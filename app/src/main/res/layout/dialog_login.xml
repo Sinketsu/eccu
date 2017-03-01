@@ -9,8 +9,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/ipaddress"
         android:fontFamily="sans-serif"
-        android:inputType="numberDecimal"
+        android:inputType="number"
         android:maxLength="15"
+        android:digits="0123456789."
         android:hint="@string/DefaultIP"/>
 
 </LinearLayout>
