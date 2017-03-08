@@ -25,12 +25,16 @@ public class Checker {
     }
 
     public static boolean user_has_saved_password(Context context) {
-        File file = new File(context.getFilesDir(), "saved_keys");
-        if (file.exists()) {
-            return true;
-        } else {                // so we have a "keys" file
-            return false;
+        if (!SAVED_PASSWORD_CHECKED) {
+            File file = new File(context.getFilesDir(), "saved_keys");
+            if (file.exists()) {
+                HAS_SAVED_PASSWORDS = true;
+            } else {                // so we have a "keys" file
+                HAS_SAVED_PASSWORDS = false;
+            }
+            SAVED_PASSWORD_CHECKED = true;
         }
+        return HAS_SAVED_PASSWORDS;
     }
 
     public static boolean is_first_run(Context context) {
@@ -101,6 +105,9 @@ public class Checker {
     private static boolean HAS_ROOT;
     private static boolean IS_UNDER_DEBUG;
     private static boolean IS_IN_EMULATOR;
+
+    private static boolean SAVED_PASSWORD_CHECKED = false;
+    private static boolean HAS_SAVED_PASSWORDS;
 
     private static boolean isRootedSigningKeys() {
         final String buildTags = Build.TAGS;

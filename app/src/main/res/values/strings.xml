@@ -4,4 +4,5 @@
     <string name="login_hint">Login</string>
     <string name="passwd_hint">Password</string>
     <string name="log_in_button_text">Log in</string>
+    <string name="checkbox_label">Save password (insecure)</string>
 </resources>

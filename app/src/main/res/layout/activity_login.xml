@@ -51,6 +51,25 @@
                 android:textColorHint="@color/colorLightGray" />
         </android.support.design.widget.TextInputLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:theme="@style/CheckboxTheme"
+                android:id="@+id/saved_passwd_checkbox"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="@string/checkbox_label"/>
+
+        </LinearLayout>
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"

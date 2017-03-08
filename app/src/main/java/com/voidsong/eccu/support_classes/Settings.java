@@ -2,6 +2,7 @@ package com.voidsong.eccu.support_classes;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -15,7 +16,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -27,9 +27,97 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Settings {
 
-    public static int save() {
-        return 0;
+    public static void save_saved_passwords() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("passwd", saved_passwd);
+            jsonObject.put("salt", hash_salt);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String data = jsonObject.toString();
+
+        try {
+            Mac hmac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret = new SecretKeySpec("SECRET_PHRASE".getBytes("UTF-8"), // TODO different pass phrases for different users
+                    "HmacSHA256");
+            hmac.init(secret);
+            byte[] key = hmac.doFinal(Build.FINGERPRINT.getBytes("UTF-8"));
+
+            AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
+            SecretKeySpec newKey = new SecretKeySpec(key, "AES");
+            byte[] result = new byte[0];
+
+            try {
+                Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
+                cipher.init(Cipher.ENCRYPT_MODE, newKey, ivSpec);
+                result = cipher.doFinal(data.getBytes());
+            } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
+                    BadPaddingException | IllegalBlockSizeException e) {
+                // TODO change - try to hacking us
+            }
+
+            FileOutputStream file = context.openFileOutput("saved_keys", context.MODE_PRIVATE);
+            file.write(result);
+            file.close();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            // it can't happen because the HmacSHA256 is exist and
+            // UTF-8 is supported by default.
+        } catch (InvalidKeyException | IOException e) {
+
+        }
     }
+
+    public static void save(String password) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("salt", hash_salt);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String data = jsonObject.toString();
+
+        try {
+            AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
+            SecretKeySpec newKey = new SecretKeySpec(password.getBytes(), "AES");
+            byte[] result = new byte[0];
+
+            try {
+                Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
+                cipher.init(Cipher.ENCRYPT_MODE, newKey, ivSpec);
+                result = cipher.doFinal(data.getBytes());
+            } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
+                    BadPaddingException | IllegalBlockSizeException e) {
+                // TODO change - try to hacking us
+            }
+
+            FileOutputStream file = context.openFileOutput("keys", context.MODE_PRIVATE);
+            file.write(result);
+            file.close();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            // it can't happen because the HmacSHA256 is exist and
+            // UTF-8 is supported by default.
+        } catch (InvalidKeyException | IOException e) {
+
+        }
+    }
+
+    public static void saveInfo(String user_login) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ip", ip);
+            jsonObject.put("login", user_login);
+            String data = jsonObject.toString();
+
+            FileOutputStream info = context.openFileOutput("info", context.MODE_PRIVATE);
+            info.write(data.getBytes());
+            info.close();
+        } catch (JSONException | IOException e) {
+            // Ignore
+            // TODO change
+        }
+    }
+
 
     public static void loadInfo() {
 
@@ -63,7 +151,7 @@ public class Settings {
     public static int load(String password) {
         String json_string = "";
         try {
-            FileInputStream saved_keys = new FileInputStream("saved_keys");
+            FileInputStream saved_keys = new FileInputStream("keys");
             json_string = get_all_from_file(saved_keys);
         } catch (FileNotFoundException e) {
             // it can't happen because the previous existence check.

@@ -3,6 +3,7 @@ package com.voidsong.eccu;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText loginText;
     private EditText passwordText;
     private AppCompatButton button;
+    private AppCompatCheckBox checkbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         loginText = (EditText)findViewById(R.id.input_login);
         passwordText = (EditText)findViewById(R.id.input_password);
         button = (AppCompatButton)findViewById(R.id.btn_login);
+        checkbox = (AppCompatCheckBox)findViewById(R.id.saved_passwd_checkbox);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,17 +62,27 @@ public class LoginActivity extends AppCompatActivity {
                 String login = loginText.getText().toString();
                 String password = passwordText.getText().toString();
 
+                Settings.saveInfo(login); // TODO maybe change...
+
                 User.authenticate(login, password);
+                // TODO showing loading circle
                 while(StringWorker.equals(User.getStatus(), "")) {
-                    // TODO showing loading circle
                 }
                 if (StringWorker.equals(User.getStatus(), "OK")) {
-                    Settings.load(password);
+                    if (!Checker.user_has_saved_password(getApplicationContext())) {
+                        Settings.load(password);
+                    }
+                    if (checkbox.isChecked()) {
+                        Settings.save_saved_passwords();
+                    } else {
+                        Settings.save(password);
+                    }
+
+                    // TODO move to main activity
                 } else {
                     // TODO show alert - invalid login/password
                 }
 
-                // TODO try to authenticate
             }
         });
 
@@ -91,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (Checker.user_has_saved_password(getApplicationContext())) {
             Settings.load_saved_passwords();
+            passwordText.setText(Settings.getSaved_passwd());
             // TODO show notification about weak security.
         }
     }
