@@ -64,6 +64,7 @@ public class User {
         }
     }
 
+
     public static char[] getCipher_key() {
         return cipher_key;
     }
