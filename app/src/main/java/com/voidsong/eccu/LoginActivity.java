@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText ipset;
     private AppCompatButton button;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
