@@ -1,67 +1,90 @@
 package com.voidsong.eccu;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.ShareActionProvider;
-import android.text.InputFilter;
-import android.util.AttributeSet;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.support.v4.app.DialogFragment;
-import android.preference.DialogPreference;
-import android.widget.ImageButton;
-import android.support.v4.app.Fragment;
+
+import java.security.GeneralSecurityException;
 
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
-import com.voidsong.eccu.support_classes.IPDialog;
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.support_classes.Checker;
+import com.voidsong.eccu.support_classes.StringWorker;
 
-import org.w3c.dom.Attr;
-
-import java.security.GeneralSecurityException;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = "ECCU/LoginActivity";
 
-    private EditText login;
-    private EditText password;
-    private EditText ipset;
+    private EditText loginText;
+    private EditText passwordText;
     private AppCompatButton button;
-
+    private AppCompatCheckBox checkbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if (Checker.isDebuggable(getApplicationContext())) {
+        Checker.check(getApplicationContext());
+
+        if (Checker.detectDebug()) {
             Log.d(TAG, "detecting debug"); // TODO change
         }
 
-        if (Checker.isRunningEmulator()) {
+        if (Checker.detectEmulator()) {
             Log.d(TAG, "detecting emulator"); // TODO change
         }
 
-        if (Checker.isRooted()) {
+        if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root"); // TODO change
+            // TODO Show notification about the lack of security
         }
 
-        login = (EditText)findViewById(R.id.input_login);
-        password = (EditText)findViewById(R.id.input_password);
+        Log.d(TAG, "It is changed");
+
+        loginText = (EditText)findViewById(R.id.input_login);
+        passwordText = (EditText)findViewById(R.id.input_password);
         button = (AppCompatButton)findViewById(R.id.btn_login);
+        checkbox = (AppCompatCheckBox)findViewById(R.id.saved_passwd_checkbox);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String login = loginText.getText().toString();
+                String password = passwordText.getText().toString();
+
+                Settings.saveInfo(login); // TODO maybe change...
+
+                User.authenticate(login, password);
+                // TODO showing loading circle
+                while(StringWorker.equals(User.getStatus(), "")) {
+                }
+                if (StringWorker.equals(User.getStatus(), "OK")) {
+                    if (!Checker.user_has_saved_password(getApplicationContext())) {
+                        Settings.load(password);
+                    }
+                    if (checkbox.isChecked()) {
+                        Settings.save_saved_passwords();
+                    } else {
+                        Settings.save(password);
+                    }
+
+                    // TODO move to main activity
+                } else {
+                    // TODO show alert - invalid login/password
+                }
+
+            }
+        });
 
         try {
             Internet.Init();
@@ -69,20 +92,22 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace(); // TODO change
         }
 
-        int result = Settings.load();
-        if (result != 0) {
-            // TODO change
+        Settings.setContext(getApplicationContext());
+
+        Settings.loadInfo();
+
+        if (StringWorker.equals(Settings.getIp(), "")) {
+            // TODO show dialog for input ap address
         }
 
+        loginText.setText(Settings.getLogin());
 
-
+        if (Checker.user_has_saved_password(getApplicationContext())) {
+            Settings.load_saved_passwords();
+            passwordText.setText(Settings.getSaved_passwd());
+            // TODO show notification about weak security.
+        }
     }
-
-    public void IPImageButton(View view){
-        DialogFragment newFragment = new IPDialog();
-        newFragment.show(getSupportFragmentManager(), "IPSettings");
-    }
-
 
 
 }

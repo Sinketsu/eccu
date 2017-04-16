@@ -7,4 +7,5 @@
     <string name="OK">OK</string>
     <string name="Cancel">Cancel</string>
     <string name="DefaultIP">192.168.1.1</string>
+    <string name="checkbox_label">Save password (insecure)</string>
 </resources>

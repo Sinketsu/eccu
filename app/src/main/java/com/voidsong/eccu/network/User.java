@@ -64,6 +64,7 @@ public class User {
         }
     }
 
+
     public static char[] getCipher_key() {
         return cipher_key;
     }
@@ -76,5 +77,5 @@ public class User {
 
     private static OkHttpClient client = Internet.getClient();
 
-    private static String status;
+    private static String status = "";
 }

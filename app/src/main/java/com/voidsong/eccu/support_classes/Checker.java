@@ -8,6 +8,55 @@ import java.io.File;
 
 public class Checker {
 
+    public static boolean isCHECKED() {
+        return CHECKED;
+    }
+
+    public static boolean detectRoot() {
+        return HAS_ROOT;
+    }
+
+    public static boolean detectDebug() {
+        return IS_UNDER_DEBUG;
+    }
+
+    public static boolean detectEmulator() {
+        return IS_IN_EMULATOR;
+    }
+
+    public static boolean user_has_saved_password(Context context) {
+        if (!SAVED_PASSWORD_CHECKED) {
+            File file = new File(context.getFilesDir(), "saved_keys");
+            if (file.exists()) {
+                HAS_SAVED_PASSWORDS = true;
+            } else {                // so we have a "keys" file
+                HAS_SAVED_PASSWORDS = false;
+            }
+            SAVED_PASSWORD_CHECKED = true;
+        }
+        return HAS_SAVED_PASSWORDS;
+    }
+
+    public static boolean is_first_run(Context context) {
+        File info = new File(context.getFilesDir(), "info");
+        if (info.exists()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Performs a full test and sets the flags.
+     */
+    public static void check(Context context) {
+        HAS_ROOT = isRooted();
+        IS_UNDER_DEBUG = isDebuggable(context);
+        IS_IN_EMULATOR = isRunningEmulator();
+
+        CHECKED = true;
+    }
+
     /**
      * Try to determine whether running on a debugger or DEBUG mode.
      *
@@ -51,6 +100,15 @@ public class Checker {
         return false;
     }
 
+    private static boolean CHECKED = false;
+
+    private static boolean HAS_ROOT;
+    private static boolean IS_UNDER_DEBUG;
+    private static boolean IS_IN_EMULATOR;
+
+    private static boolean SAVED_PASSWORD_CHECKED = false;
+    private static boolean HAS_SAVED_PASSWORDS;
+
     private static boolean isRootedSigningKeys() {
         final String buildTags = Build.TAGS;
         if (buildTags != null && buildTags.contains("test-keys")) {
@@ -88,7 +146,7 @@ public class Checker {
                 return true;
             }
         } catch (NullPointerException npe) {
-            // return false
+            return false;
         }
         return false;
     }

@@ -6,7 +6,11 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="colorControlNormal">@color/colorLightGray</item>
+    </style>
 
+    <style name="CheckboxTheme" parent="AppTheme">
+        <item name="colorControlActivated">@color/colorWhite</item>
 
     </style>
+
 </resources>
