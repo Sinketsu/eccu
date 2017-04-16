@@ -16,9 +16,9 @@ import com.voidsong.eccu.exceptions.SecurityErrorException;
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.support_classes.Checker;
 import com.voidsong.eccu.support_classes.StringWorker;
+import com.voidsong.eccu.support_classes.IPDialog;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.support.v4.app.DialogFragment;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
             // TODO Show notification about the lack of security
         }
 
-        Log.d(TAG, "It is changed");
 
         loginText = (EditText)findViewById(R.id.input_login);
         passwordText = (EditText)findViewById(R.id.input_password);
@@ -109,5 +108,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
+    public void IPImageButton(View view){
+        DialogFragment newFragment = new IPDialog();
+        newFragment.show(getSupportFragmentManager(), "IPSettings");
+    }
 }
