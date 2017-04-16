@@ -15,6 +15,23 @@
         android:paddingRight="24dp"
         android:weightSum="1">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <ImageButton
+                app:srcCompat="@drawable/set"
+                android:id="@+id/IPImageButton"
+                android:background="@null"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="45dp"
+                android:onClick="IPImageButton"
+                android:layout_height="45dp" />
+        </RelativeLayout>
+
         <ImageView android:src="@drawable/logo"
             android:id="@+id/img_logo"
             android:contentDescription="@string/logo_description"
@@ -63,25 +80,6 @@
             android:text="@string/log_in_button_text"
             android:background="@color/colorPrimaryDark"
             android:textColor="@color/colorWhite" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="182dp">
-
-            <ImageButton
-                app:srcCompat="@drawable/set"
-                android:id="@+id/IPImageButton"
-                android:background="@null"
-                android:padding="6dp"
-                android:scaleType="fitCenter"
-                android:layout_weight="0.14"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_width="45dp"
-                android:onClick="IPImageButton"
-                android:layout_height="45dp" />
-        </RelativeLayout>
 
         
     </LinearLayout>
