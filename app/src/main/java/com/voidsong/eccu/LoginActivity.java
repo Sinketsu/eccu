@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private AppCompatButton button;
     private AppCompatCheckBox checkbox;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
