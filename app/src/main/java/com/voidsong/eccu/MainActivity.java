@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OnButtonClick(View v) {
-        // something
+        FragmentCamera fragment = (FragmentCamera)getSupportFragmentManager()
+                                    .findFragmentById(pager.getCurrentItem());
+        fragment.refresh();
     }
 }

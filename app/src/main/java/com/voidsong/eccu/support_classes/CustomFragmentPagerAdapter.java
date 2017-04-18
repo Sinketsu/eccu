@@ -29,6 +29,6 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter{
 
     @Override
     public int getCount() {
-        return 3; // TODO change to 4
+        return 4; // TODO change to 4
     }
 }
