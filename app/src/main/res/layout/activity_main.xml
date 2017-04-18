@@ -26,4 +26,10 @@
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Refresh"
+        android:onClick="OnButtonClick"/>
+
 </LinearLayout>

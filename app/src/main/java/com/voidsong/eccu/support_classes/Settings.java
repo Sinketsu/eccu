@@ -245,6 +245,10 @@ public class Settings {
         return ip;
     }
 
+    public static void setIp(String IP) {
+        ip = IP;
+    }
+
     public static void setContext(Context context) {
         Settings.context = context;
     }
