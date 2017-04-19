@@ -20,6 +20,7 @@ import com.voidsong.eccu.support_classes.StringWorker;
 import com.voidsong.eccu.support_classes.IPDialog;
 
 import android.support.v4.app.DialogFragment;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -72,7 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO showing loading circle
                 while(StringWorker.equals(User.getStatus(), "")) {
                 }
-                if (StringWorker.equals(User.getStatus(), "OK")) {
+                String _status = User.getStatus();
+                if (StringWorker.equals(_status, "OK")) {
                     if (!Checker.user_has_saved_password(getApplicationContext())) {
                         Settings.load(password);
                     }
@@ -82,9 +84,16 @@ public class LoginActivity extends AppCompatActivity {
                         Settings.save(password);
                     }
 
-                    // TODO move to main activity
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else if (StringWorker.equals(_status, "INVALIDPASSWORD")) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid password",
+                            Toast.LENGTH_LONG);
+                    toast.show();
                 } else {
-                    // TODO show alert - invalid login/password
+                    Toast toast = Toast.makeText(getApplicationContext(), "Connection issues",
+                            Toast.LENGTH_LONG);
+                    toast.show();
                 }
 
             }

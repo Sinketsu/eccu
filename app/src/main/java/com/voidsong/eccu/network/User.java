@@ -22,6 +22,8 @@ import org.json.JSONObject;
 public class User {
 
     public static void authenticate(String username, String password) {
+        status = "";
+
         MediaType MEDIA_TYPE_MARKDOWN
                 = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
         String body = "username=" + username + "&password=" + password; // TODO create clsas for http params
