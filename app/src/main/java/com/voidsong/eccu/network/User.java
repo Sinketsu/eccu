@@ -25,7 +25,7 @@ public class User {
         MediaType MEDIA_TYPE_MARKDOWN
                 = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
         String body = "username=" + username + "&password=" + password; // TODO create clsas for http params
-        final Request request = new Request.Builder()
+        Request request = new Request.Builder()
                 .url("https://" + Settings.getIp() + "/auth")
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
                 .build();
@@ -35,6 +35,7 @@ public class User {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     e.printStackTrace(); // TODO change
+                    status = "FAIL";
                 }
 
                 @Override

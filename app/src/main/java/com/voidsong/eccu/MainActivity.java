@@ -1,9 +1,11 @@
 package com.voidsong.eccu;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.voidsong.eccu.support_classes.CustomFragmentPagerAdapter;
@@ -11,7 +13,8 @@ import com.voidsong.eccu.support_classes.CustomFragmentPagerAdapter;
 public class MainActivity extends AppCompatActivity {
 
     ViewPager pager;
-    PagerAdapter pagerAdapter;
+    CustomFragmentPagerAdapter pagerAdapter;
+    FragmentCamera fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OnButtonClick(View v) {
-        FragmentCamera fragment = (FragmentCamera)getSupportFragmentManager()
-                                    .findFragmentById(pager.getCurrentItem());
+        fragment = (FragmentCamera)pagerAdapter.getItem(pager.getCurrentItem());
         fragment.refresh();
     }
 }

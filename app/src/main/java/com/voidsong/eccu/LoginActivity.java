@@ -1,5 +1,6 @@
 package com.voidsong.eccu;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -47,10 +48,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root"); // TODO change
-            // TODO Show notification about the lack of security
+            // TOD
+            // O Show notification about the lack of security
         }
 
-
+        //Intent intent = new Intent(this, MainActivity.class);
+        //startActivity(intent);
         loginText = (EditText)findViewById(R.id.input_login);
         passwordText = (EditText)findViewById(R.id.input_password);
         button = (AppCompatButton)findViewById(R.id.btn_login);
@@ -59,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String login = loginText.getText().toString();
                 String password = passwordText.getText().toString();
 

@@ -14,6 +14,7 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -53,6 +54,7 @@ public class Internet {
                     .certificatePinner(new CertificatePinner.Builder()
                             .add(Settings.getIp(), "sha256/3nXyfqT2mpHoZbP10u++TiE55PU+FSEDUHZqcb6O5EM=")
                             .build())
+                    .connectTimeout(5, TimeUnit.SECONDS)
                     .build();
         }
     }
