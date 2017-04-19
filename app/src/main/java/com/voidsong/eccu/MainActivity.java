@@ -8,14 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.voidsong.eccu.interfaces.IRefreshable;
+import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.support_classes.CustomFragmentPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     ViewPager pager;
     CustomFragmentPagerAdapter pagerAdapter;
-    IRefreshable fragment;
+    RefreshableFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OnButtonClick(View v) {
-        fragment = pagerAdapter.getItem(pager.getCurrentItem()); // TODO change
+        fragment = pagerAdapter.getItem(pager.getCurrentItem());
         fragment.refresh();
     }
 }

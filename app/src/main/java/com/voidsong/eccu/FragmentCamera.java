@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.voidsong.eccu.interfaces.IRefreshable;
+import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 
 import java.util.Random;
 
-public class FragmentCamera extends Fragment implements IRefreshable{
+public class FragmentCamera extends RefreshableFragment {
 
     static final String ARGUMENT_IMAGE_SRC = "image_src";
 

@@ -6,10 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.voidsong.eccu.FragmentCamera;
 import com.voidsong.eccu.R;
+import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 
 public class CustomFragmentPagerAdapter extends FragmentPagerAdapter{
 
-    private Fragment[] fragments = new Fragment[4];
+    private RefreshableFragment[] fragments = new RefreshableFragment[4];
 
     public CustomFragmentPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -20,7 +21,7 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter{
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public RefreshableFragment getItem(int position) {
         return fragments[position];
     }
 
