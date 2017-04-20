@@ -1,7 +1,10 @@
 package com.voidsong.eccu.network;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.voidsong.eccu.exceptions.SecurityErrorException;
 import com.voidsong.eccu.support_classes.Settings;
@@ -23,8 +26,12 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okio.Buffer;
 
 public class Internet {
@@ -38,6 +45,23 @@ public class Internet {
         sslContext.init(null, new TrustManager[] { trustManager }, null);
         sslSocketFactory = sslContext.getSocketFactory();
         CertificatePinning(sslSocketFactory, trustManager);
+    }
+
+    public static void updateImage(String url, final ImageView view) {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream inputStream = response.body().byteStream();
+
+            }
+        });
     }
 
     public static OkHttpClient getClient() {
