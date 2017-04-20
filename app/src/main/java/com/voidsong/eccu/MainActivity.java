@@ -28,13 +28,14 @@ public class MainActivity extends AppCompatActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
+        pager.setOffscreenPageLimit(4);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(pager);
     }
 
     public void OnButtonClick(View v) {
-        fragment = pagerAdapter.getItem(pager.getCurrentItem());
+        fragment = pagerAdapter.getFragment(pager.getCurrentItem());
         fragment.refresh();
     }
 }

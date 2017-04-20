@@ -49,8 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root"); // TODO change
-            // TOD
-            // O Show notification about the lack of security
+            // TODO Show notification about the lack of security
         }
 
         //Intent intent = new Intent(this, MainActivity.class);

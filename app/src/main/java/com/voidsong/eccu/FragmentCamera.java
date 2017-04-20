@@ -1,7 +1,5 @@
 package com.voidsong.eccu;
 
-import android.support.v4.app.Fragment;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

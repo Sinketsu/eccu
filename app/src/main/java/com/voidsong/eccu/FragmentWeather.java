@@ -1,16 +1,16 @@
 package com.voidsong.eccu;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.network.Internet;
 
-public class FragmentWeather extends Fragment{
+public class FragmentWeather extends RefreshableFragment {
 
     static final String ARGUMENT_TEMPERATURE = "temperature";
     static final String ARGUMENT_WIND = "wind";
@@ -20,8 +20,8 @@ public class FragmentWeather extends Fragment{
     String _wind;
     String _state;
 
-    public static FragmentCamera new_instance(Integer temperature, String wind, String state) {
-        FragmentCamera fragment = new FragmentCamera();
+    public static FragmentWeather new_instance(Integer temperature, String wind, String state) {
+        FragmentWeather fragment = new FragmentWeather();
         Bundle args = new Bundle();
         args.putInt(ARGUMENT_TEMPERATURE, temperature);
         args.putString(ARGUMENT_WIND, wind);
@@ -50,5 +50,8 @@ public class FragmentWeather extends Fragment{
         return view;
     }
 
+    public void refresh() {
+        // TODO change
+    }
 
 }

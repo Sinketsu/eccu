@@ -26,9 +26,35 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter{
         titles[3] = "camera 3";
     }
 
-    @Override
-    public RefreshableFragment getItem(int position) {
+    public RefreshableFragment getFragment(int position) {
         return fragments[position];
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        RefreshableFragment fragment;
+        switch (position) {
+            case 0:
+                fragment = FragmentCamera.new_instance(R.drawable.fon);
+                fragments[0] = fragment;
+                return fragment;
+            case 1:
+                fragment = FragmentCamera.new_instance(R.drawable.set);
+                fragments[0] = fragment;
+                return fragment;
+            case 2:
+                fragment = FragmentCamera.new_instance(R.drawable.logo);
+                fragments[0] = fragment;
+                return fragment;
+            case 3:
+                fragment = FragmentCamera.new_instance(R.drawable.fon);
+                fragments[0] = fragment;
+                return fragment;
+            default:
+                fragment = FragmentCamera.new_instance(R.drawable.fon);
+                fragments[0] = fragment;
+                return fragment;
+        }
     }
 
     @Override
