@@ -59,7 +59,7 @@ public class Internet {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 InputStream inputStream = response.body().byteStream();
-
+                view.setImageBitmap(BitmapFactory.decodeStream(inputStream));
             }
         });
     }
