@@ -12,5 +12,6 @@
     <string name="one_space"> </string>
     <string name="degree">&#176;C</string>
     <string name="bulb_label">Свет</string>
-    <string name="door_label">Дверь  0/1</string>
+    <string name="door_label">Дверь</string>
+    <string name="splitter">/</string>
 </resources>

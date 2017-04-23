@@ -2,6 +2,8 @@ package com.voidsong.eccu;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -88,14 +90,18 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (StringWorker.equals(_status, "INVALIDPASSWORD")) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid password",
+                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid login/password",
                             Toast.LENGTH_LONG);
+                    TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+                    textView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),
+                            R.color.colorPrimaryDark));
                     toast.show();
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Connection issues",
                             Toast.LENGTH_LONG);
                     TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
-                    textView.setBackgroundColor(Color.MAGENTA);
+                    textView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),
+                            R.color.colorPrimaryDark));
                     toast.show();
                 }
 
