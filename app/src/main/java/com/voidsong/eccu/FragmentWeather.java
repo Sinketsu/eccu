@@ -1,6 +1,7 @@
 package com.voidsong.eccu;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.support.v7.graphics.Palette;
 
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.network.Internet;
+import com.voidsong.eccu.support_classes.StringWorker;
 
 public class FragmentWeather extends RefreshableFragment {
 
@@ -82,11 +84,25 @@ public class FragmentWeather extends RefreshableFragment {
     }
 
     public void updateData(String temperature, String wind_d, String wind_v, String comment) {
-        _temperature_tv.setText(temperature);
+        String text = temperature + getString(R.string.one_space) + getString(R.string.degree);
+        _temperature_tv.setText(text);
         _wind_direction_tv.setText(wind_d);
         _wind_velocity_tv.setText(wind_v);
         _state_tv.setText(comment);
-        // TODO continue
+
+        switch (comment) {
+            case "пасмурно":
+                setImg(R.drawable.weather_overcast);
+                break;
+            case "небольшой дождь":
+                setImg(R.drawable.weather_small_rain);
+                break;
+            case "облачно с прояснениями":
+                setImg(R.drawable.weather_cloudy);
+                break;
+            default:
+                setImg(R.drawable.weather_default);
+        }
     }
 
     @Override
@@ -95,7 +111,8 @@ public class FragmentWeather extends RefreshableFragment {
     }
 
 
-    private void setImg(Bitmap bitmap) {
+    private void setImg(int id) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), id);
         img.setImageBitmap(bitmap);
         Palette palette = Palette.from(bitmap).generate();
         Integer color = palette.getVibrantColor(Color.rgb(255, 255, 255));
