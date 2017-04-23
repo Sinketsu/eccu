@@ -1,6 +1,7 @@
 package com.voidsong.eccu;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -20,6 +21,7 @@ import com.voidsong.eccu.support_classes.StringWorker;
 import com.voidsong.eccu.support_classes.IPDialog;
 
 import android.support.v4.app.DialogFragment;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -92,6 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Connection issues",
                             Toast.LENGTH_LONG);
+                    TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+                    textView.setBackgroundColor(Color.MAGENTA);
                     toast.show();
                 }
 
