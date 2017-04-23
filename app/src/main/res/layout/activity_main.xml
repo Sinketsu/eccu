@@ -41,6 +41,7 @@
             android:layout_weight="0.5">
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/info"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
@@ -53,6 +54,7 @@
                 android:layout_marginBottom="5dp" />
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/refresh"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
@@ -73,6 +75,7 @@
             android:layout_weight="0.5">
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/bulb"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
@@ -89,6 +92,7 @@
                 android:textColor="@color/colorWhite"/>
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/door"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"

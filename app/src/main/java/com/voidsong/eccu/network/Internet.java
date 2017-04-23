@@ -7,9 +7,13 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.voidsong.eccu.FragmentCamera;
+import com.voidsong.eccu.FragmentWeather;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
 import com.voidsong.eccu.support_classes.Settings;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +51,31 @@ public class Internet {
         sslContext.init(null, new TrustManager[] { trustManager }, null);
         sslSocketFactory = sslContext.getSocketFactory();
         CertificatePinning(sslSocketFactory, trustManager);
+    }
+
+    public static void updateWeatherData(String url, final FragmentWeather fragment) {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String temperature = jsonObject.getString("temperature");
+                    String wind_d = jsonObject.getString("wind_direction");
+                    String wind_v = jsonObject.getString("wind_velocity");
+                    String comment = jsonObject.getString("comment");
+                    fragment.updateData(temperature, wind_d, wind_v, comment);
+                } catch (JSONException e) {
+                }
+            }
+        });
     }
 
     public static void updateImage(String url, final FragmentCamera fragment) {

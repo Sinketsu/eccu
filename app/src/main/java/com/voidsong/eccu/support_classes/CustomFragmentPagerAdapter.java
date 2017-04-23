@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.voidsong.eccu.FragmentCamera;
+import com.voidsong.eccu.FragmentWeather;
 import com.voidsong.eccu.R;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 
@@ -36,7 +37,7 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter{
         RefreshableFragment fragment;
         switch (position) {
             case 0:
-                fragment = FragmentCamera.new_instance(R.drawable.fon, true);
+                fragment = FragmentWeather.new_instance(true);
                 fragments[0] = fragment;
                 return fragment;
             case 1:
