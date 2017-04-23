@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.voidsong.eccu.FragmentCamera;
+import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
 import com.voidsong.eccu.support_classes.Settings;
 
@@ -47,7 +49,7 @@ public class Internet {
         CertificatePinning(sslSocketFactory, trustManager);
     }
 
-    public static void updateImage(String url, final ImageView view) {
+    public static void updateImage(String url, final FragmentCamera fragment) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -59,7 +61,7 @@ public class Internet {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 InputStream inputStream = response.body().byteStream();
-                view.setImageBitmap(BitmapFactory.decodeStream(inputStream));
+                fragment.setImg(BitmapFactory.decodeStream(inputStream));
             }
         });
     }

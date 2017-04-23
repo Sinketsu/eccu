@@ -8,4 +8,6 @@
     <string name="Cancel">Cancel</string>
     <string name="DefaultIP">192.168.1.1</string>
     <string name="checkbox_label">Save password (insecure)</string>
+    <string name="bulb_label">Свет</string>
+    <string name="door_label">Дверь</string>
 </resources>

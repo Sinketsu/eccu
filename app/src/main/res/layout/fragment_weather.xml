@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="horizontal">
@@ -31,14 +32,16 @@
                     android:layout_weight="0.5"
                     android:text="СЗ"
                     android:textSize="30sp"
-                    android:gravity="center_horizontal|bottom"/>
+                    android:gravity="center_horizontal|bottom"
+                    android:id="@+id/wind_direction"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
                     android:text="3.2 м/с"
                     android:textSize="26sp"
-                    android:gravity="center_horizontal|top"/>
+                    android:gravity="center_horizontal|top"
+                    android:id="@+id/wind_velocity"/>
 
             </LinearLayout>
             <TextView
@@ -47,8 +50,8 @@
                 android:layout_weight="0.6"
                 android:text="+3 C"
                 android:gravity="center"
-                android:textSize="44sp"
-                />
+                android:textSize="48sp"
+                android:id="@+id/temperature" />
 
         </LinearLayout>
         <TextView
@@ -57,7 +60,8 @@
             android:text="небольшой дождь"
             android:textSize="30sp"
             android:gravity="center"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:id="@+id/comment"/>
 
     </LinearLayout>
 
