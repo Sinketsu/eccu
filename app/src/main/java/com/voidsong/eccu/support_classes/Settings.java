@@ -239,10 +239,11 @@ public class Settings {
     }
 
     public static String getIp() {
+        return "192.168.43.119";/*
         if (ip == null) {
-            return "192.168.0.106"; // TODO delete
+            return "192.168.43.119"; // TODO delete
         }
-        return ip;
+        return ip;*/
     }
 
     public static void setIp(String IP) {

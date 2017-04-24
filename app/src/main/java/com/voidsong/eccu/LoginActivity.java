@@ -114,6 +114,9 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace(); // TODO change
         }
 
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
         Settings.setContext(getApplicationContext());
 
         Settings.loadInfo();

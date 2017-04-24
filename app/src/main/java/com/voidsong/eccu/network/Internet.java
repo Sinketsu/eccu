@@ -79,18 +79,23 @@ public class Internet {
     }
 
     public static void updateImage(String url, final FragmentCamera fragment) {
+        Log.d("TAGMYTAG", "mi tuta3");
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.d("TAGMYTAG", "mi tuta!! AAAAAAA");
+                e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                Log.d("TAGMYTAG", "mi tuta4");
                 InputStream inputStream = response.body().byteStream();
                 fragment.setImg(BitmapFactory.decodeStream(inputStream));
+                Log.d("TAGMYTAG", "mi tuta5");
             }
         });
     }

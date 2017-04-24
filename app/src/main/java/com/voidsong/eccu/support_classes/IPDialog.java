@@ -30,7 +30,8 @@ public class IPDialog extends DialogFragment{
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle("Enter the server address");
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_login, null);
         builder.setView(inflater.inflate(R.layout.dialog_login, null))

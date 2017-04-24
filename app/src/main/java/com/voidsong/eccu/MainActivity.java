@@ -1,10 +1,14 @@
 package com.voidsong.eccu;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
+import android.view.View;
 
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.interfaces.IController;
@@ -39,7 +43,26 @@ public class MainActivity extends AppCompatActivity implements IController{
         refreshButton = (AppCompatButton) findViewById(R.id.refresh);
         bulbButton = (AppCompatButton) findViewById(R.id.bulb);
         doorButton = (AppCompatButton) findViewById(R.id.door);
+
+        doorButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                DialogFragment dialogFragment = new BulbDialog();
+                dialogFragment.show(getSupportFragmentManager(), "BulbControl");
+            }
+        });
+
+        bulbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAGMYTAG", "mi tuta");
+                RefreshableFragment fragment = pagerAdapter.getFragment(pager.getCurrentItem());
+                fragment.refresh();
+            }
+        });
     }
+
+
 
     @Override
     public void setActiveBulbCount(Integer active, Integer all) {
@@ -60,4 +83,8 @@ public class MainActivity extends AppCompatActivity implements IController{
                 all;
         doorButton.setText(text);
     }
+
+
+
+
 }

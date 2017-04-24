@@ -2,12 +2,14 @@ package com.voidsong.eccu;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
+import com.voidsong.eccu.network.Internet;
 
 import java.util.Random;
 
@@ -20,8 +22,13 @@ public class FragmentCamera extends RefreshableFragment {
     boolean _available;
     ImageView img;
 
-    public void setImg(Bitmap bitmap) {
-        img.setImageBitmap(bitmap);
+    public void setImg(final Bitmap bitmap) {
+        img.post(new Runnable() {
+            @Override
+            public void run() {
+                img.setImageBitmap(bitmap);
+            }
+        });
     }
 
     @Override
@@ -40,13 +47,8 @@ public class FragmentCamera extends RefreshableFragment {
 
     public void refresh() {
         if (_available) {
-            int i = new Random().nextInt(3);
-            if (i == 0)
-                img.setImageResource(R.drawable.fon);
-            else if (i == 1)
-                img.setImageResource(R.drawable.logo);
-            else if (i == 2)
-                img.setImageResource(R.drawable.set);
+            Log.d("TAGMYTAG", "mi tuta2");
+            Internet.updateImage("https://192.168.43.119/photo", this);
         }
     }
 

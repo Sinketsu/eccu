@@ -90,7 +90,7 @@ public class FragmentWeather extends RefreshableFragment {
         _wind_velocity_tv.setText(wind_v);
         _state_tv.setText(comment);
 
-        switch (comment) {
+        /*switch (comment) {
             case "пасмурно":
                 setImg(R.drawable.weather_overcast);
                 break;
@@ -102,7 +102,7 @@ public class FragmentWeather extends RefreshableFragment {
                 break;
             default:
                 setImg(R.drawable.weather_default);
-        }
+        }*/
     }
 
     @Override
