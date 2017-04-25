@@ -31,7 +31,7 @@ public class IPDialog extends DialogFragment{
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("Enter the server address");
+                .setTitle("Enter the server IP address");
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_login, null);
         builder.setView(inflater.inflate(R.layout.dialog_login, null))
@@ -41,6 +41,7 @@ public class IPDialog extends DialogFragment{
                     public void onClick(DialogInterface dialog, int which) {
                         try {
                             editText = (EditText)  main_view.findViewById(R.id.ipaddress);
+                            editText.setText(Settings.getIp()); //TODO Not work!!!!
                         }catch (NullPointerException e) {
                             e.printStackTrace(); //TODO CHANGE
                         }

@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 String login = loginText.getText().toString();
                 String password = passwordText.getText().toString();
 
-                Settings.saveInfo(login); // TODO maybe change...
+                Settings.saveInfo(login);
 
                 User.authenticate(login, password);
                 // TODO showing loading circle

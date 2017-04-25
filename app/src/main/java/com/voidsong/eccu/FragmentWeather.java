@@ -80,15 +80,60 @@ public class FragmentWeather extends RefreshableFragment {
     }
 
     public void refresh() {
-        // TODO change
+        Internet.updateWeatherData("https://192.168.43.119/weather", this);
     }
 
-    public void updateData(String temperature, String wind_d, String wind_v, String comment) {
-        String text = temperature + getString(R.string.one_space) + getString(R.string.degree);
-        _temperature_tv.setText(text);
-        _wind_direction_tv.setText(wind_d);
-        _wind_velocity_tv.setText(wind_v);
-        _state_tv.setText(comment);
+    public void updateData(String temperature, final String wind_d, final String wind_v, final String comment) {
+        //String text = temperature + getString(R.string.one_space) + getString(R.string.degree);
+        final String text = temperature + getString(R.string.one_space) + getString(R.string.degree);
+
+        _temperature_tv.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                _temperature_tv.setText(text);
+
+            }
+
+        });
+
+        _wind_direction_tv.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                _wind_direction_tv.setText(wind_d);
+
+            }
+
+        });
+
+        _wind_velocity_tv.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                _wind_velocity_tv.setText(wind_v);
+
+            }
+
+        });
+
+        _state_tv.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                _state_tv.setText(comment);
+
+            }
+
+        });
 
         /*switch (comment) {
             case "пасмурно":
@@ -112,14 +157,88 @@ public class FragmentWeather extends RefreshableFragment {
 
 
     private void setImg(int id) {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), id);
-        img.setImageBitmap(bitmap);
-        Palette palette = Palette.from(bitmap).generate();
-        Integer color = palette.getVibrantColor(Color.rgb(255, 255, 255));
+        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), id);
+
+        img.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                img.setImageBitmap(bitmap);
+
+            }
+
+        });
+
+        //img.setImageBitmap(bitmap);
+
+        final Palette palette = Palette.from(bitmap).generate();
+
+        final Integer color = palette.getVibrantColor(Color.rgb(255, 255, 255));
+
+
+
+        _state_tv.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                _state_tv.setTextColor(color);
+
+            }
+
+        });
+
+        _wind_direction_tv.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                _wind_direction_tv.setTextColor(color);
+
+            }
+
+        });
+
+        _wind_velocity_tv.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                _wind_velocity_tv.setTextColor(color);
+
+            }
+
+        });
+
+        _temperature_tv.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                _temperature_tv.setTextColor(color);
+
+            }
+
+        });
+
+
+
+        /*
 
         _state_tv.setTextColor(color);
+
         _wind_direction_tv.setTextColor(color);
+
         _wind_velocity_tv.setTextColor(color);
+
         _temperature_tv.setTextColor(color);
+
+        */
     }
 }
