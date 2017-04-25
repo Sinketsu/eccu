@@ -86,6 +86,7 @@ public class FragmentWeather extends RefreshableFragment {
     public void updateData(String temperature, final String wind_d, final String wind_v, final String comment) {
         //String text = temperature + getString(R.string.one_space) + getString(R.string.degree);
         final String text = temperature + getString(R.string.one_space) + getString(R.string.degree);
+        setImg(R.drawable.fon);
 
         _temperature_tv.post(new Runnable() {
 
@@ -148,6 +149,7 @@ public class FragmentWeather extends RefreshableFragment {
             default:
                 setImg(R.drawable.weather_default);
         }*/
+
     }
 
     @Override
@@ -160,23 +162,16 @@ public class FragmentWeather extends RefreshableFragment {
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), id);
 
         img.post(new Runnable() {
-
             @Override
-
             public void run() {
-
                 img.setImageBitmap(bitmap);
-
             }
-
         });
 
         //img.setImageBitmap(bitmap);
 
         final Palette palette = Palette.from(bitmap).generate();
-
         final Integer color = palette.getVibrantColor(Color.rgb(255, 255, 255));
-
 
 
         _state_tv.post(new Runnable() {

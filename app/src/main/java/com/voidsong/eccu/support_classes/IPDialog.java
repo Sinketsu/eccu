@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,8 @@ import android.support.v4.app.Fragment;
 import com.voidsong.eccu.LoginActivity;
 import com.voidsong.eccu.R;
 
-/**
- * Created by CoolHawk on 2/24/2017.
- */
-
 public class IPDialog extends DialogFragment{
     private EditText editText;
-    private Settings settings;
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -34,14 +29,15 @@ public class IPDialog extends DialogFragment{
                 .setTitle("Enter the server IP address");
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_login, null);
-        builder.setView(inflater.inflate(R.layout.dialog_login, null))
+        editText = (EditText)  main_view.findViewById(R.id.ipaddress);
+        editText.setText(Settings.getIp());
+        builder.setView(main_view)
                 .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
                             editText = (EditText)  main_view.findViewById(R.id.ipaddress);
-                            editText.setText(Settings.getIp()); //TODO Not work!!!!
                         }catch (NullPointerException e) {
                             e.printStackTrace(); //TODO CHANGE
                         }
@@ -62,7 +58,7 @@ public class IPDialog extends DialogFragment{
 
 
     public void setIP(){
-        settings.setIp(editText.getText().toString());
+        Settings.setIp(editText.getText().toString());
     }
 
 
