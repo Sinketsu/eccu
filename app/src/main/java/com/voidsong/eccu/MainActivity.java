@@ -62,7 +62,10 @@ public class MainActivity extends AppCompatActivity implements IController{
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        // ignore :)
+    }
 
     @Override
     public void setActiveBulbCount(Integer active, Integer all) {
