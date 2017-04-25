@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.telephony.TelephonyManager;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -38,27 +39,18 @@ public class Settings {
         String data = jsonObject.toString();
 
         try {
-            Mac hmac = Mac.getInstance("HmacSHA256");
-            SecretKeySpec secret = new SecretKeySpec("SECRET_PHRASE".getBytes("UTF-8"), // TODO different pass phrases for different users
-                    "HmacSHA256");
-            hmac.init(secret);
-            byte[] key = hmac.doFinal(Build.FINGERPRINT.getBytes("UTF-8"));
-
-            AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
-            SecretKeySpec newKey = new SecretKeySpec(key, "AES");
             byte[] result = new byte[0];
-
             try {
-                Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-                cipher.init(Cipher.ENCRYPT_MODE, newKey, ivSpec);
-                result = cipher.doFinal(data.getBytes());
+                result = EccuCipher.encrypt(data);
             } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
                     BadPaddingException | IllegalBlockSizeException e) {
                 // TODO change - try to hacking us
             }
 
-            FileOutputStream file = context.openFileOutput("saved_keys", context.MODE_PRIVATE);
-            file.write(result);
+            String encoded_data = EccuCipher.encode64(result);
+
+            FileOutputStream file = context.openFileOutput("saved_keys", Context.MODE_PRIVATE);
+            file.write(encoded_data.getBytes());
             file.close();
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             // it can't happen because the HmacSHA256 is exist and
@@ -78,21 +70,19 @@ public class Settings {
         String data = jsonObject.toString();
 
         try {
-            AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
-            SecretKeySpec newKey = new SecretKeySpec(password.getBytes(), "AES");
             byte[] result = new byte[0];
 
             try {
-                Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-                cipher.init(Cipher.ENCRYPT_MODE, newKey, ivSpec);
-                result = cipher.doFinal(data.getBytes());
+                result = EccuCipher.encrypt(data, password);
             } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
                     BadPaddingException | IllegalBlockSizeException e) {
                 // TODO change - try to hacking us
             }
 
+            String encoded_data = EccuCipher.encode64(result);
+
             FileOutputStream file = context.openFileOutput("keys", context.MODE_PRIVATE);
-            file.write(result);
+            file.write(encoded_data.getBytes());
             file.close();
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             // it can't happen because the HmacSHA256 is exist and
@@ -149,40 +139,36 @@ public class Settings {
     }
 
     public static int load(String password) {
-        String json_string = "";
+        String string = "";
         try {
             FileInputStream saved_keys = new FileInputStream("keys");
-            json_string = get_all_from_file(saved_keys);
-        } catch (FileNotFoundException e) {
+            string = get_all_from_file(saved_keys);
+            saved_keys.close();
+        } catch (IOException e) {
             // it can't happen because the previous existence check.
         }
 
-        AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
-        SecretKeySpec newKey = new SecretKeySpec(password.getBytes(), "AES");
-        byte[] result;
+        byte[] data = EccuCipher.decode64(string);
+
+        String result = "";
         try {
-            Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, newKey, ivSpec);
-            result = cipher.doFinal(json_string.getBytes());
-            json_string = result.toString();
+            result = EccuCipher.decrypt(data, password);
         } catch (NoSuchAlgorithmException e) {
             // it can't happen because the HmacSHA256 is exist and
             // UTF-8 is supported by default.
         } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
                 BadPaddingException | IllegalBlockSizeException e) {
-            return 2;
             // TODO change - try to hacking us
         } catch(InvalidKeyException e) {
-            return 1; // TODO change
+            // TODO change
         }
 
         try {
-            JSONObject jsonObject = new JSONObject(json_string);
+            JSONObject jsonObject = new JSONObject(result);
             hash_salt = jsonObject.getString("salt");
 
-            json_string = "";                // change this string for GC.
+            result = "";                // change this string for GC.
         } catch (JSONException e) {
-            return 3;
         }
 
         return 0;
@@ -191,47 +177,36 @@ public class Settings {
     public static int load_saved_passwords() {
 
         // Read all info from file
-        String json_string = "";
+        String string = "";
         try {
             FileInputStream saved_keys = new FileInputStream("saved_keys");
-            json_string = get_all_from_file(saved_keys);
-        } catch (FileNotFoundException e) {
+            string = get_all_from_file(saved_keys);
+            saved_keys.close();
+        } catch (IOException e) {
             // it can't happen because the previous existence check.
         }
 
+        byte[] data = EccuCipher.decode64(string);
+        String result = "";
+
         try {
-            Mac hmac = Mac.getInstance("HmacSHA256");
-            SecretKeySpec secret = new SecretKeySpec("SECRET_PHRASE".getBytes("UTF-8"), // TODO different pass phrases for different users
-                    "HmacSHA256");
-            hmac.init(secret);
-            byte[] key = hmac.doFinal(Build.FINGERPRINT.getBytes("UTF-8"));
-
-            AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());  // TODO different IV for different users
-            SecretKeySpec newKey = new SecretKeySpec(key, "AES");
-            byte[] result;
-            try {
-                Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-                cipher.init(Cipher.DECRYPT_MODE, newKey, ivSpec);
-                result = cipher.doFinal(json_string.getBytes());
-                json_string = result.toString();
-            } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
-                    BadPaddingException | IllegalBlockSizeException e) {
-                // TODO change - try to hacking us
-            }
-
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            result = EccuCipher.decrypt(data);
+        } catch (NoSuchPaddingException | InvalidAlgorithmParameterException |
+                BadPaddingException | IllegalBlockSizeException e) {
+            // TODO change - try to hacking us
+        } catch (NoSuchAlgorithmException e) {
             // it can't happen because the HmacSHA256 is exist and
             // UTF-8 is supported by default.
         } catch (InvalidKeyException e) {
-            e.printStackTrace(); // TODO change
+            // TODO change
         }
 
         try {
-            JSONObject jsonObject = new JSONObject(json_string);
+            JSONObject jsonObject = new JSONObject(result);
             saved_passwd = jsonObject.getString("passwd");
             hash_salt = jsonObject.getString("salt");
 
-            json_string = "";                // change this string for GC.
+            result = "";                // change this string for GC.
         } catch (JSONException e) {
             e.printStackTrace();
         }

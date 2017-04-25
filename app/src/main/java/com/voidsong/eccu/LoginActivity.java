@@ -18,6 +18,7 @@ import java.security.GeneralSecurityException;
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
+import com.voidsong.eccu.support_classes.EccuCipher;
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.support_classes.Checker;
 import com.voidsong.eccu.support_classes.StringWorker;
@@ -115,6 +116,8 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        EccuCipher.setContext(getApplicationContext());
 
         try {
             Internet.Init();
