@@ -5,6 +5,8 @@ import android.content.pm.ApplicationInfo;
 import android.os.Build;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Checker {
 
@@ -26,10 +28,10 @@ public class Checker {
 
     public static boolean user_has_saved_password(Context context) {
         if (!SAVED_PASSWORD_CHECKED) {
-            File file = new File(context.getFilesDir(), "saved_keys");
-            if (file.exists()) {
+            try {
+                FileInputStream fin = context.openFileInput("saved_keys");
                 HAS_SAVED_PASSWORDS = true;
-            } else {                // so we have a "keys" file
+            } catch (FileNotFoundException e) {
                 HAS_SAVED_PASSWORDS = false;
             }
             SAVED_PASSWORD_CHECKED = true;

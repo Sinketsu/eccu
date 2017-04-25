@@ -122,9 +122,6 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace(); // TODO change
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
         Settings.setContext(getApplicationContext());
 
         Settings.loadInfo();
@@ -134,12 +131,16 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         loginText.setText(Settings.getLogin());
-
+        Log.d("TOG1", "hi0");
         if (Checker.user_has_saved_password(getApplicationContext())) {
+            Log.d("TOG1", "hi");
             Settings.load_saved_passwords();
+            //Log.d("TOG1", Settings.getSaved_passwd());
             passwordText.setText(Settings.getSaved_passwd());
             // TODO show notification about weak security.
         }
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void IPImageButton(View view){
