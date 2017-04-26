@@ -1,18 +1,11 @@
 package com.voidsong.eccu.network;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.ImageView;
 
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import com.voidsong.eccu.FragmentCamera;
-import com.voidsong.eccu.FragmentWeather;
-import com.voidsong.eccu.abstract_classes.RefreshableFragment;
+import com.voidsong.eccu.fragments.FragmentCamera;
+import com.voidsong.eccu.fragments.FragmentWeather;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
 import com.voidsong.eccu.support_classes.Settings;
 
@@ -21,9 +14,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
@@ -42,8 +32,6 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.CertificatePinner;
-import okhttp3.CookieJar;
-import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -118,20 +106,20 @@ public class Internet {
 
     private static OkHttpClient client;
 
-
-
-
-
-
     private static void CertificatePinning(SSLSocketFactory sslSocketFactory, X509TrustManager trustManager) {
         if (client == null) {
 
+            // first variant
+            /*
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+            */
 
+            //second variant
+            /*
             ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(),
                     new SharedPrefsCookiePersistor(Settings.getContext()));
-
+            */
 
             client = new OkHttpClient.Builder()
                     .sslSocketFactory(sslSocketFactory, trustManager)
@@ -139,7 +127,7 @@ public class Internet {
                     .certificatePinner(new CertificatePinner.Builder()
                             .add(Settings.getIp(), "sha256/3nXyfqT2mpHoZbP10u++TiE55PU+FSEDUHZqcb6O5EM=")
                             .build())
-                    .cookieJar(new JavaNetCookieJar(cookieManager))
+                    //.cookieJar(new JavaNetCookieJar(cookieManager))
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .build();
         }

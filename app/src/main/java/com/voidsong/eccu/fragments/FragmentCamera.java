@@ -1,4 +1,4 @@
-package com.voidsong.eccu;
+package com.voidsong.eccu.fragments;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.voidsong.eccu.R;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.network.Internet;
-
-import java.util.Random;
 
 public class FragmentCamera extends RefreshableFragment {
 

@@ -1,24 +1,16 @@
-package com.voidsong.eccu.support_classes;
+package com.voidsong.eccu.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.os.SystemClock;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.preference.DialogPreference;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.support.v4.app.Fragment;
 
-import com.voidsong.eccu.LoginActivity;
 import com.voidsong.eccu.R;
+import com.voidsong.eccu.support_classes.Settings;
 
 public class IPDialog extends DialogFragment{
     private EditText editText;

@@ -1,4 +1,4 @@
-package com.voidsong.eccu;
+package com.voidsong.eccu.fragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.graphics.Palette;
 
+import com.voidsong.eccu.R;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.network.Internet;
-import com.voidsong.eccu.support_classes.StringWorker;
 
 public class FragmentWeather extends RefreshableFragment {
 

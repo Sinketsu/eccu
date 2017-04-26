@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.voidsong.eccu.FragmentCamera;
-import com.voidsong.eccu.FragmentWeather;
+import com.voidsong.eccu.fragments.FragmentCamera;
+import com.voidsong.eccu.fragments.FragmentWeather;
 import com.voidsong.eccu.R;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 

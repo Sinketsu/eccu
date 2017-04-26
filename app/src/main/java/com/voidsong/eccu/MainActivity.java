@@ -1,7 +1,6 @@
 package com.voidsong.eccu;
 
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,10 +9,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
-import com.voidsong.eccu.interfaces.IController;
+import com.voidsong.eccu.dialogs.BulbDialog;
+import com.voidsong.eccu.dialogs.DoorDialog;
+import com.voidsong.eccu.dialogs.InfoDialog;
 import com.voidsong.eccu.support_classes.CustomFragmentPagerAdapter;
 
-public class MainActivity extends AppCompatActivity implements IController{
+public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbController,
+        DoorDialog.IDoorController, InfoDialog.IInfoController{
 
     ViewPager pager;
     CustomFragmentPagerAdapter pagerAdapter;
@@ -24,6 +26,10 @@ public class MainActivity extends AppCompatActivity implements IController{
     AppCompatButton refreshButton;
     AppCompatButton bulbButton;
     AppCompatButton doorButton;
+
+    DoorDialog doorDialog;
+    BulbDialog bulbDialog;
+    InfoDialog infoDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +49,32 @@ public class MainActivity extends AppCompatActivity implements IController{
         bulbButton = (AppCompatButton) findViewById(R.id.bulb);
         doorButton = (AppCompatButton) findViewById(R.id.door);
 
+        doorDialog = new DoorDialog();
+        bulbDialog = new BulbDialog();
+        infoDialog = new InfoDialog();
+
         doorButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                DialogFragment dialogFragment = new BulbDialog();
-                dialogFragment.show(getSupportFragmentManager(), "BulbControl");
+                doorDialog.show(getSupportFragmentManager(), "DoorControl");
             }
         });
 
-        bulbButton.setOnClickListener(new View.OnClickListener() {
+        bulbButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                bulbDialog.show(getSupportFragmentManager(), "BulbControl");
+            }
+        });
+
+        infoButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                bulbDialog.show(getSupportFragmentManager(), "InfoControl");
+            }
+        });
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("TAGMYTAG", "mi tuta");
@@ -77,16 +100,20 @@ public class MainActivity extends AppCompatActivity implements IController{
     }
 
     @Override
-    public void setActiveDoorCount(Integer active, Integer all) {
+    public void setOpenedDoorCount(Integer opened, Integer all) {
         String text = getResources().getString(R.string.door_label) +
                 getResources().getString(R.string.double_space) +
-                active +
+                opened +
                 getResources().getString(R.string.splitter) +
                 all;
         doorButton.setText(text);
     }
 
-
-
-
+    @Override
+    public void setTemperature(Integer temperature) {
+        String text = "" + temperature +
+                getResources().getString(R.string.one_space) +
+                getResources().getString(R.string.degree);
+        infoButton.setText(text);
+    }
 }

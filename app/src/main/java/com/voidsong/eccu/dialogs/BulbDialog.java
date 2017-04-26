@@ -1,4 +1,4 @@
-package com.voidsong.eccu;
+package com.voidsong.eccu.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ToggleButton;
 
-/**
- * Created by CoolHawk on 4/23/2017.
- */
+import com.voidsong.eccu.R;
 
 public class BulbDialog extends DialogFragment {
+
+    public interface IBulbController {
+        void setActiveBulbCount(Integer active, Integer all);
+    }
 
     @NonNull
     @Override
