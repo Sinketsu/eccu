@@ -139,7 +139,7 @@ public class Internet {
                     .certificatePinner(new CertificatePinner.Builder()
                             .add(Settings.getIp(), "sha256/3nXyfqT2mpHoZbP10u++TiE55PU+FSEDUHZqcb6O5EM=")
                             .build())
-                    .cookieJar(cookieJar)
+                    .cookieJar(new JavaNetCookieJar(cookieManager))
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .build();
         }
