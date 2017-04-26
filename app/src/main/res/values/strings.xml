@@ -11,7 +11,7 @@
     <string name="double_space">  </string>
     <string name="one_space"> </string>
     <string name="degree">&#176;C</string>
-    <string name="bulb_label">Свет</string>
-    <string name="door_label">Дверь</string>
+    <string name="bulb_label">Light</string>
+    <string name="door_label">Door</string>
     <string name="splitter">/</string>
 </resources>

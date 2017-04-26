@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Eccu</string>
+    <string name="logo_description">Logo of Eccu</string>
+    <string name="login_hint">Логин</string>
+    <string name="passwd_hint">Пароль</string>
+    <string name="log_in_button_text">Войти</string>
+    <string name="OK">ОК</string>
+    <string name="Cancel">Отмена</string>
+    <string name="DefaultIP">192.168.1.1</string>
+    <string name="checkbox_label">Сохранить пароль (небезопасно)</string>
+    <string name="double_space">  </string>
+    <string name="one_space"> </string>
+    <string name="degree">&#176;C</string>
+    <string name="bulb_label">Свет</string>
+    <string name="door_label">Дверь</string>
+    <string name="splitter">/</string>
+</resources>
