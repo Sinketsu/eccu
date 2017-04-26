@@ -130,7 +130,12 @@ public class LoginActivity extends AppCompatActivity {
         Settings.loadInfo();
 
         if (StringWorker.equals(Settings.getIp(), "")) {
-            // TODO show dialog for input ap address
+            snackbar = Snackbar.make(button, "Please enter the IP adress", Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.WHITE)
+                    .setAction("OK", snackbarClickListener);
+            View view = snackbar.getView();
+            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+            snackbar.show();
         }
 
         loginText.setText(Settings.getLogin());
@@ -140,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
             Settings.load_saved_passwords();
             //Log.d("TOG1", Settings.getSaved_passwd());
             passwordText.setText(Settings.getSaved_passwd());
-            // TODO show notification about weak security.
         }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

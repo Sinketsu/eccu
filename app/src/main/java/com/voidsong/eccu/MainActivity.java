@@ -2,7 +2,6 @@ package com.voidsong.eccu;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements IController{
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        // ignore :)
+    }
 
     @Override
     public void setActiveBulbCount(Integer active, Integer all) {
