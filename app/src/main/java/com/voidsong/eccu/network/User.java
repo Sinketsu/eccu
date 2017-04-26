@@ -7,17 +7,21 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.Headers;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import android.util.Base64;
+import android.util.Log;
 
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.network.Internet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.R.attr.x;
 
 public class User {
 
@@ -43,6 +47,9 @@ public class User {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if(response.code() == 200) {
+                        for (String a : response.headers().names()) {
+                            Log.d("TAGMYTAG", a);
+                        }
                         String text = response.body().string();
                         try {
                             JSONObject jsonObject = new JSONObject(text);

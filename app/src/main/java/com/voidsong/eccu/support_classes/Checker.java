@@ -7,6 +7,7 @@ import android.os.Build;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Checker {
 
@@ -31,7 +32,8 @@ public class Checker {
             try {
                 FileInputStream fin = context.openFileInput("saved_keys");
                 HAS_SAVED_PASSWORDS = true;
-            } catch (FileNotFoundException e) {
+                fin.close();
+            } catch (IOException e) {
                 HAS_SAVED_PASSWORDS = false;
             }
             SAVED_PASSWORD_CHECKED = true;

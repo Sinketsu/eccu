@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import java.security.GeneralSecurityException;
+import java.util.Set;
 
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
@@ -79,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 String login = loginText.getText().toString();
                 String password = passwordText.getText().toString();
 
+                Settings.setState(checkbox.isChecked());
                 Settings.saveInfo(login);
 
                 User.authenticate(login, password);
@@ -91,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                         Settings.load(password);
                     }
                     if (checkbox.isChecked()) {
+                        Settings.setSaved_passwd(password);
                         Settings.save_saved_passwords();
                     } else {
                         Settings.save(password);
@@ -119,18 +122,21 @@ public class LoginActivity extends AppCompatActivity {
 
         EccuCipher.setContext(getApplicationContext());
 
+        Settings.setContext(getApplicationContext());
+
         try {
             Internet.Init();
         } catch (SecurityErrorException | GeneralSecurityException e) {
             e.printStackTrace(); // TODO change
         }
 
-        Settings.setContext(getApplicationContext());
+
 
         Settings.loadInfo();
+        checkbox.setChecked(Settings.getState());
 
         if (StringWorker.equals(Settings.getIp(), "")) {
-            snackbar = Snackbar.make(button, "Please enter the IP adress", Snackbar.LENGTH_LONG)
+            snackbar = Snackbar.make(button, "Please enter the IP adress", Snackbar.LENGTH_INDEFINITE)
                     .setActionTextColor(Color.WHITE)
                     .setAction("OK", snackbarClickListener);
             View view = snackbar.getView();
@@ -146,8 +152,8 @@ public class LoginActivity extends AppCompatActivity {
             //Log.d("TOG1", Settings.getSaved_passwd());
             passwordText.setText(Settings.getSaved_passwd());
         }
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, MainActivity.class);
+        //startActivity(intent);
     }
 
     public void IPImageButton(View view){

@@ -51,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
+                android:focusable="false"
                 android:hint="@string/login_hint"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorLightGray" />
@@ -67,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="@string/passwd_hint"
+                android:focusable="false"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorLightGray" />
         </android.support.design.widget.TextInputLayout>

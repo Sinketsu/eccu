@@ -6,6 +6,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.voidsong.eccu.FragmentCamera;
 import com.voidsong.eccu.FragmentWeather;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
@@ -17,6 +21,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
@@ -35,6 +42,8 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.CertificatePinner;
+import okhttp3.CookieJar;
+import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -92,7 +101,10 @@ public class Internet {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                if (response.code() == 401)
+                    Log.d("TAGMYTAG", "not authorized...");
                 Log.d("TAGMYTAG", "mi tuta4");
+
                 InputStream inputStream = response.body().byteStream();
                 fragment.setImg(BitmapFactory.decodeStream(inputStream));
                 Log.d("TAGMYTAG", "mi tuta5");
@@ -106,14 +118,28 @@ public class Internet {
 
     private static OkHttpClient client;
 
+
+
+
+
+
     private static void CertificatePinning(SSLSocketFactory sslSocketFactory, X509TrustManager trustManager) {
         if (client == null) {
+
+            CookieManager cookieManager = new CookieManager();
+            cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+
+            ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(),
+                    new SharedPrefsCookiePersistor(Settings.getContext()));
+
+
             client = new OkHttpClient.Builder()
                     .sslSocketFactory(sslSocketFactory, trustManager)
                     .hostnameVerifier(new CustomHostNameVerifier())
                     .certificatePinner(new CertificatePinner.Builder()
                             .add(Settings.getIp(), "sha256/3nXyfqT2mpHoZbP10u++TiE55PU+FSEDUHZqcb6O5EM=")
                             .build())
+                    .cookieJar(cookieJar)
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .build();
         }
