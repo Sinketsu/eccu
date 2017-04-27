@@ -14,6 +14,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
@@ -32,6 +34,7 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.CertificatePinner;
+import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -109,17 +112,8 @@ public class Internet {
     private static void CertificatePinning(SSLSocketFactory sslSocketFactory, X509TrustManager trustManager) {
         if (client == null) {
 
-            // first variant
-            /*
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-            */
-
-            //second variant
-            /*
-            ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(),
-                    new SharedPrefsCookiePersistor(Settings.getContext()));
-            */
 
             client = new OkHttpClient.Builder()
                     .sslSocketFactory(sslSocketFactory, trustManager)
@@ -127,7 +121,7 @@ public class Internet {
                     .certificatePinner(new CertificatePinner.Builder()
                             .add(Settings.getIp(), "sha256/3nXyfqT2mpHoZbP10u++TiE55PU+FSEDUHZqcb6O5EM=")
                             .build())
-                    //.cookieJar(new JavaNetCookieJar(cookieManager))
+                    .cookieJar(new JavaNetCookieJar(cookieManager))
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .build();
         }

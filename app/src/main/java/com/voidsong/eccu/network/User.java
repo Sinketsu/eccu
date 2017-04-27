@@ -32,7 +32,7 @@ public class User {
                 = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
         String body = "username=" + username + "&password=" + password; // TODO create clsas for http params
         Request request = new Request.Builder()
-                .url("https://" + Settings.getIp() + "/auth")
+                .url("https://" + Settings.getIp() + "/auth/")
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
                 .build();
 
@@ -41,6 +41,7 @@ public class User {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //e.printStackTrace(); // TODO change
+                    Log.d("TAGMYTAG", "123");
                     status = "FAIL";
                 }
 
@@ -66,6 +67,10 @@ public class User {
                         status = "OK"; // TODO change
                     } else if(response.code() == 401) {
                         status = "INVALIDPASSWORD"; // TODO change
+                    } else {
+                        Log.d("TAGMYTAG", "" + response.code());
+                        //Log.d("TAGMYTAG", response.body().string());
+                        status = "NOT EMPTY";
                     }
                 }
             });

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
         infoButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                bulbDialog.show(getSupportFragmentManager(), "InfoControl");
+                infoDialog.show(getSupportFragmentManager(), "InfoControl");
             }
         });
 
