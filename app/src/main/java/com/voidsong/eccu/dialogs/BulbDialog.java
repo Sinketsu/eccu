@@ -55,11 +55,6 @@ public class BulbDialog extends DialogFragment {
 
     private Bulb[] array;
 
-    Switch bulb1;
-    Bundle args = new Bundle();
-
-    private boolean flag = false;
-
     public interface IBulbController {
         void setActiveBulbCount(Integer active, Integer all);
     }
@@ -102,5 +97,15 @@ public class BulbDialog extends DialogFragment {
             item.setState(item.getState()); // TODO change
         }
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        IBulbController activity = (IBulbController) getActivity();
+        int active = 0;
+        for (Bulb item : array)
+            if (item.getState())
+                active++;
+        activity.setActiveBulbCount(active, array.length);
     }
 }

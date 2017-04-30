@@ -83,6 +83,10 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
                 fragment.refresh();
             }
         });
+
+        int count = pagerAdapter.getCount();
+        for (int i = 0; i < count; i++)
+            pagerAdapter.getFragment(i).refresh();
     }
 
     @Override

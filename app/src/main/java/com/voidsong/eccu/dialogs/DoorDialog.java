@@ -7,8 +7,19 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import com.voidsong.eccu.R;
+import com.voidsong.eccu.network.Internet;
+import com.voidsong.eccu.support_classes.Settings;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class DoorDialog extends DialogFragment {
 
@@ -24,6 +35,40 @@ public class DoorDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_door, null);
+        final Button btn = (Button)main_view.findViewById(R.id.btn2);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OkHttpClient client = Internet.getClient();
+                Request request = new Request.Builder()
+                        .url("https://" + Settings.getIp() + "/api/get/light")
+                        .build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        btn.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn.setText("FAIL");
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        btn.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    btn.setText(response.body().string());
+                                } catch (IOException e) {
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
         builder.setView(main_view);
         return builder.create();
     }
