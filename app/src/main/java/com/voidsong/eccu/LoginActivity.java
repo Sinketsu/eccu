@@ -50,16 +50,22 @@ public class LoginActivity extends AppCompatActivity {
         Checker.check(getApplicationContext());
 
         if (Checker.detectDebug()) {
-            Log.d(TAG, "detecting debug"); // TODO change
+            Log.d(TAG, "detecting debug");
         }
 
         if (Checker.detectEmulator()) {
-            Log.d(TAG, "detecting emulator"); // TODO change
+            Log.d(TAG, "detecting emulator");
         }
 
         if (Checker.detectRoot()) {
-            Log.d(TAG, "detecting root"); // TODO change
-            // TODO Show notification about the lack of security
+            Log.d(TAG, "detecting root");
+            snackbar = Snackbar.make(button, getResources().getString(R.string.detected_root),
+                    Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.WHITE)
+                    .setAction(getResources().getString(R.string.ok), snackbarClickListener);
+            View view = snackbar.getView();
+            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorCyan));
+            snackbar.show();
         }
 
         //Intent intent = new Intent(this, MainActivity.class);
@@ -80,11 +86,11 @@ public class LoginActivity extends AppCompatActivity {
                 Settings.saveInfo(login);
 
                 User.authenticate(login, password);
-                // TODO showing loading circle
                 while(StringWorker.equals(User.getStatus(), "")) {
                 }
+
                 String _status = User.getStatus();
-                if (StringWorker.equals(_status, "OK")) {
+                if (StringWorker.equals(_status, User.OK)) {
                     if (!Checker.user_has_saved_password(getApplicationContext())) {
                         Settings.load(password);
                     }
@@ -97,22 +103,23 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-                } else if (StringWorker.equals(_status, "INVALIDPASSWORD")) {
-                    snackbar = Snackbar.make(button, "Invalid login/password", Snackbar.LENGTH_LONG)
+                } else if (StringWorker.equals(_status, User.INVALID_PASSWORD)) {
+                    snackbar = Snackbar.make(button, getResources().getString(R.string.invalid_login_password),
+                            Snackbar.LENGTH_LONG)
                             .setActionTextColor(Color.WHITE)
-                            .setAction("OK", snackbarClickListener);
+                            .setAction(getResources().getString(R.string.ok), snackbarClickListener);
                     View view = snackbar.getView();
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     snackbar.show();
                 } else {
-                    snackbar = Snackbar.make(button, "Connection issues", Snackbar.LENGTH_LONG)
+                    snackbar = Snackbar.make(button, getResources().getString(R.string.connection_issues),
+                            Snackbar.LENGTH_LONG)
                             .setActionTextColor(Color.WHITE)
-                            .setAction("OK", snackbarClickListener);
+                            .setAction(getResources().getString(R.string.ok), snackbarClickListener);
                     View view = snackbar.getView();
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     snackbar.show();
                 }
-
             }
         });
 
@@ -130,20 +137,18 @@ public class LoginActivity extends AppCompatActivity {
         checkbox.setChecked(Settings.getState());
 
         if (StringWorker.equals(Settings.getIp(), "")) {
-            snackbar = Snackbar.make(button, "Please enter the IP adress", Snackbar.LENGTH_INDEFINITE)
+            snackbar = Snackbar.make(button, getResources().getString(R.string.offer_to_enter_ip),
+                    Snackbar.LENGTH_INDEFINITE)
                     .setActionTextColor(Color.WHITE)
-                    .setAction("OK", snackbarClickListener);
+                    .setAction(getResources().getString(R.string.ok), snackbarClickListener);
             View view = snackbar.getView();
             view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
             snackbar.show();
         }
 
         loginText.setText(Settings.getLogin());
-        Log.d("TOG1", "hi0");
         if (Checker.user_has_saved_password(getApplicationContext())) {
-            Log.d("TOG1", "hi");
             Settings.load_saved_passwords();
-            //Log.d("TOG1", Settings.getSaved_passwd());
             passwordText.setText(Settings.getSaved_passwd());
         }
         //Intent intent = new Intent(this, MainActivity.class);
@@ -152,6 +157,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void IPImageButton(View view){
         DialogFragment newFragment = new IPDialog();
-        newFragment.show(getSupportFragmentManager(), "IPSettings");
+        newFragment.show(getSupportFragmentManager(), IPDialog.ID);
     }
 }

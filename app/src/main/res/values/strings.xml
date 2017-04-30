@@ -4,7 +4,7 @@
     <string name="login_hint">Login</string>
     <string name="passwd_hint">Password</string>
     <string name="log_in_button_text">Log in</string>
-    <string name="OK">OK</string>
+    <string name="ok">OK</string>
     <string name="Cancel">Cancel</string>
     <string name="DefaultIP">192.168.1.1</string>
     <string name="checkbox_label">Save password (insecure)</string>
@@ -14,4 +14,8 @@
     <string name="bulb_label">Light</string>
     <string name="door_label">Door</string>
     <string name="splitter">/</string>
+    <string name="invalid_login_password">Invalid login/password</string>
+    <string name="connection_issues">Connection issues</string>
+    <string name="offer_to_enter_ip">Please enter the IP address:</string>
+    <string name="detected_root">Detected root. We don`t guarantee the safety</string>
 </resources>

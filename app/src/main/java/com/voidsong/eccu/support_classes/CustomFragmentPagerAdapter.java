@@ -16,12 +16,6 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter{
 
     public CustomFragmentPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
-        /*
-        fragments[0] = FragmentCamera.new_instance(R.drawable.fon, true);
-        fragments[1] = FragmentCamera.new_instance(R.drawable.set, true);
-        fragments[2] = FragmentCamera.new_instance(R.drawable.logo, true);
-        fragments[3] = FragmentCamera.new_instance(R.drawable.fon, true);
-        */
         titles[0] = "weather";
         titles[1] = "camera 1";
         titles[2] = "camera 2";

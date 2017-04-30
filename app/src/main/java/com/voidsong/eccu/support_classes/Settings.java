@@ -39,7 +39,6 @@ public class Settings {
             e.printStackTrace();
         }
         String data = jsonObject.toString();
-        Log.d("TOG1", data + "**");
         try {
             byte[] result = new byte[0];
             try {
@@ -50,11 +49,9 @@ public class Settings {
             }
 
             String encoded_data = EccuCipher.encode64(result);
-            Log.d("TOG1", encoded_data + "&");
             FileOutputStream file = context.openFileOutput("saved_keys", Context.MODE_PRIVATE);
             file.write(encoded_data.getBytes());
             file.close();
-            Log.d("TOG1", "finish writing");
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             // it can't happen because the HmacSHA256 is exist and
             // UTF-8 is supported by default.
@@ -190,11 +187,9 @@ public class Settings {
             string = get_all_from_file(saved_keys);
             saved_keys.close();
         } catch (IOException e) {
-            Log.d("TOG1", "Oops");
             e.printStackTrace();
             // it can't happen because the previous existence check.
         }
-        Log.d("TOG1", string + " - ");
         byte[] data = EccuCipher.decode64(string);
         String result = "";
 
@@ -209,7 +204,6 @@ public class Settings {
         } catch (InvalidKeyException e) {
             // TODO change
         }
-        Log.d("TOG1", result);
         try {
             JSONObject jsonObject = new JSONObject(result);
             saved_passwd = jsonObject.getString("passwd");

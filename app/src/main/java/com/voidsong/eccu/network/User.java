@@ -7,32 +7,37 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.Headers;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import android.util.Base64;
-import android.util.Log;
 
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.network.Internet;
+import com.voidsong.eccu.support_classes.RequestBodyBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static android.R.attr.x;
-
 public class User {
+
+    public static final String OK = "OK";
+    public static final String INVALID_PASSWORD = "INVALID_PASSWORD";
+    public static final String CONNECTION_ISSUES = "CONNECTION ISSUES";
 
     public static void authenticate(String username, String password) {
         status = "";
 
         MediaType MEDIA_TYPE_MARKDOWN
                 = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-        String body = "username=" + username + "&password=" + password; // TODO create clsas for http params
+        String body = new RequestBodyBuilder()
+                .add("username", username)
+                .add("password", password)
+                .build();
+        //String body = "username=" + username + "&password=" + password; // TODO create clsas for http params
         Request request = new Request.Builder()
-                .url("https://" + Settings.getIp() + "/auth/")
+                .url(API.SCHEME + Settings.getIp() + API.AUTH)
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
                 .build();
 
@@ -40,17 +45,12 @@ public class User {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    //e.printStackTrace(); // TODO change
-                    Log.d("TAGMYTAG", "123");
-                    status = "FAIL";
+                    status = CONNECTION_ISSUES;
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if(response.code() == 200) {
-                        for (String a : response.headers().names()) {
-                            Log.d("TAGMYTAG", a);
-                        }
                         String text = response.body().string();
                         try {
                             JSONObject jsonObject = new JSONObject(text);
@@ -59,18 +59,16 @@ public class User {
                                 base64_key = new String(Base64.decode(base64_key, Base64.DEFAULT), "UTF-8");
                                 cipher_key = base64_key.toCharArray();
                             } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace(); // TODO change
+                                // TODO change
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace(); // TODO change
+                            // TODO change
                         }
-                        status = "OK"; // TODO change
+                        status = OK; // TODO change
                     } else if(response.code() == 401) {
-                        status = "INVALIDPASSWORD"; // TODO change
+                        status = INVALID_PASSWORD; // TODO change
                     } else {
-                        Log.d("TAGMYTAG", "" + response.code());
-                        //Log.d("TAGMYTAG", response.body().string());
-                        status = "NOT EMPTY";
+                        status = CONNECTION_ISSUES;
                     }
                 }
             });

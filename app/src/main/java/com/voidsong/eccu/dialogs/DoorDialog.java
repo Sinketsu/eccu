@@ -12,6 +12,8 @@ import com.voidsong.eccu.R;
 
 public class DoorDialog extends DialogFragment {
 
+    public static final String ID = "DoorControl";
+
     public interface IDoorController {
         void setOpenedDoorCount(Integer opened, Integer all);
     }

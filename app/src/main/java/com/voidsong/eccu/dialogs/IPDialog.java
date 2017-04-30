@@ -13,6 +13,9 @@ import com.voidsong.eccu.R;
 import com.voidsong.eccu.support_classes.Settings;
 
 public class IPDialog extends DialogFragment{
+
+    public static final String ID = "IPDialog";
+
     private EditText editText;
 
     @Override

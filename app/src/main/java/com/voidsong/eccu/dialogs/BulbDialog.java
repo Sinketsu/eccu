@@ -21,6 +21,8 @@ import static android.content.ContentValues.TAG;
 
 public class BulbDialog extends DialogFragment {
 
+    public static final String ID = "BulbControl";
+
     Switch bulb1;
     Bundle args = new Bundle();
 
@@ -33,12 +35,10 @@ public class BulbDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Log.d("heyhey", "onCreateDialog: ");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setNegativeButton("НИХТ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("heyhey", "onClickNegative: ");
                         dialog.dismiss();
                     }
                 });

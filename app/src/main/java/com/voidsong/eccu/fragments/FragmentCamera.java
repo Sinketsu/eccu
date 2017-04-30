@@ -10,7 +10,9 @@ import android.widget.ImageView;
 
 import com.voidsong.eccu.R;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
+import com.voidsong.eccu.network.API;
 import com.voidsong.eccu.network.Internet;
+import com.voidsong.eccu.support_classes.Settings;
 
 public class FragmentCamera extends RefreshableFragment {
 
@@ -46,8 +48,7 @@ public class FragmentCamera extends RefreshableFragment {
 
     public void refresh() {
         if (_available) {
-            Log.d("TAGMYTAG", "mi tuta2");
-            Internet.updateImage("https://192.168.43.119/photo", this);
+            Internet.updateImage(API.SCHEME + Settings.getIp() + API.CAMERA, this);
         }
     }
 
@@ -62,7 +63,7 @@ public class FragmentCamera extends RefreshableFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera, null);
+        View view = inflater.inflate(R.layout.fragment_camera, container);
 
         img = (ImageView) view.findViewById(R.id.image);
         img.setImageResource(_img_id);

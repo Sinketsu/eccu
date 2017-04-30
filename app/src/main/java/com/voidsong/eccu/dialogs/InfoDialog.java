@@ -12,6 +12,8 @@ import com.voidsong.eccu.R;
 
 public class InfoDialog extends DialogFragment {
 
+    public static final String ID = "InfoControl";
+
     public interface IInfoController {
         void setTemperature(Integer temperature);
     }

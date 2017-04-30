@@ -4,7 +4,7 @@
     <string name="login_hint">Логин</string>
     <string name="passwd_hint">Пароль</string>
     <string name="log_in_button_text">Войти</string>
-    <string name="OK">ОК</string>
+    <string name="ok">ОК</string>
     <string name="Cancel">Отмена</string>
     <string name="DefaultIP">192.168.1.1</string>
     <string name="checkbox_label">Сохранить пароль (небезопасно)</string>
@@ -14,4 +14,8 @@
     <string name="bulb_label">Свет</string>
     <string name="door_label">Дверь</string>
     <string name="splitter">/</string>
+    <string name="connection_issues">Проблемы с сетью</string>
+    <string name="detected_root">Обнаружены root-права. Мы не гарантируем безопасность</string>
+    <string name="invalid_login_password">Неправильный логин/пароль</string>
+    <string name="offer_to_enter_ip">Пожалуйста, введите IP адрес:</string>
 </resources>

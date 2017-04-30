@@ -1,15 +1,11 @@
 package com.voidsong.eccu;
 
-import android.annotation.TargetApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.transition.Explode;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.dialogs.BulbDialog;
@@ -19,6 +15,8 @@ import com.voidsong.eccu.support_classes.CustomFragmentPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbController,
         DoorDialog.IDoorController, InfoDialog.IInfoController{
+
+    private final String TAG = "ECCU/MainActivity";
 
     ViewPager pager;
     CustomFragmentPagerAdapter pagerAdapter;
@@ -37,9 +35,6 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // try to add animations
-        setAnimations();
 
         setContentView(R.layout.activity_main);
 
@@ -63,28 +58,27 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
         doorButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                doorDialog.show(getSupportFragmentManager(), "DoorControl");
+                doorDialog.show(getSupportFragmentManager(), DoorDialog.ID);
             }
         });
 
         bulbButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                bulbDialog.show(getSupportFragmentManager(), "BulbControl");
+                bulbDialog.show(getSupportFragmentManager(), BulbDialog.ID);
             }
         });
 
         infoButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                infoDialog.show(getSupportFragmentManager(), "InfoControl");
+                infoDialog.show(getSupportFragmentManager(), InfoDialog.ID);
             }
         });
 
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAGMYTAG", "mi tuta");
                 RefreshableFragment fragment = pagerAdapter.getFragment(pager.getCurrentItem());
                 fragment.refresh();
             }
@@ -122,11 +116,5 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
                 getResources().getString(R.string.one_space) +
                 getResources().getString(R.string.degree);
         infoButton.setText(text);
-    }
-
-    @TargetApi(21)
-    private void setAnimations() {
-        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-        getWindow().setEnterTransition(new Explode());
     }
 }
