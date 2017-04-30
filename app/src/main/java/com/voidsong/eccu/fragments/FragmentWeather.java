@@ -97,7 +97,7 @@ public class FragmentWeather extends RefreshableFragment {
             }
         });
 
-        /*switch (comment) {
+        switch (comment) {
             case "пасмурно":
                 setImg(R.drawable.weather_overcast);
                 break;
@@ -107,9 +107,33 @@ public class FragmentWeather extends RefreshableFragment {
             case "облачно с прояснениями":
                 setImg(R.drawable.weather_cloudy);
                 break;
+            case "ясно":
+                setImg(R.drawable.weather_clear);
+                break;
+            case "малооблачно":
+                setImg(R.drawable.weather_cloudy);
+                break;
+            case "сильный дождь":
+                setImg(R.drawable.weather_rain);
+                break;
+            case "дождь":
+                setImg(R.drawable.weather_rain);
+                break;
+            case "снег":
+                setImg(R.drawable.weather_snow);
+                break;
+            case "снегопад":
+                setImg(R.drawable.weather_snow);
+                break;
+            case "небольшой снег":
+                setImg(R.drawable.weather_small_snow);
+                break;
+            case "дождь со снегом":
+                setImg(R.drawable.weather_snow_with_rain);
+                break;
             default:
                 setImg(R.drawable.weather_default);
-        }*/
+        }
 
     }
 
