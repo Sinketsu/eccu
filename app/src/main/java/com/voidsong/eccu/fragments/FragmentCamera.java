@@ -19,6 +19,10 @@ public class FragmentCamera extends RefreshableFragment {
     static final String ARGUMENT_IMAGE_SRC = "image_src";
     static final String ARGUMENT_AVAILABLE = "available";
 
+    public interface IFragmentCameraControl {
+        void stopProgress();
+    }
+
     int _img_id;
     boolean _available;
     ImageView img;
@@ -30,6 +34,7 @@ public class FragmentCamera extends RefreshableFragment {
                 img.setImageBitmap(bitmap);
             }
         });
+
     }
 
     @Override

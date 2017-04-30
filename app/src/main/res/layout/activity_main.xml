@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="@dimen/main_activity_vertical_margin"
     android:paddingLeft="@dimen/main_activity_horizontal_margin"
@@ -54,6 +55,7 @@
                 android:layout_marginRight="@dimen/main_activity_small_margin"
                 android:layout_marginBottom="@dimen/main_activity_small_margin" />
 
+            <!--
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/refresh"
                 android:layout_width="0dp"
@@ -66,6 +68,25 @@
                 android:layout_marginBottom="@dimen/main_activity_small_margin"
                 android:layout_marginLeft="@dimen/main_activity_small_margin"
                 android:layout_marginStart="@dimen/main_activity_small_margin"/>
+            -->
+            <com.dd.CircularProgressButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:layout_marginTop="@dimen/main_activity_big_margin"
+                android:layout_marginEnd="@dimen/main_activity_big_margin"
+                android:layout_marginRight="@dimen/main_activity_big_margin"
+                android:layout_marginBottom="@dimen/main_activity_small_margin"
+                android:layout_marginLeft="@dimen/main_activity_small_margin"
+                android:layout_marginStart="@dimen/main_activity_small_margin"
+                android:background="@color/colorPrimary"
+                app:cpb_selectorIdle="@drawable/idle_state_selector"
+                app:cpb_textIdle="Update"
+                android:textSize="22sp"
+                app:cpb_cornerRadius="10dp"
+                android:id="@+id/PB"
+                android:textColor="@color/colorWhite"
+                />
 
         </LinearLayout>
 

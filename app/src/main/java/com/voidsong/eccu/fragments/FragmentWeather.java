@@ -21,6 +21,10 @@ public class FragmentWeather extends RefreshableFragment {
 
     static final String ARGUMENT_AVAILABLE = "available";
 
+    public interface IFragmentWeatherControl {
+        void stopProgress();
+    }
+
     ImageView img;
     boolean _available;
 

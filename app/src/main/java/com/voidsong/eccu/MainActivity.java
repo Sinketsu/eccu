@@ -7,14 +7,18 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 
+import com.dd.CircularProgressButton;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.dialogs.BulbDialog;
 import com.voidsong.eccu.dialogs.DoorDialog;
 import com.voidsong.eccu.dialogs.InfoDialog;
+import com.voidsong.eccu.fragments.FragmentCamera;
+import com.voidsong.eccu.fragments.FragmentWeather;
 import com.voidsong.eccu.support_classes.CustomFragmentPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbController,
-        DoorDialog.IDoorController, InfoDialog.IInfoController{
+        DoorDialog.IDoorController, InfoDialog.IInfoController, FragmentCamera.IFragmentCameraControl,
+        FragmentWeather.IFragmentWeatherControl{
 
     private final String TAG = "ECCU/MainActivity";
 
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
     AppCompatButton refreshButton;
     AppCompatButton bulbButton;
     AppCompatButton doorButton;
+    CircularProgressButton pbutton;
 
     DoorDialog doorDialog;
     BulbDialog bulbDialog;
@@ -50,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
         refreshButton = (AppCompatButton) findViewById(R.id.refresh);
         bulbButton = (AppCompatButton) findViewById(R.id.bulb);
         doorButton = (AppCompatButton) findViewById(R.id.door);
+        pbutton = (CircularProgressButton) findViewById(R.id.PB);
+        pbutton.setIndeterminateProgressMode(true);
 
         doorDialog = new DoorDialog();
         bulbDialog = new BulbDialog();
@@ -76,13 +83,28 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
             }
         });
 
+        pbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pbutton.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        pbutton.setProgress(50);
+                    }
+                });
+                RefreshableFragment fragment = pagerAdapter.getFragment(pager.getCurrentItem());
+                fragment.refresh();
+            }
+        });
+
+        /*
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RefreshableFragment fragment = pagerAdapter.getFragment(pager.getCurrentItem());
                 fragment.refresh();
             }
-        });
+        });*/
 
         int count = pagerAdapter.getCount();
         for (int i = 0; i < count; i++)
@@ -120,5 +142,10 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
                 getResources().getString(R.string.one_space) +
                 getResources().getString(R.string.degree);
         infoButton.setText(text);
+    }
+
+    @Override
+    public void stopProgress() {
+        pbutton.setProgress(0);
     }
 }
