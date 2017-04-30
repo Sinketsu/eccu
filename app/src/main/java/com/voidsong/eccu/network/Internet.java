@@ -2,12 +2,13 @@ package com.voidsong.eccu.network;
 
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.voidsong.eccu.fragments.FragmentCamera;
 import com.voidsong.eccu.fragments.FragmentWeather;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
+import com.voidsong.eccu.support_classes.EccuCipher;
 import com.voidsong.eccu.support_classes.Settings;
+import com.voidsong.eccu.support_classes.RequestBodyBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,8 +36,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.CertificatePinner;
 import okhttp3.JavaNetCookieJar;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
 
@@ -79,26 +82,19 @@ public class Internet {
     }
 
     public static void updateImage(String url, final FragmentCamera fragment) {
-        Log.d("TAGMYTAG", "mi tuta3");
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TAGMYTAG", "mi tuta!! AAAAAAA");
                 e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.code() == 401)
-                    Log.d("TAGMYTAG", "not authorized...");
-                Log.d("TAGMYTAG", "mi tuta4");
-
                 InputStream inputStream = response.body().byteStream();
                 fragment.setImg(BitmapFactory.decodeStream(inputStream));
-                Log.d("TAGMYTAG", "mi tuta5");
             }
         });
     }
@@ -107,7 +103,29 @@ public class Internet {
         return client;
     }
 
+    public static void post(String url, String data) {
+        String body = new RequestBodyBuilder()
+                .add("data", data)
+                .add("hash", EccuCipher.hash(data))
+                .build();
+        Request request = new Request.Builder()
+                .url(API.SCHEME + Settings.getIp() + url)
+                .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+            }
+        });
+    }
+
     private static OkHttpClient client;
+    private static MediaType MEDIA_TYPE_MARKDOWN
+            = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
     private static void CertificatePinning(SSLSocketFactory sslSocketFactory, X509TrustManager trustManager) {
         if (client == null) {

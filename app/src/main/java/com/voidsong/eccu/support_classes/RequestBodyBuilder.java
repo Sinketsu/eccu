@@ -12,9 +12,12 @@ public class RequestBodyBuilder {
     }
 
     public String build() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Map.Entry<String, String> item : map.entrySet())
-            result += item.getKey() + "=" + item.getValue() + "&";
-        return result.substring(0, result.length() - 1);
+            result.append(item.getKey())
+                .append("=")
+                .append(item.getValue())
+                .append("&");
+        return result.toString().substring(0, result.length() - 1);
     }
 }

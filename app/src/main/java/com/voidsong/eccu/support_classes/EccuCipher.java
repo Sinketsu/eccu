@@ -6,6 +6,7 @@ import android.util.Base64;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.AlgorithmParameterSpec;
 
@@ -85,5 +86,21 @@ public class EccuCipher {
         AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(password), ivSpec);
         return new String(cipher.doFinal(data));
+    }
+
+    public static String hash(String data) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-384");
+            messageDigest.update(data.getBytes());
+            byte[] hashed = messageDigest.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (byte i : hashed)
+                sb.append(Integer.toString((i & 0xff) + 0x100, 16).substring(1));
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            // SHA-384 exist!
+        }
+        return "";
     }
 }

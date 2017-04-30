@@ -90,8 +90,7 @@
                 android:drawableTop="@drawable/icon_bulb"
                 android:text="@string/bulb_label"
                 android:textSize="22sp"
-                android:textColor="@color/colorWhite"
-                android:onClick="OnBulbButtonClick"/>
+                android:textColor="@color/colorWhite"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/door"
