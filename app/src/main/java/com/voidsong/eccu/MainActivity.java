@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
                 getResources().getString(R.string.splitter) +
                 all;
         bulbButton.setText(text);
+        Log.d("TAGMYTAG", bulbButton.getText().toString());
     }
 
     @Override

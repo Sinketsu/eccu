@@ -34,9 +34,9 @@ public class BulbDialog extends DialogFragment {
         public void setControl(Switch s) {
             control = s;
             control.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Log.d("TAGY", "cahnged to " + isChecked);
                     state = isChecked;
                 }
             });
@@ -73,8 +73,8 @@ public class BulbDialog extends DialogFragment {
                         });
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_bulb, null);
-
         if (array == null) {
+            Log.d("TAGY", "you must see that only once");
             array = new Bulb[2];
             array[0] = new Bulb();
             array[0].setId(0);
@@ -82,8 +82,11 @@ public class BulbDialog extends DialogFragment {
             array[0].setState(false);
             array[1] = new Bulb();
             array[1].setId(1);
-            array[1].setControl((Switch) main_view.findViewById(R.id.Bulb1));
+            array[1].setControl((Switch) main_view.findViewById(R.id.Bulb2));
             array[1].setState(false);
+        } else {
+            array[0].setControl((Switch) main_view.findViewById(R.id.Bulb1));
+            array[1].setControl((Switch) main_view.findViewById(R.id.Bulb2));
         }
 
         builder.setView(main_view);
@@ -92,15 +95,18 @@ public class BulbDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         for (Bulb item : array) {
             item.setState(item.getState()); // TODO change
         }
+        Log.d("TAGY", (array[0].getState()) ? "T" : "F");
+        Log.d("TAGY", (array[1].getState()) ? "T" : "F");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onCancel(DialogInterface dialog) {
+        Log.d("TAGY", (array[0].getState()) ? "T" : "F");
+        Log.d("TAGY", (array[1].getState()) ? "T" : "F");
         IBulbController activity = (IBulbController) getActivity();
         int active = 0;
         for (Bulb item : array)
