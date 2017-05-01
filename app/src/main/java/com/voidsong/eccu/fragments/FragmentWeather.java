@@ -1,9 +1,11 @@
 package com.voidsong.eccu.fragments;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +52,7 @@ public class FragmentWeather extends RefreshableFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_weather, container);
+        View view = inflater.inflate(R.layout.fragment_weather, null);
 
         img = (ImageView) view.findViewById(R.id.weather_image);
         _temperature_tv = (TextView) view.findViewById(R.id.temperature);
@@ -58,17 +60,22 @@ public class FragmentWeather extends RefreshableFragment {
         _wind_velocity_tv = (TextView) view.findViewById(R.id.wind_velocity);
         _wind_direction_tv = (TextView) view.findViewById(R.id.wind_direction);
 
+        refresh();
         return view;
     }
 
     public void refresh() {
+        Log.d("TAGMYTAG", "in refresh method");
         Internet.updateWeatherData(API.SCHEME + Settings.getIp() + API.WEATHER, this);
     }
 
-    public void updateData(String temperature, final String wind_d, final String wind_v, final String comment) {
-        final String text = temperature + getString(R.string.one_space) + getString(R.string.degree);
-        setImg(R.drawable.fon);
-
+    public void updateData(final String temperature, final String wind_d, final String wind_v, final String comment) {
+        Log.d("TAGMYTAG", "updating data");
+        Log.d("TAGMYTAG", "updating data");
+        final String text = temperature + getResources().getString(R.string.one_space) +
+                getResources().getString(R.string.degree);
+        //setImg(R.drawable.fon);
+        Log.d("TAGMYTAG", "setImg");
         _temperature_tv.post(new Runnable() {
 
             @Override
@@ -138,7 +145,6 @@ public class FragmentWeather extends RefreshableFragment {
             default:
                 setImg(R.drawable.weather_default);
         }
-
     }
 
     @Override
@@ -148,6 +154,7 @@ public class FragmentWeather extends RefreshableFragment {
 
 
     private void setImg(int id) {
+        Log.d("TAGMYTAG", "in setImg");
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), id);
 
         img.post(new Runnable() {
@@ -158,7 +165,7 @@ public class FragmentWeather extends RefreshableFragment {
         });
 
         final Palette palette = Palette.from(bitmap).generate();
-        final Integer color = palette.getVibrantColor(Color.rgb(255, 255, 255));
+        final Integer color = palette.getLightVibrantColor(Color.rgb(255, 255, 255));
 
         _state_tv.post(new Runnable() {
 
@@ -192,7 +199,9 @@ public class FragmentWeather extends RefreshableFragment {
             }
         });
 
-        IFragmentWeatherControl activity = (IFragmentWeatherControl) getActivity();
-        activity.stopProgress();
+        if (getActivity() != null) {
+            IFragmentWeatherControl activity = (IFragmentWeatherControl) getActivity();
+            activity.stopProgress();
+        }
     }
 }

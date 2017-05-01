@@ -34,7 +34,7 @@ public class InfoDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Log.d("TAGMYTAG", "clicked"); // TODO delete
-                String url = API.SCHEME + Settings.getIp() + API.LIGHT;
+                String url = API.LIGHT;
                 Log.d("TAGMYTAG", "url: " + url);
                 String data = "{\"value\":1}";
                 Log.d("TAGMYTAG", "data: " + data);

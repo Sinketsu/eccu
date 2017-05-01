@@ -47,16 +47,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Checker.check(getApplicationContext());
+        loginText = (EditText)findViewById(R.id.input_login);
+        passwordText = (EditText)findViewById(R.id.input_password);
+        button = (AppCompatButton)findViewById(R.id.btn_login);
+        checkbox = (AppCompatCheckBox)findViewById(R.id.saved_passwd_checkbox);
 
+        Checker.check(getApplicationContext());
         if (Checker.detectDebug()) {
             Log.d(TAG, "detecting debug");
         }
-
         if (Checker.detectEmulator()) {
             Log.d(TAG, "detecting emulator");
         }
-
         if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root");
             snackbar = Snackbar.make(button, getResources().getString(R.string.detected_root),
@@ -67,13 +69,8 @@ public class LoginActivity extends AppCompatActivity {
             view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorCyan));
             snackbar.show();
         }
-
         //Intent intent = new Intent(this, MainActivity.class);
         //startActivity(intent);
-        loginText = (EditText)findViewById(R.id.input_login);
-        passwordText = (EditText)findViewById(R.id.input_password);
-        button = (AppCompatButton)findViewById(R.id.btn_login);
-        checkbox = (AppCompatCheckBox)findViewById(R.id.saved_passwd_checkbox);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,23 +81,24 @@ public class LoginActivity extends AppCompatActivity {
 
                 Settings.setState(checkbox.isChecked());
                 Settings.saveInfo(login);
-
+                Log.d("TAGMYTAG", "start auth");
                 User.authenticate(login, password);
                 while(StringWorker.equals(User.getStatus(), "")) {
                 }
-
+                Log.d("TAGMYTAG", "end auth with status - " + User.getStatus());
                 String _status = User.getStatus();
                 if (StringWorker.equals(_status, User.OK)) {
                     if (!Checker.user_has_saved_password(getApplicationContext())) {
                         Settings.load(password);
                     }
                     if (checkbox.isChecked()) {
+                        Log.d("TAGMYTAG", "saving pass");
                         Settings.setSaved_passwd(password);
                         Settings.save_saved_passwords();
                     } else {
                         Settings.save(password);
                     }
-
+                    Log.d("TAGMYTAG", "go to main activity");
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (StringWorker.equals(_status, User.INVALID_PASSWORD)) {
@@ -127,13 +125,11 @@ public class LoginActivity extends AppCompatActivity {
 
         Settings.setContext(getApplicationContext());
         Settings.loadInfo();
-
         try {
             Internet.Init();
         } catch (SecurityErrorException | GeneralSecurityException e) {
             e.printStackTrace(); // TODO change
         }
-
         checkbox.setChecked(Settings.getState());
 
         if (StringWorker.equals(Settings.getIp(), "")) {
@@ -145,7 +141,6 @@ public class LoginActivity extends AppCompatActivity {
             view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
             snackbar.show();
         }
-
         loginText.setText(Settings.getLogin());
         if (Checker.user_has_saved_password(getApplicationContext())) {
             Settings.load_saved_passwords();

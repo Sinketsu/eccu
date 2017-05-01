@@ -35,19 +35,19 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter{
                 fragments[0] = fragment;
                 return fragment;
             case 1:
-                fragment = FragmentCamera.new_instance(R.drawable.set, true);
+                fragment = FragmentCamera.new_instance(R.drawable.cam_refresh, true);
                 fragments[1] = fragment;
                 return fragment;
             case 2:
-                fragment = FragmentCamera.new_instance(R.drawable.logo, false);
+                fragment = FragmentCamera.new_instance(R.drawable.cam_not_available, false);
                 fragments[2] = fragment;
                 return fragment;
             case 3:
-                fragment = FragmentCamera.new_instance(R.drawable.fon, false);
+                fragment = FragmentCamera.new_instance(R.drawable.cam_not_available, false);
                 fragments[3] = fragment;
                 return fragment;
             default:
-                fragment = FragmentCamera.new_instance(R.drawable.fon, true);
+                fragment = FragmentCamera.new_instance(R.drawable.cam_not_available, false);
                 fragments[4] = fragment;
                 return fragment;
         }

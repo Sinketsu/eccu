@@ -35,7 +35,6 @@ public class User {
                 .add("username", username)
                 .add("password", password)
                 .build();
-        //String body = "username=" + username + "&password=" + password; // TODO create clsas for http params
         Request request = new Request.Builder()
                 .url(API.SCHEME + Settings.getIp() + API.AUTH)
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))

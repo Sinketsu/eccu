@@ -220,9 +220,12 @@ public class Settings {
     }
 
     public static String getIp() {
+        //return "192.168.0.103";
+
         if (ip == null)
             loadInfo();
         return ip;
+
     }
 
     public static void setIp(String IP) {

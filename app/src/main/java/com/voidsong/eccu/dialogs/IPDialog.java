@@ -27,7 +27,7 @@ public class IPDialog extends DialogFragment{
         editText = (EditText)  main_view.findViewById(R.id.ipaddress);
         editText.setText(Settings.getIp());
         builder.setView(main_view)
-                .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

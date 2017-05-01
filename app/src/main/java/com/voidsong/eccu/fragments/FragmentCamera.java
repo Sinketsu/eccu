@@ -56,6 +56,8 @@ public class FragmentCamera extends RefreshableFragment {
     public void refresh() {
         if (_available) {
             Internet.updateImage(API.SCHEME + Settings.getIp() + API.CAMERA, this);
+        } else {
+            ((IFragmentCameraControl)getActivity()).stopProgress();
         }
     }
 
@@ -70,7 +72,7 @@ public class FragmentCamera extends RefreshableFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera, container);
+        View view = inflater.inflate(R.layout.fragment_camera, null);
 
         img = (ImageView) view.findViewById(R.id.image);
         img.setImageResource(_img_id);

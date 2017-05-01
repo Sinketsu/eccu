@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.View;
 
 import com.dd.CircularProgressButton;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
 
         setContentView(R.layout.activity_main);
 
+        Log.d("TAGMYTAG", "started main activity");
+
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
@@ -64,9 +67,12 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
         pbutton.setIndeterminateProgressMode(true);
         // end progress button
 
+        Log.d("TAGMYTAG", "started create dialogs");
         doorDialog = new DoorDialog();
         bulbDialog = new BulbDialog();
         infoDialog = new InfoDialog();
+
+        Log.d("TAGMYTAG", "created dialogs");
 
         doorButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -109,9 +115,15 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
             }
         });*/
 
+
+        /*
         int count = pagerAdapter.getCount();
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++) {
+            pagerAdapter.getItem(i);
             pagerAdapter.getFragment(i).refresh();
+        }
+        */
+
     }
 
     @Override
@@ -149,6 +161,11 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
 
     @Override
     public void stopProgress() {
-        pbutton.setProgress(0);
+        pbutton.post(new Runnable() {
+            @Override
+            public void run() {
+                pbutton.setProgress(0);
+            }
+        });
     }
 }

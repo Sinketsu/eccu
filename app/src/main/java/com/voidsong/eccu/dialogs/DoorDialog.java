@@ -57,14 +57,12 @@ public class DoorDialog extends DialogFragment {
 
                     @Override
                     public void onResponse(Call call, final Response response) throws IOException {
-                        Log.d("TAGMYTAG", response.body().string());
+                        final String g = response.body().string();
+                        Log.d("TAGMYTAG", g);
                         btn.post(new Runnable() {
                             @Override
                             public void run() {
-                                try {
-                                    btn.setText(response.body().string());
-                                } catch (IOException e) {
-                                }
+                                btn.setText(g);
                             }
                         });
                     }
