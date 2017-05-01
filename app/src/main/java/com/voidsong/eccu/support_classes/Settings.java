@@ -119,7 +119,10 @@ public class Settings {
             FileInputStream info = context.openFileInput("info");
             json_string = get_all_from_file(info);
         } catch (FileNotFoundException e) {
-            // unhandled exception
+            login = "";
+            ip = "";
+            state = false;
+            return;
         }
 
         if (json_string.isEmpty()) {
@@ -217,11 +220,9 @@ public class Settings {
     }
 
     public static String getIp() {
-        return "192.168.43.119";/*
-        if (ip == null) {
-            return "192.168.43.119"; // TODO delete
-        }
-        return ip;*/
+        if (ip == null)
+            loadInfo();
+        return ip;
     }
 
     public static void setIp(String IP) {

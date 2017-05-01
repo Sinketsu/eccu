@@ -126,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
         EccuCipher.setContext(getApplicationContext());
 
         Settings.setContext(getApplicationContext());
+        Settings.loadInfo();
 
         try {
             Internet.Init();
@@ -133,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace(); // TODO change
         }
 
-        Settings.loadInfo();
         checkbox.setChecked(Settings.getState());
 
         if (StringWorker.equals(Settings.getIp(), "")) {
