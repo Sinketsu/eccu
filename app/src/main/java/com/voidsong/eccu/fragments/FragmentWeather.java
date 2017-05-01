@@ -191,5 +191,8 @@ public class FragmentWeather extends RefreshableFragment {
                 _temperature_tv.setTextColor(color);
             }
         });
+
+        IFragmentWeatherControl activity = (IFragmentWeatherControl) getActivity();
+        activity.stopProgress();
     }
 }

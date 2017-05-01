@@ -1,5 +1,6 @@
 package com.voidsong.eccu.fragments;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +35,8 @@ public class FragmentCamera extends RefreshableFragment {
                 img.setImageBitmap(bitmap);
             }
         });
-
+        IFragmentCameraControl activity = (IFragmentCameraControl) getActivity();
+        activity.stopProgress();
     }
 
     @Override

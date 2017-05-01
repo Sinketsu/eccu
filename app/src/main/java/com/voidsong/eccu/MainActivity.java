@@ -31,7 +31,10 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
     AppCompatButton refreshButton;
     AppCompatButton bulbButton;
     AppCompatButton doorButton;
+
+    // progress button
     CircularProgressButton pbutton;
+    // end progress button
 
     DoorDialog doorDialog;
     BulbDialog bulbDialog;
@@ -52,11 +55,14 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
         tabLayout.setupWithViewPager(pager);
 
         infoButton = (AppCompatButton) findViewById(R.id.info);
-        refreshButton = (AppCompatButton) findViewById(R.id.refresh);
+        //refreshButton = (AppCompatButton) findViewById(R.id.refresh);
         bulbButton = (AppCompatButton) findViewById(R.id.bulb);
         doorButton = (AppCompatButton) findViewById(R.id.door);
+
+        // progress button
         pbutton = (CircularProgressButton) findViewById(R.id.PB);
         pbutton.setIndeterminateProgressMode(true);
+        // end progress button
 
         doorDialog = new DoorDialog();
         bulbDialog = new BulbDialog();
@@ -83,19 +89,16 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
             }
         });
 
+        // progress button
         pbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pbutton.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        pbutton.setProgress(50);
-                    }
-                });
+                pbutton.setProgress(50);
                 RefreshableFragment fragment = pagerAdapter.getFragment(pager.getCurrentItem());
                 fragment.refresh();
             }
         });
+        // end progress button
 
         /*
         refreshButton.setOnClickListener(new View.OnClickListener() {
