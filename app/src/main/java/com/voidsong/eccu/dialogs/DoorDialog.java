@@ -71,7 +71,6 @@ public class DoorDialog extends DialogFragment {
                     }
                 });*/
                 d.switchState();
-
             }
         });
         builder.setView(main_view);
