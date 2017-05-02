@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
             @Override
             public void run() {
                 pbutton.setProgress(0);
+                //pbutton.clearFocus();
             }
         });
     }

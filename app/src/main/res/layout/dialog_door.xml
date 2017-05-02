@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/btn2"/>
+
+    <com.github.zagum.switchicon.SwitchIconView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icon_bulb"
+        app:si_disabled_alpha=".5"
+        app:si_tint_color="@color/colorRed"
+        app:si_no_dash="true"
+        android:id="@+id/SW"
+        app:si_enabled="false"
+        app:si_disabled_color="@color/colorLightGray"/>
 
 </LinearLayout>
