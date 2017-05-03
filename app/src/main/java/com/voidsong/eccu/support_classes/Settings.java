@@ -141,7 +141,9 @@ public class Settings {
 
             json_string = "";                // change this string for GC.
         } catch (JSONException e) {
-            e.printStackTrace();
+            login = "";
+            ip = "";
+            state = false;
         }
     }
 
@@ -220,12 +222,12 @@ public class Settings {
     }
 
     public static String getIp() {
-        //return "192.168.0.103";
-
+        return "192.168.0.102";
+        /*
         if (ip == null)
             loadInfo();
         return ip;
-
+        */
     }
 
     public static void setIp(String IP) {

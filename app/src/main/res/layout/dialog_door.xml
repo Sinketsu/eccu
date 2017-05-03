@@ -10,6 +10,7 @@
         android:layout_height="50dp"
         android:id="@+id/btn2"/>
 
+    <!--
     <com.github.zagum.switchicon.SwitchIconView
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -20,5 +21,6 @@
         android:id="@+id/SW"
         app:si_enabled="false"
         app:si_disabled_color="@color/colorLightGray"/>
+    -->
 
 </LinearLayout>

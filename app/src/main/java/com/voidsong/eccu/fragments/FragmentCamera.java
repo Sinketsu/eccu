@@ -15,6 +15,8 @@ import com.voidsong.eccu.network.API;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.support_classes.Settings;
 
+import okhttp3.HttpUrl;
+
 public class FragmentCamera extends RefreshableFragment {
 
     static final String ARGUMENT_IMAGE_SRC = "image_src";
@@ -55,7 +57,12 @@ public class FragmentCamera extends RefreshableFragment {
 
     public void refresh() {
         if (_available) {
-            Internet.updateImage(API.SCHEME + Settings.getIp() + API.CAMERA, this);
+            HttpUrl url = new HttpUrl.Builder()
+                    .scheme(API.SCHEME)
+                    .host(Settings.getIp())
+                    .addPathSegment(API.CAMERA)
+                    .build();
+            Internet.updateImage(url, this);
         } else {
             ((IFragmentCameraControl)getActivity()).stopProgress();
         }
@@ -72,7 +79,7 @@ public class FragmentCamera extends RefreshableFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera, null);
+        View view = inflater.inflate(R.layout.fragment_camera, container, false);
 
         img = (ImageView) view.findViewById(R.id.image);
         img.setImageResource(_img_id);

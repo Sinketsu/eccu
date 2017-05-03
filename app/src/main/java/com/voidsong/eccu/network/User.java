@@ -2,6 +2,7 @@ package com.voidsong.eccu.network;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,8 +36,13 @@ public class User {
                 .add("username", username)
                 .add("password", password)
                 .build();
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme(API.SCHEME)
+                .host(Settings.getIp())
+                .addPathSegment(API.AUTH)
+                .build();
         Request request = new Request.Builder()
-                .url(API.SCHEME + Settings.getIp() + API.AUTH)
+                .url(url)
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
                 .build();
 

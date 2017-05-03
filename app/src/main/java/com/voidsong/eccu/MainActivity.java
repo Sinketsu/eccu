@@ -15,7 +15,23 @@ import com.voidsong.eccu.dialogs.DoorDialog;
 import com.voidsong.eccu.dialogs.InfoDialog;
 import com.voidsong.eccu.fragments.FragmentCamera;
 import com.voidsong.eccu.fragments.FragmentWeather;
+import com.voidsong.eccu.network.API;
+import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.support_classes.CustomFragmentPagerAdapter;
+import com.voidsong.eccu.support_classes.EccuCipher;
+import com.voidsong.eccu.support_classes.Settings;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.security.SecureRandom;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbController,
         DoorDialog.IDoorController, InfoDialog.IInfoController, FragmentCamera.IFragmentCameraControl,
@@ -40,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
     DoorDialog doorDialog;
     BulbDialog bulbDialog;
     InfoDialog infoDialog;
+
+    SecureRandom random = new SecureRandom();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
                 fragment.refresh();
             }
         });
+
+        initial_get_data_from_server();
+
         // end progress button
 
         /*
@@ -154,10 +175,15 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
 
     @Override
     public void setTemperature(Integer temperature) {
-        String text = "" + temperature +
+        final String text = String.valueOf(temperature) +
                 getResources().getString(R.string.one_space) +
                 getResources().getString(R.string.degree);
-        infoButton.setText(text);
+        infoButton.post(new Runnable() {
+            @Override
+            public void run() {
+                infoButton.setText(text);
+            }
+        });
     }
 
     @Override
@@ -167,6 +193,32 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
             public void run() {
                 pbutton.setProgress(0);
                 //pbutton.clearFocus();
+            }
+        });
+    }
+
+    private void initial_get_data_from_server() {
+        String rnd = String.valueOf(random.nextInt());
+        HttpUrl temperature_url = new HttpUrl.Builder()
+                .scheme(API.SCHEME)
+                .host(Settings.getIp())
+                .addPathSegment(API.GET_SETTED_TEMPERATURE)
+                .addQueryParameter("rnd", rnd)
+                .addQueryParameter("hash", EccuCipher.hash(rnd))
+                .build();
+        Log.d("TAGMYTAG", temperature_url.toString());
+        Request temperature_request = new Request.Builder()
+                .url(temperature_url)
+                .build();
+        Internet.getClient().newCall(temperature_request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                int temperature = Integer.valueOf(response.body().string());
+                setTemperature(temperature);
             }
         });
     }

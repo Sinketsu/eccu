@@ -19,6 +19,8 @@ import com.voidsong.eccu.network.API;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.support_classes.Settings;
 
+import okhttp3.HttpUrl;
+
 public class FragmentWeather extends RefreshableFragment {
 
     static final String ARGUMENT_AVAILABLE = "available";
@@ -52,7 +54,7 @@ public class FragmentWeather extends RefreshableFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_weather, null);
+        View view = inflater.inflate(R.layout.fragment_weather, container, false);
 
         img = (ImageView) view.findViewById(R.id.weather_image);
         _temperature_tv = (TextView) view.findViewById(R.id.temperature);
@@ -66,7 +68,12 @@ public class FragmentWeather extends RefreshableFragment {
 
     public void refresh() {
         Log.d("TAGMYTAG", "in refresh method");
-        Internet.updateWeatherData(API.SCHEME + Settings.getIp() + API.WEATHER, this);
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme(API.SCHEME)
+                .host(Settings.getIp())
+                .addPathSegment(API.WEATHER)
+                .build();
+        Internet.updateWeatherData(url, this);
     }
 
     public void updateData(final String temperature, final String wind_d, final String wind_v, final String comment) {

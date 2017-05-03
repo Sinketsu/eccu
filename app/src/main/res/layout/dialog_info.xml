@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:text="TEST"
-            android:id="@+id/btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/temperature_text_view"
+            android:textSize="46sp"
+            android:textColor="@color/colorCyan"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal" />
 
-        <com.goodiebag.protractorview.ProtractorView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+        <com.xw.repo.BubbleSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:id="@+id/seekbar"
+            android:layout_marginBottom="50dp"
+            app:bsb_track_color="@color/colorLightGray"
+            app:bsb_second_track_color="@color/colorCyan"
+            app:bsb_track_size="6dp"
+            app:bsb_bubble_color="@color/colorCyan"
+            app:bsb_bubble_text_color="@color/colorWhite"
+            app:bsb_max="29"
+            app:bsb_min="17"
+            app:bsb_bubble_text_size="24sp"
+            app:bsb_thumb_radius="16dp"
             />
 
     </LinearLayout>

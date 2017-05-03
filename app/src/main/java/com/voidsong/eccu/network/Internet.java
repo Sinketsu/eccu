@@ -11,6 +11,7 @@ import com.voidsong.eccu.support_classes.EccuCipher;
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.support_classes.RequestBodyBuilder;
 
+import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +37,7 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.CertificatePinner;
+import okhttp3.HttpUrl;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -57,7 +59,7 @@ public class Internet {
         CertificatePinning(sslSocketFactory, trustManager);
     }
 
-    public static void updateWeatherData(String url, final FragmentWeather fragment) {
+    public static void updateWeatherData(HttpUrl url, final FragmentWeather fragment) {
         Log.d("TAGMYTAG", "Internet.updateWD");
         Request request = new Request.Builder()
                 .url(url)
@@ -85,7 +87,7 @@ public class Internet {
         });
     }
 
-    public static void updateImage(String url, final FragmentCamera fragment) {
+    public static void updateImage(HttpUrl url, final FragmentCamera fragment) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -109,7 +111,7 @@ public class Internet {
         return client;
     }
 
-    public static void post(String url, String data) {
+    public static void post(HttpUrl url, String data) {
         String body = new RequestBodyBuilder()
                 .add("data", data)
                 .add("hash", EccuCipher.hash(data))
@@ -117,7 +119,7 @@ public class Internet {
         Log.d("TAGMYTAG", "Internet: " + body);
         Log.d("TAGMYTAG", "URL: " + API.SCHEME + Settings.getIp() + url);
         Request request = new Request.Builder()
-                .url(API.SCHEME + Settings.getIp() + url)
+                .url(url)
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
                 .build();
         client.newCall(request).enqueue(new Callback() {

@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
-import com.github.zagum.switchicon.SwitchIconView;
+//import com.github.zagum.switchicon.SwitchIconView;
 import com.voidsong.eccu.R;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.support_classes.Settings;
@@ -38,7 +38,7 @@ public class DoorDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_door, null);
         final Button btn = (Button)main_view.findViewById(R.id.btn2);
-        final SwitchIconView d = (SwitchIconView)main_view.findViewById(R.id.SW);
+        //final SwitchIconView d = (SwitchIconView)main_view.findViewById(R.id.SW);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,10 +70,11 @@ public class DoorDialog extends DialogFragment {
                         });
                     }
                 });*/
-                d.switchState();
+                //d.switchState();
             }
         });
         builder.setView(main_view);
+
         return builder.create();
     }
 }

@@ -10,6 +10,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import java.security.GeneralSecurityException;
@@ -47,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         loginText = (EditText)findViewById(R.id.input_login);
         passwordText = (EditText)findViewById(R.id.input_password);
         button = (AppCompatButton)findViewById(R.id.btn_login);
@@ -61,13 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root");
-            snackbar = Snackbar.make(button, getResources().getString(R.string.detected_root),
-                    Snackbar.LENGTH_LONG)
-                    .setActionTextColor(Color.WHITE)
-                    .setAction(getResources().getString(R.string.ok), snackbarClickListener);
-            View view = snackbar.getView();
-            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorCyan));
-            snackbar.show();
         }
         //Intent intent = new Intent(this, MainActivity.class);
         //startActivity(intent);
