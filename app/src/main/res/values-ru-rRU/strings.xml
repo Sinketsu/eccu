@@ -18,4 +18,5 @@
     <string name="detected_root">Обнаружены root-права. Мы не гарантируем безопасность</string>
     <string name="invalid_login_password">Неправильный логин/пароль</string>
     <string name="offer_to_enter_ip">Пожалуйста, введите IP адрес:</string>
+    <string name="close">Закрыть</string>
 </resources>

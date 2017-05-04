@@ -18,4 +18,5 @@
     <string name="connection_issues">Connection issues</string>
     <string name="offer_to_enter_ip">Please enter the IP address:</string>
     <string name="detected_root">Detected root. We don`t guarantee the safety</string>
+    <string name="close">Close</string>
 </resources>

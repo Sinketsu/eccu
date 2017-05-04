@@ -71,7 +71,7 @@ public class InfoDialog extends DialogFragment {
                                 dialog.dismiss();
                             }
                         })
-                .setNegativeButton(getResources().getString(R.string.Cancel),
+                .setNegativeButton(getResources().getString(R.string.close),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

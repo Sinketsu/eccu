@@ -2,6 +2,7 @@ package com.voidsong.eccu.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -34,45 +35,17 @@ public class DoorDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setPositiveButton(getResources().getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_door, null);
-        final Button btn = (Button)main_view.findViewById(R.id.btn2);
-        //final SwitchIconView d = (SwitchIconView)main_view.findViewById(R.id.SW);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*
-                OkHttpClient client = Internet.getClient();
-                Request request = new Request.Builder()
-                        .url("https://" + Settings.getIp() + "/api/get/light")
-                        .build();
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        btn.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                btn.setText("FAIL");
-                            }
-                        });
-                    }
 
-                    @Override
-                    public void onResponse(Call call, final Response response) throws IOException {
-                        final String g = response.body().string();
-                        Log.d("TAGMYTAG", g);
-                        btn.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                btn.setText(g);
-                            }
-                        });
-                    }
-                });*/
-                //d.switchState();
-            }
-        });
         builder.setView(main_view);
 
         return builder.create();
