@@ -222,7 +222,7 @@ public class Settings {
     }
 
     public static String getIp() {
-        return "192.168.0.102";
+        return "192.168.43.119";
         /*
         if (ip == null)
             loadInfo();
