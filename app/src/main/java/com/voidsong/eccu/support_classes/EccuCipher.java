@@ -56,7 +56,7 @@ public class EccuCipher {
             NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException,
             BadPaddingException, InvalidAlgorithmParameterException {
         Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-        AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());
+        AlgorithmParameterSpec ivSpec = new IvParameterSpec(Settings.getIV());
         cipher.init(Cipher.ENCRYPT_MODE, getSecretKeySpec(), ivSpec);
         return cipher.doFinal(data.getBytes());
     }
@@ -65,7 +65,7 @@ public class EccuCipher {
             NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException,
             BadPaddingException, InvalidAlgorithmParameterException {
         Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-        AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());
+        AlgorithmParameterSpec ivSpec = new IvParameterSpec(Settings.getIV());
         cipher.init(Cipher.ENCRYPT_MODE, getSecretKeySpec(password), ivSpec);
         return cipher.doFinal(data.getBytes());
     }
@@ -74,7 +74,7 @@ public class EccuCipher {
             NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException,
             IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-        AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());
+        AlgorithmParameterSpec ivSpec = new IvParameterSpec(Settings.getIV());
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(), ivSpec);
         return new String(cipher.doFinal(data));
     }
@@ -83,7 +83,7 @@ public class EccuCipher {
             NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException,
             IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("AES/CFB/PKCS5Padding");
-        AlgorithmParameterSpec ivSpec = new IvParameterSpec("ECCU:SECRET_IV!!".getBytes());
+        AlgorithmParameterSpec ivSpec = new IvParameterSpec(Settings.getIV());
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(password), ivSpec);
         return new String(cipher.doFinal(data));
     }
@@ -91,7 +91,7 @@ public class EccuCipher {
     public static String hash(String data) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-384");
-            messageDigest.update(data.getBytes());
+            messageDigest.update((Settings.getHash_salt() + data).getBytes());
             byte[] hashed = messageDigest.digest();
 
             StringBuilder sb = new StringBuilder();

@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import java.security.GeneralSecurityException;
 
+import com.voidsong.eccu.dialogs.CipherDialog;
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.exceptions.SecurityErrorException;
@@ -72,6 +73,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                try {
+                    Internet.Init();
+                } catch (SecurityErrorException | GeneralSecurityException e) {
+                    e.printStackTrace(); // TODO change
+                }
+
                 String login = loginText.getText().toString();
                 String password = passwordText.getText().toString();
 
@@ -121,11 +128,12 @@ public class LoginActivity extends AppCompatActivity {
 
         Settings.setContext(getApplicationContext());
         Settings.loadInfo();
-        try {
-            Internet.Init();
-        } catch (SecurityErrorException | GeneralSecurityException e) {
-            e.printStackTrace(); // TODO change
+
+        if (Settings.getHash_salt() == null || Settings.getIV() == null) {
+            DialogFragment newFragment = new CipherDialog();
+            newFragment.show(getSupportFragmentManager(), CipherDialog.ID);
         }
+
         checkbox.setChecked(Settings.getState());
 
         if (StringWorker.equals(Settings.getIp(), "")) {

@@ -3,6 +3,7 @@ package com.voidsong.eccu.support_classes;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,10 +43,12 @@ public class Checker {
     }
 
     public static boolean is_first_run(Context context) {
-        File info = new File(context.getFilesDir(), "info");
-        if (info.exists()) {
+        try {
+            FileInputStream fin = context.openFileInput("info");
+            Log.d("TAGMYTAG", "yes");
             return false;
-        } else {
+        } catch (FileNotFoundException e) {
+            Log.d("TAGMYTAG", "no");
             return true;
         }
     }

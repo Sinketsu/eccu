@@ -2,6 +2,7 @@ package com.voidsong.eccu.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class IPDialog extends DialogFragment{
 
     private EditText editText;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
@@ -37,13 +39,13 @@ public class IPDialog extends DialogFragment{
                             e.printStackTrace(); //TODO CHANGE
                         }
                         setIP();
-                        IPDialog.this.getDialog().dismiss();
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        IPDialog.this.getDialog().cancel();
+                        dialog.cancel();
                     }
                 });
 

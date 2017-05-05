@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -99,6 +100,10 @@ public class Settings {
             jsonObject.put("ip", ip);
             jsonObject.put("login", user_login);
             jsonObject.put("state", state);
+            if (hash_salt != null)
+                jsonObject.put("hash_salt", hash_salt);
+            if (IV != null)
+                jsonObject.put("IV", new String(IV, "UTF-8"));
             String data = jsonObject.toString();
 
             FileOutputStream info = context.openFileOutput("info", context.MODE_PRIVATE);
@@ -119,10 +124,7 @@ public class Settings {
             FileInputStream info = context.openFileInput("info");
             json_string = get_all_from_file(info);
         } catch (FileNotFoundException e) {
-            login = "";
-            ip = "";
-            state = false;
-            return;
+            json_string = "";
         }
 
         if (json_string.isEmpty()) {
@@ -138,6 +140,8 @@ public class Settings {
             login = jsonObject.getString("login");
             ip = jsonObject.getString("ip");
             state = jsonObject.getBoolean("state");
+            hash_salt = jsonObject.getString("hash_salt");
+            IV = jsonObject.getString("IV").getBytes();
 
             json_string = "";                // change this string for GC.
         } catch (JSONException e) {
@@ -222,12 +226,7 @@ public class Settings {
     }
 
     public static String getIp() {
-        return "192.168.43.119";
-        /*
-        if (ip == null)
-            loadInfo();
         return ip;
-        */
     }
 
     public static void setIp(String IP) {
@@ -258,8 +257,20 @@ public class Settings {
         return state;
     }
 
-    public static Context getContext() {
-        return context;
+    public static String getHash_salt() {
+        return hash_salt;
+    }
+
+    public static void setHash_salt(String salt) {
+        hash_salt = salt;
+    }
+
+    public static byte[] getIV() {
+        return IV;
+    }
+
+    public static void setIV(byte[] iv) {
+        IV = iv;
     }
 
     private static Context context;
@@ -267,8 +278,9 @@ public class Settings {
     private static boolean state;
     private static String login;
     private static String ip;
-    private static String hash_salt = "ECCU"; // TODO delete
+    private static String hash_salt;
     private static String saved_passwd;
+    private static byte[] IV;
 
     @NonNull
     private static String get_all_from_file(FileInputStream fileInputStream) {

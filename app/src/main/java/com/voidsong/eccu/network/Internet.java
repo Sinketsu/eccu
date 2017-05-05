@@ -140,7 +140,7 @@ public class Internet {
             = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
     private static void CertificatePinning(SSLSocketFactory sslSocketFactory, X509TrustManager trustManager) {
-        if (client == null) {
+        //if (client == null) {
 
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
@@ -154,7 +154,7 @@ public class Internet {
                     .cookieJar(new JavaNetCookieJar(cookieManager))
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .build();
-        }
+        //}
     }
 
     @NonNull

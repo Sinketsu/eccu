@@ -19,4 +19,6 @@
     <string name="invalid_login_password">Неправильный логин/пароль</string>
     <string name="offer_to_enter_ip">Пожалуйста, введите IP адрес:</string>
     <string name="close">Закрыть</string>
+    <string name="hash_salt_hint"></string>
+    <string name="offer_to_input_iv_and_hash_salt">Пожалуйста, введите соль для хэширования с сервера и инициализирующий вектор</string>
 </resources>

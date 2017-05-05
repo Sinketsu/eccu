@@ -17,13 +17,18 @@ import android.widget.LinearLayout;
 
 //import com.github.zagum.switchicon.SwitchIconView;
 import com.voidsong.eccu.R;
+import com.voidsong.eccu.network.API;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.support_classes.Settings;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -58,6 +63,19 @@ public class DoorDialog extends DialogFragment {
                     }
 
                     // request to server
+                    HttpUrl url = new HttpUrl.Builder()
+                            .scheme(API.SCHEME)
+                            .host(Settings.getIp())
+                            .addPathSegment(API.SET_DOOR)
+                            .build();
+                    try {
+                        JSONObject json = new JSONObject();
+                        //                  icon.is_enabled() v
+                        json.put("value", (_control.getOrientation() == LinearLayout.VERTICAL) ? 1 : 0);
+                        String data = json.toString();
+                        Internet.post(url, data);
+                    } catch (JSONException e) {
+                    }
                 }
             });
         }
@@ -93,16 +111,13 @@ public class DoorDialog extends DialogFragment {
                         });
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_door, null);
-<<<<<<< HEAD
 
-=======
         if (door == null) {
             door = new Door();
-            door.setControl((LinearLayout) main_view.findViewById(R.id.door));
+            door.setControl((LinearLayout)main_view.findViewById(R.id.door));
         } else {
-            door.setControl((LinearLayout) main_view.findViewById(R.id.door));
+            door.setControl((LinearLayout)main_view.findViewById(R.id.door));
         }
->>>>>>> origin/feature/gui0
         builder.setView(main_view);
         return builder.create();
     }
