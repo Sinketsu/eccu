@@ -3,17 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="70dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginBottom="70dp"
+=======
+>>>>>>> origin/feature/gui0
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="70dp"
             android:layout_height="70dp"
+<<<<<<< HEAD
             android:background="@color/colorRed"
             android:layout_margin="8dp">
         </LinearLayout>
@@ -23,10 +28,16 @@
             android:layout_margin="8dp"
             android:layout_height="70dp"
             android:background="@color/colorCyan">
+=======
+            android:layout_margin="8dp"
+            android:id="@+id/door"
+            android:orientation="horizontal">
+>>>>>>> origin/feature/gui0
 
         </LinearLayout>
 
     </LinearLayout>
+<<<<<<< HEAD
     <!--
     <com.github.zagum.switchicon.SwitchIconView
         android:layout_width="40dp"
@@ -39,5 +50,7 @@
         app:si_enabled="false"
         app:si_disabled_color="@color/colorLightGray"/>
     -->
+=======
+>>>>>>> origin/feature/gui0
 
 </LinearLayout>
