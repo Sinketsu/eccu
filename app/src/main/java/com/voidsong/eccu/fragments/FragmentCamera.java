@@ -1,9 +1,7 @@
 package com.voidsong.eccu.fragments;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +59,7 @@ public class FragmentCamera extends RefreshableFragment {
     }
 
     public void refresh() {
-        if (_available) {
+        if (is_available()) {
             String rnd = String.valueOf(random.nextInt());
             HttpUrl url = new HttpUrl.Builder()
                     .scheme(API.SCHEME)

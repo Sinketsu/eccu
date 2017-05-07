@@ -12,12 +12,9 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import android.app.Activity;
 import android.util.Base64;
 
-import com.voidsong.eccu.LoginActivity;
 import com.voidsong.eccu.support_classes.Settings;
-import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.support_classes.RequestBodyBuilder;
 
 import org.json.JSONException;

@@ -1,6 +1,5 @@
 package com.voidsong.eccu.fragments;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -71,15 +70,17 @@ public class FragmentWeather extends RefreshableFragment {
     }
 
     public void refresh() {
-        String rnd = String.valueOf(random.nextInt());
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(API.SCHEME)
-                .host(Settings.getIp())
-                .addPathSegment(API.WEATHER)
-                .addQueryParameter("rnd", rnd)
-                .addQueryParameter("hash", EccuCipher.hash(rnd))
-                .build();
-        Internet.updateWeatherData(url, this);
+        if (is_available()) {
+            String rnd = String.valueOf(random.nextInt());
+            HttpUrl url = new HttpUrl.Builder()
+                    .scheme(API.SCHEME)
+                    .host(Settings.getIp())
+                    .addPathSegment(API.WEATHER)
+                    .addQueryParameter("rnd", rnd)
+                    .addQueryParameter("hash", EccuCipher.hash(rnd))
+                    .build();
+            Internet.updateWeatherData(url, this);
+        }
     }
 
     public void updateData(final String temperature, final String wind_d, final String wind_v, final String comment) {

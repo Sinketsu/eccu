@@ -11,7 +11,6 @@ import com.voidsong.eccu.support_classes.EccuCipher;
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.support_classes.RequestBodyBuilder;
 
-import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
