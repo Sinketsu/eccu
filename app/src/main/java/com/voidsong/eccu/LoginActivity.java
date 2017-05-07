@@ -27,7 +27,7 @@ import com.voidsong.eccu.dialogs.IPDialog;
 
 import android.support.v4.app.DialogFragment;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements User.ILogin {
 
     private final String TAG = "ECCU/LoginActivity";
 
@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordText;
     private AppCompatButton button;
     private AppCompatCheckBox checkbox;
+
+    private LoginActivity activity = this;
 
     private Snackbar snackbar;
     private View.OnClickListener snackbarClickListener = new View.OnClickListener() {
@@ -85,42 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 Settings.setState(checkbox.isChecked());
                 Settings.saveInfo(login);
                 Log.d("TAGMYTAG", "start auth");
-                User.authenticate(login, password);
-                while(StringWorker.equals(User.getStatus(), "")) {
-                }
-                Log.d("TAGMYTAG", "end auth with status - " + User.getStatus());
-                String _status = User.getStatus();
-                if (StringWorker.equals(_status, User.OK)) {
-                    if (!Checker.user_has_saved_password(getApplicationContext())) {
-                        Settings.load(password);
-                    }
-                    if (checkbox.isChecked()) {
-                        Log.d("TAGMYTAG", "saving pass");
-                        Settings.setSaved_passwd(password);
-                        Settings.save_saved_passwords();
-                    } else {
-                        Settings.save(password);
-                    }
-                    Log.d("TAGMYTAG", "go to main activity");
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else if (StringWorker.equals(_status, User.INVALID_PASSWORD)) {
-                    snackbar = Snackbar.make(button, getResources().getString(R.string.invalid_login_password),
-                            Snackbar.LENGTH_LONG)
-                            .setActionTextColor(Color.WHITE)
-                            .setAction(getResources().getString(R.string.ok), snackbarClickListener);
-                    View view = snackbar.getView();
-                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                    snackbar.show();
-                } else {
-                    snackbar = Snackbar.make(button, getResources().getString(R.string.connection_issues),
-                            Snackbar.LENGTH_LONG)
-                            .setActionTextColor(Color.WHITE)
-                            .setAction(getResources().getString(R.string.ok), snackbarClickListener);
-                    View view = snackbar.getView();
-                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                    snackbar.show();
-                }
+                User.authenticate(login, password, activity);
             }
         });
 
@@ -157,5 +124,42 @@ public class LoginActivity extends AppCompatActivity {
     public void IPImageButton(View view){
         DialogFragment newFragment = new IPDialog();
         newFragment.show(getSupportFragmentManager(), IPDialog.ID);
+    }
+
+    @Override
+    public void login(String password) {
+        Log.d("TAGMYTAG", "end auth with status - " + User.getStatus());
+        String _status = User.getStatus();
+        if (StringWorker.equals(_status, User.OK)) {
+            if (!Checker.user_has_saved_password(getApplicationContext())) {
+                Settings.load(password);
+            }
+            if (checkbox.isChecked()) {
+                Log.d("TAGMYTAG", "saving pass");
+                Settings.setSaved_passwd(password);
+                Settings.save_saved_passwords();
+            } else {
+                Settings.save(password);
+            }
+            Log.d("TAGMYTAG", "go to main activity");
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        } else if (StringWorker.equals(_status, User.INVALID_PASSWORD)) {
+            snackbar = Snackbar.make(button, getResources().getString(R.string.invalid_login_password),
+                    Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.WHITE)
+                    .setAction(getResources().getString(R.string.ok), snackbarClickListener);
+            View view = snackbar.getView();
+            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+            snackbar.show();
+        } else {
+            snackbar = Snackbar.make(button, getResources().getString(R.string.connection_issues),
+                    Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.WHITE)
+                    .setAction(getResources().getString(R.string.ok), snackbarClickListener);
+            View view = snackbar.getView();
+            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+            snackbar.show();
+        }
     }
 }

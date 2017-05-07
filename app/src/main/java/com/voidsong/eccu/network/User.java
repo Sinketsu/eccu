@@ -12,8 +12,10 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import android.app.Activity;
 import android.util.Base64;
 
+import com.voidsong.eccu.LoginActivity;
 import com.voidsong.eccu.support_classes.Settings;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.support_classes.RequestBodyBuilder;
@@ -27,7 +29,11 @@ public class User {
     public static final String INVALID_PASSWORD = "INVALID_PASSWORD";
     public static final String CONNECTION_ISSUES = "CONNECTION ISSUES";
 
-    public static void authenticate(String username, String password) {
+    public interface ILogin {
+        void login(String passwd);
+    }
+
+    public static void authenticate(String username, final String password, final ILogin activity) {
         status = "";
 
         MediaType MEDIA_TYPE_MARKDOWN
@@ -75,6 +81,7 @@ public class User {
                     } else {
                         status = CONNECTION_ISSUES;
                     }
+                    activity.login(password);
                 }
             });
         } catch (Exception e) { // TODO change
