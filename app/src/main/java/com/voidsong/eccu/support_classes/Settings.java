@@ -37,7 +37,6 @@ public class Settings {
             jsonObject.put("passwd", saved_passwd);
             jsonObject.put("salt", hash_salt);
         } catch (JSONException e) {
-            e.printStackTrace();
         }
         String data = jsonObject.toString();
         try {
@@ -67,7 +66,6 @@ public class Settings {
         try {
             jsonObject.put("salt", hash_salt);
         } catch (JSONException e) {
-            e.printStackTrace();
         }
         String data = jsonObject.toString();
 
@@ -100,10 +98,7 @@ public class Settings {
             jsonObject.put("ip", ip);
             jsonObject.put("login", user_login);
             jsonObject.put("state", state);
-            if (hash_salt != null)
-                jsonObject.put("hash_salt", hash_salt);
-            if (IV != null)
-                jsonObject.put("IV", new String(IV, "UTF-8"));
+            jsonObject.put("IV", new String(IV, "UTF-8"));
             String data = jsonObject.toString();
 
             FileOutputStream info = context.openFileOutput("info", context.MODE_PRIVATE);
@@ -140,7 +135,6 @@ public class Settings {
             login = jsonObject.getString("login");
             ip = jsonObject.getString("ip");
             state = jsonObject.getBoolean("state");
-            hash_salt = jsonObject.getString("hash_salt");
             IV = jsonObject.getString("IV").getBytes();
 
             json_string = "";                // change this string for GC.

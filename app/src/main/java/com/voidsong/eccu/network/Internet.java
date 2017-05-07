@@ -82,6 +82,7 @@ public class Internet {
                     String comment = jsonObject.getString("comment");
                     fragment.updateData(temperature, wind_d, wind_v, comment);
                 } catch (JSONException e) {
+                    Log.d("TAGMYTAG", String.valueOf(response.code()));
                 }
             }
         });

@@ -17,13 +17,17 @@ import com.voidsong.eccu.R;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.network.API;
 import com.voidsong.eccu.network.Internet;
+import com.voidsong.eccu.support_classes.EccuCipher;
 import com.voidsong.eccu.support_classes.Settings;
+
+import java.security.SecureRandom;
 
 import okhttp3.HttpUrl;
 
 public class FragmentWeather extends RefreshableFragment {
 
     static final String ARGUMENT_AVAILABLE = "available";
+    private SecureRandom random = new SecureRandom();
 
     public interface IFragmentWeatherControl {
         void stopProgress();
@@ -67,11 +71,13 @@ public class FragmentWeather extends RefreshableFragment {
     }
 
     public void refresh() {
-        Log.d("TAGMYTAG", "in refresh method");
+        String rnd = String.valueOf(random.nextInt());
         HttpUrl url = new HttpUrl.Builder()
                 .scheme(API.SCHEME)
                 .host(Settings.getIp())
                 .addPathSegment(API.WEATHER)
+                .addQueryParameter("rnd", rnd)
+                .addQueryParameter("hash", EccuCipher.hash(rnd))
                 .build();
         Internet.updateWeatherData(url, this);
     }

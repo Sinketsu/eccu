@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -46,8 +47,10 @@ public class CipherDialog extends DialogFragment {
         String IV = "ECCU:SECRET_IV!!";
         if (!salt.getText().toString().isEmpty())
             hash_salt = salt.getText().toString();
-        if (!iv.getText().toString().isEmpty())
+        if (iv.getText().length() == 16)
             IV = iv.getText().toString();
+        Log.d("TAGMYTAG", "salt: " + hash_salt);
+        Log.d("TAGMYTAG", "IV: " + IV);
         Settings.setHash_salt(hash_salt);
         Settings.setIV(IV.getBytes());
     }

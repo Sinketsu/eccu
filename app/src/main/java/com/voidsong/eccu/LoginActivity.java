@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         Settings.setContext(getApplicationContext());
         Settings.loadInfo();
 
-        if (Settings.getHash_salt() == null || Settings.getIV() == null) {
+        if (Settings.getIV() == null) {
             DialogFragment newFragment = new CipherDialog();
             newFragment.show(getSupportFragmentManager(), CipherDialog.ID);
         }

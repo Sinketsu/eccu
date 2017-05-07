@@ -8,11 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 //import com.github.zagum.switchicon.SwitchIconView;
@@ -63,6 +61,7 @@ public class DoorDialog extends DialogFragment {
                     }
 
                     // request to server
+                    /*
                     HttpUrl url = new HttpUrl.Builder()
                             .scheme(API.SCHEME)
                             .host(Settings.getIp())
@@ -75,7 +74,7 @@ public class DoorDialog extends DialogFragment {
                         String data = json.toString();
                         Internet.post(url, data);
                     } catch (JSONException e) {
-                    }
+                    }*/
                 }
             });
         }
