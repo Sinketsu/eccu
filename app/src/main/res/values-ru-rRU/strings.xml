@@ -21,4 +21,8 @@
     <string name="close">Закрыть</string>
     <string name="hash_salt_hint"></string>
     <string name="offer_to_input_iv_and_hash_salt">Пожалуйста, введите соль для хэширования с сервера и инициализирующий вектор</string>
+    <string name="cipher_dialog_description">Пожалуйста, введите вектор инициализации и соль для хэширования. Длина вектора инициализации должна быть 16 символов. Если вы не введете эти параметры, будут использованы значения по умолчанию.</string>
+    <string name="iv_label">Вектор инициализации(16 символов):</string>
+    <string name="security_errors">Обнаружены проблемы с безопасностью. Проверьте настройки вашего устройства.</string>
+    <string name="iv_hint" translatable="false"></string>
 </resources>

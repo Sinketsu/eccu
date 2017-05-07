@@ -68,8 +68,6 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
         if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root");
         }
-        //Intent intent = new Intent(this, MainActivity.class);
-        //startActivity(intent);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,15 +76,22 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
                 try {
                     Internet.Init();
                 } catch (SecurityErrorException | GeneralSecurityException e) {
-                    e.printStackTrace(); // TODO change
+                    snackbar = Snackbar.make(button, getResources().getString(R.string.security_errors),
+                            Snackbar.LENGTH_INDEFINITE)
+                            .setActionTextColor(Color.WHITE)
+                            .setAction(getResources().getString(R.string.ok), snackbarClickListener);
+                    View view = snackbar.getView();
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                    snackbar.show();
+                    return;
                 }
+                Log.d(TAG, "Internet client initialized.");
 
                 String login = loginText.getText().toString();
                 String password = passwordText.getText().toString();
 
                 Settings.setState(checkbox.isChecked());
                 Settings.saveInfo(login);
-                Log.d("TAGMYTAG", "start auth");
                 User.authenticate(login, password, activity);
             }
         });
@@ -117,8 +122,6 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
             Settings.load_saved_passwords();
             passwordText.setText(Settings.getSaved_passwd());
         }
-        //Intent intent = new Intent(this, MainActivity.class);
-        //startActivity(intent);
     }
 
     public void IPImageButton(View view){
@@ -128,20 +131,19 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
 
     @Override
     public void login(String password) {
-        Log.d("TAGMYTAG", "end auth with status - " + User.getStatus());
         String _status = User.getStatus();
+        Log.d(TAG, "status of authorization: " + _status);
+
         if (StringWorker.equals(_status, User.OK)) {
             if (!Checker.user_has_saved_password(getApplicationContext())) {
                 Settings.load(password);
             }
             if (checkbox.isChecked()) {
-                Log.d("TAGMYTAG", "saving pass");
                 Settings.setSaved_passwd(password);
                 Settings.save_saved_passwords();
             } else {
                 Settings.save(password);
             }
-            Log.d("TAGMYTAG", "go to main activity");
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         } else if (StringWorker.equals(_status, User.INVALID_PASSWORD)) {
