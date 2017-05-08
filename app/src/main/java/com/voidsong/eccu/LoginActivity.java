@@ -103,14 +103,15 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
             }
         });
 
-        if (Settings.getIV() == null) {
+        if (Settings.getIV() == null ||
+                StringWorker.equals(Settings.getHash_salt(), Settings.NO_SALT)) {
             DialogFragment newFragment = new CipherDialog();
             newFragment.show(getSupportFragmentManager(), CipherDialog.ID);
         }
 
         checkbox.setChecked(Settings.getState());
 
-        if (StringWorker.equals(Settings.getIp(), "")) {
+        if (StringWorker.equals(Settings.getIp(), Settings.DEFAULT_IP)) {
             snackbar = Snackbar.make(button, getResources().getString(R.string.offer_to_enter_ip),
                     Snackbar.LENGTH_INDEFINITE)
                     .setActionTextColor(Color.WHITE)

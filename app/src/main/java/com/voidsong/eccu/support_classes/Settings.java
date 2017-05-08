@@ -30,6 +30,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Settings {
 
+    public static final String DEFAULT_HASH = "ECCU";
+    public static final String DEFAULT_IV = "ECCU:SECRET_IV!!";
+    public static final String NO_SALT = "NO_SALT";
+    public static final String DEFAULT_IP = "127.0.0.1";
+
     public static void save_saved_passwords() {
         context.deleteFile("keys");
         JSONObject jsonObject = new JSONObject();
@@ -124,7 +129,7 @@ public class Settings {
 
         if (json_string.isEmpty()) {
             login = "";
-            ip = "";
+            ip = Settings.DEFAULT_IP;
             state = false;
             return;
         }
@@ -140,7 +145,7 @@ public class Settings {
             json_string = "";                // change this string for GC.
         } catch (JSONException e) {
             login = "";
-            ip = "";
+            ip = Settings.DEFAULT_IP;
             state = false;
         }
     }
@@ -211,15 +216,16 @@ public class Settings {
             JSONObject jsonObject = new JSONObject(result);
             saved_passwd = jsonObject.getString("passwd");
             hash_salt = jsonObject.getString("salt");
-
-            result = "";                // change this string for GC.
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return 0;
     }
 
     public static String getIp() {
+        if (ip == null)
+            return DEFAULT_IP;
         return ip;
     }
 
@@ -272,7 +278,7 @@ public class Settings {
     private static boolean state;
     private static String login;
     private static String ip;
-    private static String hash_salt;
+    private static String hash_salt = NO_SALT;
     private static String saved_passwd;
     private static byte[] IV;
 
