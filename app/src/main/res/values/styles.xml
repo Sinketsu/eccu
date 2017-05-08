@@ -1,5 +1,5 @@
 <resources>
-
+    <!-- Main theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -8,12 +8,13 @@
         <item name="colorControlNormal">@color/colorLightGray</item>
     </style>
 
+    <!-- Theme for checkbox in LoginActivity -->
     <style name="CheckboxTheme" parent="AppTheme">
         <item name="colorControlActivated">@color/colorWhite</item>
     </style>
 
+    <!-- Theme for splash screen -->
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
-
 </resources>

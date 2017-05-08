@@ -1,25 +1,31 @@
 <resources>
+    <!-- Main strings -->
     <string name="app_name">Eccu</string>
-    <string name="login_hint">Логин</string>
-    <string name="passwd_hint">Пароль</string>
+
+    <!-- Control strings -->
     <string name="log_in_button_text">Войти</string>
     <string name="ok">ОК</string>
     <string name="Cancel">Отмена</string>
+    <string name="close">Закрыть</string>
+
+    <!-- EditText`s hints -->
+    <string name="login_hint">Логин</string>
+    <string name="passwd_hint">Пароль</string>
     <string name="DefaultIP">192.168.1.1</string>
+
+    <!-- Labels -->
     <string name="checkbox_label">Сохранить пароль (небезопасно)</string>
-    <string name="double_space">  </string>
-    <string name="one_space"> </string>
-    <string name="degree">&#176;C</string>
+    <string name="iv_label">Вектор инициализации(16 символов):</string>
+    <string name="offer_to_input_iv_and_hash_salt">Пожалуйста, введите соль для хэширования с сервера и инициализирующий вектор</string>
     <string name="bulb_label">Свет</string>
     <string name="door_label">Дверь</string>
-    <string name="splitter">/</string>
-    <string name="connection_issues">Проблемы с сетью</string>
-    <string name="detected_root">Обнаружены root-права. Мы не гарантируем безопасность</string>
-    <string name="invalid_login_password">Неправильный логин/пароль</string>
-    <string name="offer_to_enter_ip">Пожалуйста, введите IP адрес:</string>
-    <string name="close">Закрыть</string>
-    <string name="offer_to_input_iv_and_hash_salt">Пожалуйста, введите соль для хэширования с сервера и инициализирующий вектор</string>
+
+    <!-- Dialog`s descriptions -->
     <string name="cipher_dialog_description">Пожалуйста, введите вектор инициализации и соль для хэширования. Длина вектора инициализации должна быть 16 символов. Если вы не введете эти параметры, будут использованы значения по умолчанию.</string>
-    <string name="iv_label">Вектор инициализации(16 символов):</string>
+    <string name="offer_to_enter_ip">Пожалуйста, введите IP адрес:</string>
+
+    <!-- Error`s texts -->
+    <string name="invalid_login_password">Неправильный логин/пароль</string>
+    <string name="connection_issues">Проблемы с сетью</string>
     <string name="security_errors">Обнаружены проблемы с безопасностью. Проверьте настройки вашего устройства.</string>
 </resources>

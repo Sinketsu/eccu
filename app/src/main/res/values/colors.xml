@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Palette colors -->
     <color name="colorPrimary">#607D8B</color>
     <color name="colorPrimaryDark">#455A64</color>
     <color name="colorPrimaryLight">#8EACBB</color>
     <color name="colorAccent">#9E9E9E</color>
+    <color name="colorCyan">#00BCD4</color>
 
+    <!-- Regular colors -->
     <color name="colorRed">#FF5252</color>
-
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorLightGray">#DDDDDD</color>
-    <color name="colorCyan">#00BCD4</color>
 </resources>
