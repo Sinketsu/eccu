@@ -24,13 +24,13 @@
     <!-- Labels -->
     <string name="checkbox_label">Save password (insecure)</string>
     <string name="iv_label">IV(16 characters):</string>
-    <string name="offer_to_input_iv_and_hash_salt">Please enter the IV and hash salt</string>
     <string name="bulb_label">Light</string>
     <string name="door_label">Door</string>
 
     <!-- Dialog`s descriptions -->
     <string name="cipher_dialog_description">Please enter the initialization vector and hash salt. The IV must be 16 characters. If you do not enter these values, then they will use default values(insecure).</string>
     <string name="offer_to_enter_ip">Please enter the IP address:</string>
+    <string name="offer_to_input_iv_and_hash_salt">Please enter the IV and hash salt</string>
 
     <!-- Error`s texts -->
     <string name="invalid_login_password">Invalid login/password</string>

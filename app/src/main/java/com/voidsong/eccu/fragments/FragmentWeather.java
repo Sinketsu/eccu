@@ -26,6 +26,7 @@ import okhttp3.HttpUrl;
 public class FragmentWeather extends RefreshableFragment {
 
     static final String ARGUMENT_AVAILABLE = "available";
+
     private SecureRandom random = new SecureRandom();
 
     public interface IFragmentWeatherControl {
@@ -84,12 +85,8 @@ public class FragmentWeather extends RefreshableFragment {
     }
 
     public void updateData(final String temperature, final String wind_d, final String wind_v, final String comment) {
-        Log.d("TAGMYTAG", "updating data");
-        Log.d("TAGMYTAG", "updating data");
         final String text = temperature + getResources().getString(R.string.one_space) +
                 getResources().getString(R.string.degree);
-        //setImg(R.drawable.fon);
-        Log.d("TAGMYTAG", "setImg");
         _temperature_tv.post(new Runnable() {
 
             @Override
@@ -166,9 +163,7 @@ public class FragmentWeather extends RefreshableFragment {
         return _available;
     }
 
-
     private void setImg(int id) {
-        Log.d("TAGMYTAG", "in setImg");
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), id);
 
         img.post(new Runnable() {
@@ -214,8 +209,7 @@ public class FragmentWeather extends RefreshableFragment {
         });
 
         if (getActivity() != null) {
-            IFragmentWeatherControl activity = (IFragmentWeatherControl) getActivity();
-            activity.stopProgress();
+            ((IFragmentWeatherControl)getActivity()).stopProgress();
         }
     }
 }

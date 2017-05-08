@@ -40,8 +40,8 @@ public class FragmentCamera extends RefreshableFragment {
                 img.setImageBitmap(bitmap);
             }
         });
-        IFragmentCameraControl activity = (IFragmentCameraControl) getActivity();
-        activity.stopProgress();
+        if (getActivity() != null)
+            ((IFragmentCameraControl)getActivity()).stopProgress();
     }
 
     @Override
@@ -49,10 +49,15 @@ public class FragmentCamera extends RefreshableFragment {
         return _available;
     }
 
-    public static FragmentCamera new_instance(int img_id, boolean available) {
+    public static FragmentCamera new_instance(boolean available) {
         FragmentCamera fragment = new FragmentCamera();
         Bundle args = new Bundle();
-        args.putInt(ARGUMENT_IMAGE_SRC, img_id);
+
+        if (available)
+            args.putInt(ARGUMENT_IMAGE_SRC, R.drawable.cam_refresh);
+        else
+            args.putInt(ARGUMENT_IMAGE_SRC, R.drawable.cam_not_available);
+
         args.putBoolean(ARGUMENT_AVAILABLE, available);
         fragment.setArguments(args);
         return fragment;
@@ -70,7 +75,8 @@ public class FragmentCamera extends RefreshableFragment {
                     .build();
             Internet.updateImage(url, this);
         } else {
-            ((IFragmentCameraControl)getActivity()).stopProgress();
+            if (getActivity() != null)
+                ((IFragmentCameraControl)getActivity()).stopProgress();
         }
     }
 

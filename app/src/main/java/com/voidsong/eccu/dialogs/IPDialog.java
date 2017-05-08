@@ -23,21 +23,15 @@ public class IPDialog extends DialogFragment{
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("Enter the server IP address");
+                .setTitle(getString(R.string.offer_to_enter_ip));
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_login, null);
         editText = (EditText)  main_view.findViewById(R.id.ipaddress);
         editText.setText(Settings.getIp());
         builder.setView(main_view)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            editText = (EditText)  main_view.findViewById(R.id.ipaddress);
-                        }catch (NullPointerException e) {
-                            e.printStackTrace(); //TODO CHANGE
-                        }
                         setIP();
                         dialog.dismiss();
                     }
@@ -48,16 +42,11 @@ public class IPDialog extends DialogFragment{
                         dialog.cancel();
                     }
                 });
-
-
         return builder.create();
     }
-
 
     public void setIP(){
         Settings.setIp(editText.getText().toString());
     }
-
-
 }
 

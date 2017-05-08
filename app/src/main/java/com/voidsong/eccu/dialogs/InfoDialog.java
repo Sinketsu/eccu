@@ -6,10 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.voidsong.eccu.R;
@@ -28,7 +26,6 @@ import java.security.SecureRandom;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -54,7 +51,6 @@ public class InfoDialog extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 IInfoController activity = (IInfoController) getActivity();
-                                activity.setTemperature(seekBar.getProgress());
                                 HttpUrl url = new HttpUrl.Builder()
                                         .scheme(API.SCHEME)
                                         .host(Settings.getIp())
@@ -66,8 +62,9 @@ public class InfoDialog extends DialogFragment {
                                     String data = jsonObject.toString();
                                     Internet.post(url, data);
                                 } catch (JSONException e) {
-                                    // TODO change
+                                    // Ignore because we only put a valid data to the jsonObject;
                                 }
+                                activity.setTemperature(seekBar.getProgress());
                                 dialog.dismiss();
                             }
                         })
@@ -86,6 +83,7 @@ public class InfoDialog extends DialogFragment {
         seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
             @Override
             public void onProgressChanged(int progress, float progressFloat) {
+                // Using concatenation because compiler optimizes it;
                 String text = String.valueOf(progress) + " " + getResources().getString(R.string.degree);
                 textView.setText(text);
             }

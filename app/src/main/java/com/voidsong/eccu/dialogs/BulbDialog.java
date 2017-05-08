@@ -46,7 +46,7 @@ public class BulbDialog extends DialogFragment {
         }
         public void setState(Boolean b) {
             state = b;
-            control.setChecked(state); // TODO get the state from server
+            //control.setChecked(state); // TODO get the state from server
         }
         public Boolean getState() {
             return state;
@@ -78,15 +78,15 @@ public class BulbDialog extends DialogFragment {
             array = new Bulb[2];
             array[0] = new Bulb();
             array[0].setId(0);
-            array[0].setControl((Switch) main_view.findViewById(R.id.Bulb1));
+            //array[0].setControl((Switch) main_view.findViewById(R.id.Bulb1));
             array[0].setState(false);
             array[1] = new Bulb();
             array[1].setId(1);
-            array[1].setControl((Switch) main_view.findViewById(R.id.Bulb2));
+            //array[1].setControl((Switch) main_view.findViewById(R.id.Bulb2));
             array[1].setState(false);
         } else {
-            array[0].setControl((Switch) main_view.findViewById(R.id.Bulb1));
-            array[1].setControl((Switch) main_view.findViewById(R.id.Bulb2));
+            //array[0].setControl((Switch) main_view.findViewById(R.id.Bulb1));
+            //array[1].setControl((Switch) main_view.findViewById(R.id.Bulb2));
         }
 
         builder.setView(main_view);
