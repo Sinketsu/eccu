@@ -2,7 +2,6 @@ package com.voidsong.eccu.network;
 
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.voidsong.eccu.fragments.FragmentCamera;
 import com.voidsong.eccu.fragments.FragmentWeather;
@@ -47,7 +46,6 @@ import okio.Buffer;
 
 public class Internet {
     public static void Init() throws SecurityErrorException, GeneralSecurityException {
-
         X509TrustManager trustManager;
         SSLSocketFactory sslSocketFactory;
 
@@ -59,20 +57,17 @@ public class Internet {
     }
 
     public static void updateWeatherData(HttpUrl url, final FragmentWeather fragment) {
-        Log.d("TAGMYTAG", "Internet.updateWD");
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TAGMYTAG", "fail");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.d("TAGMYTAG", "success");
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String temperature = jsonObject.getString("temperature");
@@ -81,7 +76,7 @@ public class Internet {
                     String comment = jsonObject.getString("comment");
                     fragment.updateData(temperature, wind_d, wind_v, comment);
                 } catch (JSONException e) {
-                    Log.d("TAGMYTAG", String.valueOf(response.code()));
+                    // Ignore because we only put a valid data to the jsonObject;
                 }
             }
         });
@@ -94,13 +89,10 @@ public class Internet {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                Log.d("TAGMYTAG", "FAIL");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("TAGMYTAG", "SUCCESS");
                 InputStream inputStream = response.body().byteStream();
                 fragment.setImg(BitmapFactory.decodeStream(inputStream));
             }
@@ -116,8 +108,6 @@ public class Internet {
                 .add("data", data)
                 .add("hash", EccuCipher.hash(data))
                 .build();
-        Log.d("TAGMYTAG", "Internet: " + body);
-        Log.d("TAGMYTAG", "URL: " + API.SCHEME + Settings.getIp() + url);
         Request request = new Request.Builder()
                 .url(url)
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body))
@@ -125,12 +115,10 @@ public class Internet {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TAGMYTAG", "FAIL");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("TAGMYTAG", "success");
             }
         });
     }
