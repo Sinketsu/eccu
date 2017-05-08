@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Eccu</string>
-    <string name="logo_description">Logo of Eccu</string>
     <string name="login_hint">Логин</string>
     <string name="passwd_hint">Пароль</string>
     <string name="log_in_button_text">Войти</string>
@@ -19,10 +18,8 @@
     <string name="invalid_login_password">Неправильный логин/пароль</string>
     <string name="offer_to_enter_ip">Пожалуйста, введите IP адрес:</string>
     <string name="close">Закрыть</string>
-    <string name="hash_salt_hint"></string>
     <string name="offer_to_input_iv_and_hash_salt">Пожалуйста, введите соль для хэширования с сервера и инициализирующий вектор</string>
     <string name="cipher_dialog_description">Пожалуйста, введите вектор инициализации и соль для хэширования. Длина вектора инициализации должна быть 16 символов. Если вы не введете эти параметры, будут использованы значения по умолчанию.</string>
     <string name="iv_label">Вектор инициализации(16 символов):</string>
     <string name="security_errors">Обнаружены проблемы с безопасностью. Проверьте настройки вашего устройства.</string>
-    <string name="iv_hint" translatable="false"></string>
 </resources>

@@ -18,8 +18,8 @@
         <activity
             android:screenOrientation="userPortrait"
             android:name=".LoginActivity"
-            android:exported="true"
-            >
+            android:theme="@style/SplashTheme"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

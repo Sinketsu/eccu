@@ -10,7 +10,10 @@
 
     <style name="CheckboxTheme" parent="AppTheme">
         <item name="colorControlActivated">@color/colorWhite</item>
+    </style>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
 </resources>

@@ -48,15 +48,6 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        loginText = (EditText)findViewById(R.id.input_login);
-        passwordText = (EditText)findViewById(R.id.input_password);
-        button = (AppCompatButton)findViewById(R.id.btn_login);
-        checkbox = (AppCompatCheckBox)findViewById(R.id.saved_passwd_checkbox);
 
         Checker.check(getApplicationContext());
         if (Checker.detectDebug()) {
@@ -68,6 +59,22 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
         if (Checker.detectRoot()) {
             Log.d(TAG, "detecting root");
         }
+
+        EccuCipher.setContext(getApplicationContext());
+
+        Settings.setContext(getApplicationContext());
+        Settings.loadInfo();
+
+        setTheme(R.style.AppTheme);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        loginText = (EditText)findViewById(R.id.input_login);
+        passwordText = (EditText)findViewById(R.id.input_password);
+        button = (AppCompatButton)findViewById(R.id.btn_login);
+        checkbox = (AppCompatCheckBox)findViewById(R.id.saved_passwd_checkbox);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,11 +103,6 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
             }
         });
 
-        EccuCipher.setContext(getApplicationContext());
-
-        Settings.setContext(getApplicationContext());
-        Settings.loadInfo();
-
         if (Settings.getIV() == null) {
             DialogFragment newFragment = new CipherDialog();
             newFragment.show(getSupportFragmentManager(), CipherDialog.ID);
@@ -122,6 +124,7 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
             Settings.load_saved_passwords();
             passwordText.setText(Settings.getSaved_passwd());
         }
+
     }
 
     public void IPImageButton(View view){

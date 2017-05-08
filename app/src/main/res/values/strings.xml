@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Eccu</string>
-    <string name="logo_description">Logo of Eccu</string>
+    <string name="logo_description" translatable="false">Logo of Eccu</string>
+    <string name="settings_button_description" translatable="false">Settings button</string>
     <string name="login_hint">Login</string>
     <string name="passwd_hint">Password</string>
     <string name="log_in_button_text">Log in</string>
