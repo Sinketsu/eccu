@@ -15,14 +15,17 @@ import android.widget.LinearLayout;
 
 //import com.github.zagum.switchicon.SwitchIconView;
 import com.voidsong.eccu.R;
+import com.voidsong.eccu.abstract_classes.SmartControl;
 import com.voidsong.eccu.network.API;
 import com.voidsong.eccu.network.Internet;
+import com.voidsong.eccu.support_classes.EccuCipher;
 import com.voidsong.eccu.support_classes.Settings;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,38 +42,27 @@ public class DoorDialog extends DialogFragment {
         void setOpenedDoorCount(Integer opened, Integer all);
     }
 
-    private class Door {
-        private int _id;
-        private LinearLayout _control;
-        private boolean _state;
-
-        public void setControl(LinearLayout control) {
-            _control = control;
-            _control.setOnClickListener(new View.OnClickListener() {
+    private class Door extends SmartControl {
+        public void setControl(LinearLayout control,
+                               //SwitchIconView,
+                               final String url_get,
+                               final String url_set) {
+            _path_get = url_get;
+            _path_set = url_set;
+            control.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // SwitchIcon.toggle();
-                    if (_control.getOrientation() == LinearLayout.HORIZONTAL) {
-                        _control.setOrientation(LinearLayout.VERTICAL);
-                        _state = true;
-                        _control.setBackgroundColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorRed));
-                    } else {
-                        _control.setOrientation(LinearLayout.HORIZONTAL);
-                        _state = false;
-                        _control.setBackgroundColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorCyan));
-                    }
-
+                    // icon.switchstate();
                     // request to server
                     /*
                     HttpUrl url = new HttpUrl.Builder()
                             .scheme(API.SCHEME)
                             .host(Settings.getIp())
-                            .addPathSegment(API.SET_DOOR)
+                            .addPathSegment(_path_set)
                             .build();
                     try {
                         JSONObject json = new JSONObject();
-                        //                  icon.is_enabled() v
-                        json.put("value", (_control.getOrientation() == LinearLayout.VERTICAL) ? 1 : 0);
+                        json.put("value", icon.is_enabled() ? 1 : 0);
                         String data = json.toString();
                         Internet.post(url, data);
                     } catch (JSONException e) {
@@ -79,23 +71,35 @@ public class DoorDialog extends DialogFragment {
             });
         }
         public void verifyState() {
-            if (_state) {
-                _control.setOrientation(LinearLayout.VERTICAL);
-                _control.setBackgroundColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorRed));
-            } else {
-                _control.setOrientation(LinearLayout.HORIZONTAL);
-                _control.setBackgroundColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorCyan));
-            }
-        }
-        public void setState(boolean state) {
-            _state = state;
-        }
-        public boolean getState() {
-            return _state;
+            String rnd = String.valueOf(random.nextInt());
+            HttpUrl door_url = new HttpUrl.Builder()
+                    .scheme(API.SCHEME)
+                    .host(Settings.getIp())
+                    .addPathSegment(_path_get)
+                    .addQueryParameter("rnd", rnd)
+                    .addQueryParameter("hash", EccuCipher.hash(rnd))
+                    .build();
+            Request door_request = new Request.Builder()
+                    .url(door_url)
+                    .build();
+            Internet.getClient().newCall(door_request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.code() == 200) {
+                        final int state = Integer.valueOf(response.body().string());
+                        set_state(state == 1);
+                    }
+                }
+            });
         }
     }
 
     private Door door;
+    private SecureRandom random = new SecureRandom();
 
     @NonNull
     @Override
@@ -113,17 +117,18 @@ public class DoorDialog extends DialogFragment {
 
         if (door == null) {
             door = new Door();
-            door.setControl((LinearLayout)main_view.findViewById(R.id.door));
-        } else {
-            door.setControl((LinearLayout)main_view.findViewById(R.id.door));
         }
+        door.setControl((LinearLayout)main_view.findViewById(R.id.door),
+                //(SwitchIconView)main_view.findViewById(R.id.icon),
+                API.GET_DOOR,
+                API.SET_DOOR);
         builder.setView(main_view);
         return builder.create();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        door.verifyState();
+        //door.verifyState();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -131,6 +136,6 @@ public class DoorDialog extends DialogFragment {
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         IDoorController activity = (IDoorController) getActivity();
-        activity.setOpenedDoorCount(door.getState() ? 1 : 0, 1);
+        activity.setOpenedDoorCount(door.get_state() ? 1 : 0, 1);
     }
 }
