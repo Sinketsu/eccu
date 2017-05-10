@@ -12,46 +12,93 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import com.voidsong.eccu.R;
+import com.voidsong.eccu.abstract_classes.SmartControl;
+import com.voidsong.eccu.network.API;
 import com.voidsong.eccu.network.Internet;
+import com.voidsong.eccu.support_classes.EccuCipher;
+import com.voidsong.eccu.support_classes.Settings;
 
+import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static android.content.ContentValues.TAG;
 
 public class BulbDialog extends DialogFragment {
 
     public static final String ID = "BulbControl";
+    private static final int SIZE = 2;
 
-    private class Bulb {
-        Switch control;
-        Integer id;
-        Boolean state;
-
-        public void setControl(Switch s) {
-            control = s;
-            control.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    private class Bulb extends SmartControl {
+        @Override
+        public void setControl(LinearLayout control,
+                               //SwitchIconView,
+                               String url_get,
+                               String url_set) {
+            _path_get = url_get;
+            _path_set = url_set;
+            control.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Log.d("TAGY", "cahnged to " + isChecked);
-                    state = isChecked;
+                public void onClick(View v) {
+                    /*
+                    icon.switch_state();
+                    HttpUrl url = new HttpUrl.Builder()
+                            .scheme(API.SCHEME)
+                            .host(Settings.getIp())
+                            .addPathSegment(_path_set)
+                            .build();
+                    try {
+                        JSONObject json = new JSONObject();
+                        json.put("value", icon.is_enabled() ? 1 : 0);
+                        String data = json.toString();
+                        Internet.post(url, data);
+                    } catch (JSONException e) {
+                    }*/
                 }
             });
         }
-        public void setId(Integer i) {
-            id = i;
-        }
-        public void setState(Boolean b) {
-            state = b;
-            //control.setChecked(state); // TODO get the state from server
-        }
-        public Boolean getState() {
-            return state;
+
+        @Override
+        public void verifyState() {
+            String rnd = String.valueOf(random.nextInt());
+            HttpUrl door_url = new HttpUrl.Builder()
+                    .scheme(API.SCHEME)
+                    .host(Settings.getIp())
+                    .addPathSegment(_path_get)
+                    .addQueryParameter("rnd", rnd)
+                    .addQueryParameter("hash", EccuCipher.hash(rnd))
+                    .build();
+            Request bulb_request = new Request.Builder()
+                    .url(door_url)
+                    .build();
+            Internet.getClient().newCall(bulb_request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.code() == 200) {
+                        final int state = Integer.valueOf(response.body().string());
+                        set_state(state == 1);
+                    }
+                }
+            });
         }
     }
+
+    private SecureRandom random = new SecureRandom();
 
     private Bulb[] array;
 
@@ -65,7 +112,6 @@ public class BulbDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setPositiveButton(getResources().getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
-
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -74,20 +120,18 @@ public class BulbDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_bulb, null);
         if (array == null) {
-            Log.d("TAGY", "you must see that only once");
-            array = new Bulb[2];
-            array[0] = new Bulb();
-            array[0].setId(0);
-            //array[0].setControl((Switch) main_view.findViewById(R.id.Bulb1));
-            array[0].setState(false);
-            array[1] = new Bulb();
-            array[1].setId(1);
-            //array[1].setControl((Switch) main_view.findViewById(R.id.Bulb2));
-            array[1].setState(false);
-        } else {
-            //array[0].setControl((Switch) main_view.findViewById(R.id.Bulb1));
-            //array[1].setControl((Switch) main_view.findViewById(R.id.Bulb2));
+            array = new Bulb[SIZE];
+            for (int i = 0; i < SIZE; i++)
+                array[i] = new Bulb();
         }
+        array[0].setControl((LinearLayout)main_view.findViewById(R.id.light),
+                //(SwitchIconView)main_view.findViewById(R.id.icon),
+                API.GET_LIGHT,
+                API.SET_LIGHT);
+        array[1].setControl((LinearLayout)main_view.findViewById(R.id.spotlight),
+                //(SwitchIconView)main_view.findViewById(R.id.icon),
+                API.GET_SPOTLIGHT,
+                API.SET_SPOTLIGHT);
 
         builder.setView(main_view);
         return builder.create();
@@ -95,23 +139,20 @@ public class BulbDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        for (Bulb item : array) {
-            item.setState(item.getState()); // TODO change
+        for (Bulb bulb : array) {
+            bulb.verifyState();
         }
-        Log.d("TAGY", (array[0].getState()) ? "T" : "F");
-        Log.d("TAGY", (array[1].getState()) ? "T" : "F");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void onCancel(DialogInterface dialog) {
-        Log.d("TAGY", (array[0].getState()) ? "T" : "F");
-        Log.d("TAGY", (array[1].getState()) ? "T" : "F");
-        IBulbController activity = (IBulbController) getActivity();
-        int active = 0;
-        for (Bulb item : array)
-            if (item.getState())
-                active++;
-        activity.setActiveBulbCount(active, array.length);
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        int current = 0;
+        for (Bulb bulb : array)
+            if (bulb.get_state())
+                current++;
+        IBulbController activity = (IBulbController)getActivity();
+        activity.setActiveBulbCount(current, SIZE);
     }
 }

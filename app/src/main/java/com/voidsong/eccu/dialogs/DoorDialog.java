@@ -43,6 +43,7 @@ public class DoorDialog extends DialogFragment {
     }
 
     private class Door extends SmartControl {
+        @Override
         public void setControl(LinearLayout control,
                                //SwitchIconView,
                                final String url_get,
@@ -70,6 +71,8 @@ public class DoorDialog extends DialogFragment {
                 }
             });
         }
+
+        @Override
         public void verifyState() {
             String rnd = String.valueOf(random.nextInt());
             HttpUrl door_url = new HttpUrl.Builder()

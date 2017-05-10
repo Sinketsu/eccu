@@ -1,7 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginBottom="70dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="70dp">
+
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:background="@color/colorRed"
+            android:layout_margin="8dp"
+            android:id="@+id/light">
+
+            <!--
+            <com.github.zagum.switchicon.SwitchIconView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/vector_door"
+                app:si_disabled_alpha=".5"
+                app:si_tint_color="@color/colorRed"
+                app:si_no_dash="true"
+                android:id="@+id/SW"
+                app:si_enabled="false"
+                app:si_disabled_color="@color/colorLightGray"/>
+            -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:background="@color/colorRed"
+            android:layout_margin="8dp"
+            android:id="@+id/spotlight">
+
+            <!--
+            <com.github.zagum.switchicon.SwitchIconView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/vector_door"
+                app:si_disabled_alpha=".5"
+                app:si_tint_color="@color/colorRed"
+                app:si_no_dash="true"
+                android:id="@+id/SW"
+                app:si_enabled="false"
+                app:si_disabled_color="@color/colorLightGray"/>
+            -->
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
