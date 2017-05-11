@@ -70,7 +70,7 @@
 
                 app:cpb_colorIndicator="@color/colorPrimary"
                 app:cpb_colorIndicatorBackground="@android:color/transparent"
-                app:cpb_selectorIdle="@drawable/idle_state_selector"
+                app:cpb_selectorIdle="@drawable/idle_state_selector_refresh_button"
                 app:cpb_textIdle="refresh"
                 app:cpb_paddingProgress="1dp"
 

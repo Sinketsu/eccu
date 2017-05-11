@@ -99,7 +99,7 @@
                 android:text="@string/checkbox_label"/>
 
         </LinearLayout>
-
+        <!--
         <android.support.v7.widget.AppCompatButton
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -109,6 +109,21 @@
             android:padding="12dp"
             android:text="@string/log_in_button_text"
             android:textColor="@color/colorWhite"
+            android:id="@+id/btn_login"/>
+            -->
+
+        <com.dd.CircularProgressButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="0dp"
+            android:textColor="@color/colorWhite"
+            app:cpb_textIdle="@string/log_in_button_text"
+            app:cpb_colorIndicator="@color/colorPrimaryDark"
+            app:cpb_colorIndicatorBackground="@android:color/transparent"
+            app:cpb_colorProgress="@color/colorPrimary"
+            app:cpb_selectorIdle="@drawable/idle_state_selector_log_in"
             android:id="@+id/btn_login"/>
 
     </LinearLayout>

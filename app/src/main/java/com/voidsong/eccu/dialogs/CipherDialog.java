@@ -60,6 +60,7 @@ public class CipherDialog extends DialogFragment {
             hash_salt = salt.getText().toString();
         if (iv.getText().length() == 16)
             IV = iv.getText().toString();
+        Settings.setHasHash(true);
         Settings.setHash_salt(hash_salt);
         Settings.setIV(IV.getBytes());
     }

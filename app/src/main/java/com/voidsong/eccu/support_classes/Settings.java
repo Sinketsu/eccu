@@ -104,6 +104,7 @@ public class Settings {
             jsonObject.put("login", user_login);
             jsonObject.put("state", state);
             jsonObject.put("IV", new String(IV, "UTF-8"));
+            jsonObject.put("has_hash", HasHash);
             String data = jsonObject.toString();
 
             FileOutputStream info = context.openFileOutput("info", context.MODE_PRIVATE);
@@ -141,6 +142,7 @@ public class Settings {
             ip = jsonObject.getString("ip");
             state = jsonObject.getBoolean("state");
             IV = jsonObject.getString("IV").getBytes();
+            HasHash = jsonObject.getBoolean("has_hash");
 
             json_string = "";                // change this string for GC.
         } catch (JSONException e) {
@@ -273,6 +275,14 @@ public class Settings {
         IV = iv;
     }
 
+    public static void setHasHash(boolean state) {
+        HasHash = state;
+    }
+
+    public static boolean ifHasHash() {
+        return HasHash;
+    }
+
     private static Context context;
 
     private static boolean state;
@@ -281,6 +291,7 @@ public class Settings {
     private static String hash_salt = NO_SALT;
     private static String saved_passwd;
     private static byte[] IV;
+    private static boolean HasHash = false;
 
     @NonNull
     private static String get_all_from_file(FileInputStream fileInputStream) {

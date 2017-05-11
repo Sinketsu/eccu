@@ -28,6 +28,7 @@ public class User {
 
     public interface ILogin {
         void login(String passwd);
+        void stop_progress();
     }
 
     public static void authenticate(String username, final String password, final ILogin activity) {

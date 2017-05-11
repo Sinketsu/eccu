@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import java.security.GeneralSecurityException;
 
+import com.dd.CircularProgressButton;
 import com.voidsong.eccu.dialogs.CipherDialog;
 import com.voidsong.eccu.network.User;
 import com.voidsong.eccu.network.Internet;
@@ -27,13 +28,16 @@ import com.voidsong.eccu.dialogs.IPDialog;
 
 import android.support.v4.app.DialogFragment;
 
+import yellow5a5.actswitchanimtool.ActSwitchAnimTool;
+
 public class LoginActivity extends AppCompatActivity implements User.ILogin {
 
     private final String TAG = "ECCU/LoginActivity";
 
     private EditText loginText;
     private EditText passwordText;
-    private AppCompatButton button;
+    //private AppCompatButton button;
+    private CircularProgressButton button;
     private AppCompatCheckBox checkbox;
 
     private LoginActivity activity = this;
@@ -73,13 +77,15 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
 
         loginText = (EditText)findViewById(R.id.input_login);
         passwordText = (EditText)findViewById(R.id.input_password);
-        button = (AppCompatButton)findViewById(R.id.btn_login);
+        button = (CircularProgressButton) findViewById(R.id.btn_login);
         checkbox = (AppCompatCheckBox)findViewById(R.id.saved_passwd_checkbox);
+
+        button.setIndeterminateProgressMode(true);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                button.setProgress(50);
                 try {
                     Internet.Init();
                 } catch (SecurityErrorException | GeneralSecurityException e) {
@@ -90,6 +96,7 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
                     View view = snackbar.getView();
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     snackbar.show();
+                    stop_progress();
                     return;
                 }
                 Log.d(TAG, "Internet client initialized.");
@@ -104,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
         });
 
         if (Settings.getIV() == null ||
-                StringWorker.equals(Settings.getHash_salt(), Settings.NO_SALT)) {
+                !Settings.ifHasHash()) {
             DialogFragment newFragment = new CipherDialog();
             newFragment.show(getSupportFragmentManager(), CipherDialog.ID);
         }
@@ -125,7 +132,6 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
             Settings.load_saved_passwords();
             passwordText.setText(Settings.getSaved_passwd());
         }
-
     }
 
     public void IPImageButton(View view){
@@ -148,8 +154,10 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
             } else {
                 Settings.save(password);
             }
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            stop_progress();
+            final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+
         } else if (StringWorker.equals(_status, User.INVALID_PASSWORD)) {
             snackbar = Snackbar.make(button, getResources().getString(R.string.invalid_login_password),
                     Snackbar.LENGTH_LONG)
@@ -157,6 +165,7 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
                     .setAction(getResources().getString(R.string.ok), snackbarClickListener);
             View view = snackbar.getView();
             view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+            stop_progress();
             snackbar.show();
         } else {
             snackbar = Snackbar.make(button, getResources().getString(R.string.connection_issues),
@@ -165,7 +174,18 @@ public class LoginActivity extends AppCompatActivity implements User.ILogin {
                     .setAction(getResources().getString(R.string.ok), snackbarClickListener);
             View view = snackbar.getView();
             view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+            stop_progress();
             snackbar.show();
         }
+    }
+
+    @Override
+    public void stop_progress() {
+        button.post(new Runnable() {
+            @Override
+            public void run() {
+                button.setProgress(0);
+            }
+        });
     }
 }
