@@ -13,4 +13,6 @@ public class API {
     public static final String GET_SETTED_TEMPERATURE = "api/mobile/get/setted_temperature";
     public static final String SET_DOOR = "api/mobile/set/door";
     public static final String GET_DOOR = "api/mobile/get/door";
+    public static final String GET_COUNT_DOOR = "api/mobile/get/count/door";
+    public static final String GET_COUNT_LIGHT = "api/mobile/get/count/light";
 }

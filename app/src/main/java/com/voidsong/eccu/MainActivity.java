@@ -21,6 +21,7 @@ import com.voidsong.eccu.support_classes.CustomFragmentPagerAdapter;
 import com.voidsong.eccu.support_classes.EccuCipher;
 import com.voidsong.eccu.support_classes.Settings;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -198,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
     }
 
     private void initial_get_data_from_server() {
+        // updating temperature
         String rnd = String.valueOf(random.nextInt());
         HttpUrl temperature_url = new HttpUrl.Builder()
                 .scheme(API.SCHEME)
@@ -219,6 +221,70 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
             public void onResponse(Call call, Response response) throws IOException {
                 int temperature = Integer.valueOf(response.body().string());
                 setTemperature(temperature);
+            }
+        });
+
+        // updating active count doors
+        rnd = String.valueOf(random.nextInt());
+        HttpUrl door_count_url = new HttpUrl.Builder()
+                .scheme(API.SCHEME)
+                .host(Settings.getIp())
+                .addPathSegment(API.GET_COUNT_DOOR)
+                .addQueryParameter("rnd", rnd)
+                .addQueryParameter("hash", EccuCipher.hash(rnd))
+                .build();
+        Log.d("TAGMYTAG", door_count_url.toString());
+        Request door_count_request = new Request.Builder()
+                .url(door_count_url)
+                .build();
+        Internet.getClient().newCall(door_count_request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String body = response.body().string();
+                try {
+                    JSONObject json = new JSONObject(body);
+                    final int active = json.getInt("active");
+                    final int all = json.getInt("all");
+                    setOpenedDoorCount(active, all);
+                } catch (JSONException e) {
+                    // TODO
+                }
+            }
+        });
+
+        // updating active count lights
+        rnd = String.valueOf(random.nextInt());
+        HttpUrl light_count_url = new HttpUrl.Builder()
+                .scheme(API.SCHEME)
+                .host(Settings.getIp())
+                .addPathSegment(API.GET_COUNT_LIGHT)
+                .addQueryParameter("rnd", rnd)
+                .addQueryParameter("hash", EccuCipher.hash(rnd))
+                .build();
+        Log.d("TAGMYTAG", light_count_url.toString());
+        Request light_count_request = new Request.Builder()
+                .url(light_count_url)
+                .build();
+        Internet.getClient().newCall(light_count_request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String body = response.body().string();
+                try {
+                    JSONObject json = new JSONObject(body);
+                    final int active = json.getInt("active");
+                    final int all = json.getInt("all");
+                    setActiveBulbCount(active, all);
+                } catch (JSONException e) {
+                    // TODO
+                }
             }
         });
     }

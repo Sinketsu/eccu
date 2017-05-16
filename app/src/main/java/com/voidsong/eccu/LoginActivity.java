@@ -28,8 +28,6 @@ import com.voidsong.eccu.dialogs.IPDialog;
 
 import android.support.v4.app.DialogFragment;
 
-import yellow5a5.actswitchanimtool.ActSwitchAnimTool;
-
 public class LoginActivity extends AppCompatActivity implements User.ILogin {
 
     private final String TAG = "ECCU/LoginActivity";
