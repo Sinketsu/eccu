@@ -16,12 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
+import com.github.zagum.switchicon.SwitchIconView;
 import com.voidsong.eccu.R;
 import com.voidsong.eccu.abstract_classes.SmartControl;
 import com.voidsong.eccu.network.API;
 import com.voidsong.eccu.network.Internet;
 import com.voidsong.eccu.support_classes.EccuCipher;
 import com.voidsong.eccu.support_classes.Settings;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -43,16 +47,16 @@ public class BulbDialog extends DialogFragment {
     private class Bulb extends SmartControl {
         @Override
         public void setControl(LinearLayout control,
-                               //SwitchIconView,
+                               SwitchIconView iconView,
                                String url_get,
                                String url_set) {
             _path_get = url_get;
             _path_set = url_set;
+            icon = iconView;
             control.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*
-                    icon.switch_state();
+                    icon.switchState();
                     HttpUrl url = new HttpUrl.Builder()
                             .scheme(API.SCHEME)
                             .host(Settings.getIp())
@@ -60,11 +64,11 @@ public class BulbDialog extends DialogFragment {
                             .build();
                     try {
                         JSONObject json = new JSONObject();
-                        json.put("value", icon.is_enabled() ? 1 : 0);
+                        json.put("value", icon.isIconEnabled() ? 1 : 0);
                         String data = json.toString();
                         Internet.post(url, data);
                     } catch (JSONException e) {
-                    }*/
+                    }
                 }
             });
         }
@@ -124,14 +128,14 @@ public class BulbDialog extends DialogFragment {
             for (int i = 0; i < SIZE; i++)
                 array[i] = new Bulb();
         }
-        array[0].setControl((LinearLayout)main_view.findViewById(R.id.light),
-                //(SwitchIconView)main_view.findViewById(R.id.icon),
-                API.GET_LIGHT,
-                API.SET_LIGHT);
-        array[1].setControl((LinearLayout)main_view.findViewById(R.id.spotlight),
-                //(SwitchIconView)main_view.findViewById(R.id.icon),
+        array[0].setControl((LinearLayout)main_view.findViewById(R.id.spotlight),
+                (SwitchIconView)main_view.findViewById(R.id.spotlight_icon),
                 API.GET_SPOTLIGHT,
                 API.SET_SPOTLIGHT);
+        array[1].setControl((LinearLayout)main_view.findViewById(R.id.light),
+                (SwitchIconView)main_view.findViewById(R.id.light_icon),
+                API.GET_LIGHT,
+                API.SET_LIGHT);
 
         builder.setView(main_view);
         return builder.create();
