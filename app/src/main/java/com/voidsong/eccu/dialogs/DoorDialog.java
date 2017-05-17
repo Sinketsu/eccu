@@ -56,7 +56,7 @@ public class DoorDialog extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     icon.switchState();
-                    // request to server
+                    _state = !_state;
 
                     HttpUrl url = new HttpUrl.Builder()
                             .scheme(API.SCHEME)

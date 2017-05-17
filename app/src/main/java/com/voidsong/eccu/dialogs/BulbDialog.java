@@ -57,6 +57,7 @@ public class BulbDialog extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     icon.switchState();
+                    _state = !_state;
                     HttpUrl url = new HttpUrl.Builder()
                             .scheme(API.SCHEME)
                             .host(Settings.getIp())
