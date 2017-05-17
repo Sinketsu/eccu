@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 //import com.github.zagum.switchicon.SwitchIconView;
+import com.github.zagum.switchicon.SwitchIconView;
 import com.voidsong.eccu.R;
 import com.voidsong.eccu.abstract_classes.SmartControl;
 import com.voidsong.eccu.network.API;
@@ -45,17 +46,18 @@ public class DoorDialog extends DialogFragment {
     private class Door extends SmartControl {
         @Override
         public void setControl(LinearLayout control,
-                               //SwitchIconView,
+                               SwitchIconView iconView,
                                final String url_get,
                                final String url_set) {
+            icon = iconView;
             _path_get = url_get;
             _path_set = url_set;
             control.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // icon.switchstate();
+                    icon.switchState();
                     // request to server
-                    /*
+
                     HttpUrl url = new HttpUrl.Builder()
                             .scheme(API.SCHEME)
                             .host(Settings.getIp())
@@ -63,11 +65,11 @@ public class DoorDialog extends DialogFragment {
                             .build();
                     try {
                         JSONObject json = new JSONObject();
-                        json.put("value", icon.is_enabled() ? 1 : 0);
+                        json.put("value", icon.isIconEnabled() ? 1 : 0);
                         String data = json.toString();
                         Internet.post(url, data);
                     } catch (JSONException e) {
-                    }*/
+                    }
                 }
             });
         }
@@ -122,7 +124,7 @@ public class DoorDialog extends DialogFragment {
             door = new Door();
         }
         door.setControl((LinearLayout)main_view.findViewById(R.id.door),
-                //(SwitchIconView)main_view.findViewById(R.id.icon),
+                (SwitchIconView)main_view.findViewById(R.id.icon),
                 API.GET_DOOR,
                 API.SET_DOOR);
         builder.setView(main_view);
@@ -131,7 +133,7 @@ public class DoorDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //door.verifyState();
+        door.verifyState();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

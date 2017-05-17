@@ -10,50 +10,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="50dp">
 
         <LinearLayout
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:orientation="horizontal"
-            android:background="@color/colorRed"
-            android:layout_margin="8dp"
-            android:id="@+id/light">
-
-            <!--
-            <com.github.zagum.switchicon.SwitchIconView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/vector_door"
-                app:si_disabled_alpha=".5"
-                app:si_tint_color="@color/colorRed"
-                app:si_no_dash="true"
-                android:id="@+id/SW"
-                app:si_enabled="false"
-                app:si_disabled_color="@color/colorLightGray"/>
-            -->
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:orientation="horizontal"
-            android:background="@color/colorRed"
             android:layout_margin="8dp"
             android:id="@+id/spotlight">
 
-            <!--
             <com.github.zagum.switchicon.SwitchIconView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/vector_door"
+                android:src="@drawable/vector_bulb"
                 app:si_disabled_alpha=".5"
-                app:si_tint_color="@color/colorRed"
+                app:si_tint_color="@color/colorYellow"
                 app:si_no_dash="true"
-                android:id="@+id/SW"
+                android:id="@+id/spotlight_icon"
                 app:si_enabled="false"
-                app:si_disabled_color="@color/colorLightGray"/>
-            -->
+                app:si_disabled_color="@color/colorGray"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:layout_margin="8dp"
+            android:id="@+id/light">
+
+            <com.github.zagum.switchicon.SwitchIconView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/vector_bulb"
+                app:si_disabled_alpha=".5"
+                app:si_tint_color="@color/colorYellow"
+                app:si_no_dash="true"
+                android:id="@+id/light_icon"
+                app:si_enabled="false"
+                app:si_disabled_color="@color/colorGray"/>
+
         </LinearLayout>
 
     </LinearLayout>

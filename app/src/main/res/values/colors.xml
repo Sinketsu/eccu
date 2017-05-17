@@ -12,4 +12,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorLightGray">#DDDDDD</color>
+    <color name="colorGray">#AAAAAA</color>
+    <color name="colorGreen">#00BB00</color>
+    <color name="colorYellow">#F9F311</color>
 </resources>
