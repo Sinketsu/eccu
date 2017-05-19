@@ -112,11 +112,11 @@
                 android:layout_marginEnd="@dimen/main_activity_big_margin"
                 android:layout_marginRight="@dimen/main_activity_big_margin"
                 android:layout_marginBottom="@dimen/main_activity_big_margin"
-                android:drawableTop="@drawable/vector_door"
-                android:text="@string/door_label"
+                android:drawableTop="@drawable/vector_fan"
+                android:text="@string/engine_label"
                 android:textSize="22sp"
                 android:textColor="@color/colorWhite"
-                android:id="@+id/door"/>
+                android:id="@+id/engine"/>
 
         </LinearLayout>
 

@@ -11,7 +11,7 @@ import android.view.View;
 import com.dd.CircularProgressButton;
 import com.voidsong.eccu.abstract_classes.RefreshableFragment;
 import com.voidsong.eccu.dialogs.BulbDialog;
-import com.voidsong.eccu.dialogs.DoorDialog;
+import com.voidsong.eccu.dialogs.EngineDialog;
 import com.voidsong.eccu.dialogs.InfoDialog;
 import com.voidsong.eccu.fragments.FragmentCamera;
 import com.voidsong.eccu.fragments.FragmentWeather;
@@ -30,12 +30,11 @@ import java.security.SecureRandom;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbController,
-        DoorDialog.IDoorController, InfoDialog.IInfoController, FragmentCamera.IFragmentCameraControl,
+        EngineDialog.IEngineController, InfoDialog.IInfoController, FragmentCamera.IFragmentCameraControl,
         FragmentWeather.IFragmentWeatherControl{
 
     private final String TAG = "ECCU/MainActivity";
@@ -48,13 +47,13 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
     AppCompatButton infoButton;
     AppCompatButton refreshButton;
     AppCompatButton bulbButton;
-    AppCompatButton doorButton;
+    AppCompatButton engineButton;
 
     // progress button
     CircularProgressButton pbutton;
     // end progress button
 
-    DoorDialog doorDialog;
+    EngineDialog engineDialog;
     BulbDialog bulbDialog;
     InfoDialog infoDialog;
 
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
         infoButton = (AppCompatButton) findViewById(R.id.info);
         //refreshButton = (AppCompatButton) findViewById(R.id.refresh);
         bulbButton = (AppCompatButton) findViewById(R.id.bulb);
-        doorButton = (AppCompatButton) findViewById(R.id.door);
+        engineButton = (AppCompatButton) findViewById(R.id.engine);
 
         // progress button
         pbutton = (CircularProgressButton) findViewById(R.id.PB);
@@ -87,16 +86,16 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
         // end progress button
 
         Log.d("TAGMYTAG", "started create dialogs");
-        doorDialog = new DoorDialog();
+        engineDialog = new EngineDialog();
         bulbDialog = new BulbDialog();
         infoDialog = new InfoDialog();
 
         Log.d("TAGMYTAG", "created dialogs");
 
-        doorButton.setOnClickListener(new View.OnClickListener(){
+        engineButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                doorDialog.show(getSupportFragmentManager(), DoorDialog.ID);
+                engineDialog.show(getSupportFragmentManager(), EngineDialog.ID);
             }
         });
 
@@ -125,27 +124,6 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
         });
 
         initial_get_data_from_server();
-
-        // end progress button
-
-        /*
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RefreshableFragment fragment = pagerAdapter.getFragment(pager.getCurrentItem());
-                fragment.refresh();
-            }
-        });*/
-
-
-        /*
-        int count = pagerAdapter.getCount();
-        for (int i = 0; i < count; i++) {
-            pagerAdapter.getItem(i);
-            pagerAdapter.getFragment(i).refresh();
-        }
-        */
-
     }
 
     @Override
@@ -165,13 +143,13 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
     }
 
     @Override
-    public void setOpenedDoorCount(Integer opened, Integer all) {
-        String text = getResources().getString(R.string.door_label) +
+    public void setActiveEngineCount(Integer opened, Integer all) {
+        String text = getResources().getString(R.string.engine_label) +
                 getResources().getString(R.string.double_space) +
                 opened +
                 getResources().getString(R.string.splitter) +
                 all;
-        doorButton.setText(text);
+        engineButton.setText(text);
     }
 
     @Override
@@ -193,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
             @Override
             public void run() {
                 pbutton.setProgress(0);
-                //pbutton.clearFocus();
             }
         });
     }
@@ -224,20 +201,20 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
             }
         });
 
-        // updating active count doors
+        // updating active count engines
         rnd = String.valueOf(random.nextInt());
-        HttpUrl door_count_url = new HttpUrl.Builder()
+        HttpUrl engine_count_url = new HttpUrl.Builder()
                 .scheme(API.SCHEME)
                 .host(Settings.getIp())
-                .addPathSegment(API.GET_COUNT_DOOR)
+                .addPathSegment(API.GET_COUNT_ENGINE)
                 .addQueryParameter("rnd", rnd)
                 .addQueryParameter("hash", EccuCipher.hash(rnd))
                 .build();
-        Log.d("TAGMYTAG", door_count_url.toString());
-        Request door_count_request = new Request.Builder()
-                .url(door_count_url)
+        Log.d("TAGMYTAG", engine_count_url.toString());
+        Request engine_count_request = new Request.Builder()
+                .url(engine_count_url)
                 .build();
-        Internet.getClient().newCall(door_count_request).enqueue(new Callback() {
+        Internet.getClient().newCall(engine_count_request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
             }
@@ -249,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements BulbDialog.IBulbC
                     JSONObject json = new JSONObject(body);
                     final int active = json.getInt("active");
                     final int all = json.getInt("all");
-                    setOpenedDoorCount(active, all);
+                    setActiveEngineCount(active, all);
                 } catch (JSONException e) {
                     // TODO
                 }

@@ -9,10 +9,12 @@ public class API {
     public static final String GET_LIGHT = "api/mobile/get/light";
     public static final String SET_SPOTLIGHT = "api/mobile/set/spotlight";
     public static final String GET_SPOTLIGHT = "api/mobile/get/spotlight";
+    public static final String SET_FAN = "api/mobile/set/fan";
+    public static final String GET_FAN = "api/mobile/get/fan";
+    public static final String SET_SERVO = "api/mobile/set/servo";
+    public static final String GET_SERVO = "api/mobile/get/servo";
     public static final String SET_SETTED_TEMPERATURE = "api/mobile/set/setted_temperature";
     public static final String GET_SETTED_TEMPERATURE = "api/mobile/get/setted_temperature";
-    public static final String SET_DOOR = "api/mobile/set/door";
-    public static final String GET_DOOR = "api/mobile/get/door";
-    public static final String GET_COUNT_DOOR = "api/mobile/get/count/door";
+    public static final String GET_COUNT_ENGINE = "api/mobile/get/count/engine";
     public static final String GET_COUNT_LIGHT = "api/mobile/get/count/light";
 }

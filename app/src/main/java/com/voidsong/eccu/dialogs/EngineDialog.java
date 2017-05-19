@@ -35,15 +35,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class DoorDialog extends DialogFragment {
+public class EngineDialog extends DialogFragment {
 
-    public static final String ID = "DoorControl";
+    public static final String ID = "EngineControl";
 
-    public interface IDoorController {
-        void setOpenedDoorCount(Integer opened, Integer all);
+    public interface IEngineController {
+        void setActiveEngineCount(Integer opened, Integer all);
     }
 
-    private class Door extends SmartControl {
+    private class Engine extends SmartControl {
         @Override
         public void setControl(LinearLayout control,
                                SwitchIconView iconView,
@@ -77,17 +77,17 @@ public class DoorDialog extends DialogFragment {
         @Override
         public void verifyState() {
             String rnd = String.valueOf(random.nextInt());
-            HttpUrl door_url = new HttpUrl.Builder()
+            HttpUrl engine_url = new HttpUrl.Builder()
                     .scheme(API.SCHEME)
                     .host(Settings.getIp())
                     .addPathSegment(_path_get)
                     .addQueryParameter("rnd", rnd)
                     .addQueryParameter("hash", EccuCipher.hash(rnd))
                     .build();
-            Request door_request = new Request.Builder()
-                    .url(door_url)
+            Request engine_request = new Request.Builder()
+                    .url(engine_url)
                     .build();
-            Internet.getClient().newCall(door_request).enqueue(new Callback() {
+            Internet.getClient().newCall(engine_request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                 }
@@ -103,7 +103,7 @@ public class DoorDialog extends DialogFragment {
         }
     }
 
-    private Door door;
+    private Engine engine;
     private SecureRandom random = new SecureRandom();
 
     @NonNull
@@ -120,27 +120,27 @@ public class DoorDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View main_view = inflater.inflate(R.layout.dialog_door, null);
 
-        if (door == null) {
-            door = new Door();
+        if (engine == null) {
+            engine = new Engine();
         }
-        door.setControl((LinearLayout)main_view.findViewById(R.id.door),
+        engine.setControl((LinearLayout)main_view.findViewById(R.id.door),
                 (SwitchIconView)main_view.findViewById(R.id.icon),
-                API.GET_DOOR,
-                API.SET_DOOR);
+                API.GET_FAN,
+                API.SET_FAN);
         builder.setView(main_view);
         return builder.create();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        door.verifyState();
+        engine.verifyState();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        IDoorController activity = (IDoorController) getActivity();
-        activity.setOpenedDoorCount(door.get_state() ? 1 : 0, 1);
+        IEngineController activity = (IEngineController) getActivity();
+        activity.setActiveEngineCount(engine.get_state() ? 1 : 0, 1);
     }
 }

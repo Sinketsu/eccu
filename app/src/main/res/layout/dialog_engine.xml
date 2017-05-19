@@ -17,17 +17,17 @@
             android:layout_height="80dp"
             android:orientation="horizontal"
             android:layout_margin="8dp"
-            android:id="@+id/door">
+            android:id="@+id/fan">
 
 
             <com.github.zagum.switchicon.SwitchIconView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/vector_door"
+                android:src="@drawable/vector_fan"
                 app:si_disabled_alpha=".5"
                 app:si_tint_color="@color/colorGreen"
                 app:si_no_dash="true"
-                android:id="@+id/icon"
+                android:id="@+id/fan_icon"
                 app:si_enabled="false"
                 app:si_disabled_color="@color/colorGray"/>
 

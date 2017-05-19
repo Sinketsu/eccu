@@ -17,7 +17,7 @@
     <string name="checkbox_label">Сохранить пароль (небезопасно)</string>
     <string name="iv_label">Вектор инициализации(16 символов):</string>
     <string name="bulb_label">Свет</string>
-    <string name="door_label">Дверь</string>
+    <string name="engine_label">Мотор</string>
 
     <!-- Dialog`s descriptions -->
     <string name="cipher_dialog_description">Пожалуйста, введите вектор инициализации и соль для хэширования. Длина вектора инициализации должна быть 16 символов. Если вы не введете эти параметры, будут использованы значения по умолчанию.</string>

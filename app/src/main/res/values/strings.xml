@@ -26,6 +26,7 @@
     <string name="iv_label">IV(16 characters):</string>
     <string name="bulb_label">Light</string>
     <string name="door_label">Door</string>
+    <string name="engine_label">Engine</string>
 
     <!-- Dialog`s descriptions -->
     <string name="cipher_dialog_description">Please enter the initialization vector and hash salt. The IV must be 16 characters. If you do not enter these values, then they will use default values(insecure).</string>
